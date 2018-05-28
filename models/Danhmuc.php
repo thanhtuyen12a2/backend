@@ -42,6 +42,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_fb','dm_youtube','dm_viber'], 'string', 'max' => 100],
 
+            [['dm_dmsp'], 'integer'],
+
             // [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
             //     return ($model->dm_type != 4);
             // }],
@@ -79,7 +81,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             'dm_zalo' => 'Zalo',
             'dm_skype' => 'Skype',
-            
+
+            'dm_dmsp' => 'Danh mục sản phẩm',
 
             Aabc::$app->_danhmuc->dm_groupmenu => Aabc::$app->_danhmuc->__dm_groupmenu ,        ];
     }
@@ -341,14 +344,13 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
 
-   public function getAll1_1($level = 0)
+   public function getAll1_1()
    {
        $_Danhmuc = Aabc::$app->_model->Danhmuc;
        return   $_Danhmuc::find()
                             ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
                            ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
                            ->andWhere([Aabc::$app->_danhmuc->dm_type => '1'])
-                           ->andWhere(['<=',Aabc::$app->_danhmuc->dm_level,$level])
                            ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
                            ->all();
    }

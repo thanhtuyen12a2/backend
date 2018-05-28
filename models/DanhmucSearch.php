@@ -11,11 +11,15 @@ use aabc\data\ActiveDataProvider;
 class DanhmucSearch extends Danhmuc
 {
     
+    public $dm_thongso;
+
     public function rules()
     {
         return [
-            [[Aabc::$app->_danhmuc->dm_id, Aabc::$app->_danhmuc->dm_idcha, Aabc::$app->_danhmuc->dm_thutu, Aabc::$app->_danhmuc->dm_sothutu, 'dm_groupmenu'], 'integer'],
+            [[Aabc::$app->_danhmuc->dm_id, Aabc::$app->_danhmuc->dm_idcha, Aabc::$app->_danhmuc->dm_thutu, Aabc::$app->_danhmuc->dm_sothutu, 'dm_groupmenu','dm_dmsp',], 'integer'],
             [[Aabc::$app->_danhmuc->dm_ten, Aabc::$app->_danhmuc->dm_char, Aabc::$app->_danhmuc->dm_icon, Aabc::$app->_danhmuc->dm_background, Aabc::$app->_danhmuc->dm_link, Aabc::$app->_danhmuc->dm_ghichu, Aabc::$app->_danhmuc->dm_status, Aabc::$app->_danhmuc->dm_recycle, Aabc::$app->_danhmuc->dm_type], 'safe'],
+
+            [['dm_thongso'],'integer'],
         ];
     }
 
@@ -56,6 +60,16 @@ class DanhmucSearch extends Danhmuc
             Aabc::$app->_danhmuc->dm_sothutu => $this[Aabc::$app->_danhmuc->dm_sothutu],
             'dm_groupmenu' => $this->dm_groupmenu,
         ]);
+
+        if(!empty($this->dm_dmsp)) $query->andWhere(['dm_dmsp' => $this->dm_dmsp]);
+
+        if(!empty($this->dm_thongso)){
+            $query->andWhere(['or',
+                ['dm_id' => $this->dm_thongso],
+                ['dm_idcha' => $this->dm_thongso],
+            ]);
+        }
+
 
         $query->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_ten, $this[Aabc::$app->_danhmuc->dm_ten]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_char, $this[Aabc::$app->_danhmuc->dm_char]])

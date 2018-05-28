@@ -108,7 +108,7 @@ class DanhmucController extends Controller
         return $this->index($t,$tp = 4);
     }
     public function actionI_tn($t = 100)
-    {        
+    {    
         return $this->index($t,$tp = 5);
     }
     public function actionI($t = 100){
@@ -119,13 +119,34 @@ class DanhmucController extends Controller
     {
         //$role = 'backend-danhmuc-index';
         //if(!Aabc::$app->user->can($role)){ return 'nacc';die;}
-   
+
+        $dmsp = '';
+        $thongso = '';
+        if($tp == 5){
+            if(isset($_GET['dmsp'])){
+                $dmsp = $_GET['dmsp'];
+            }
+            if(empty($dmsp)){
+                $_Danhmuc = Aabc::$app->_model->Danhmuc;
+                $all = $_Danhmuc::getDanhmucOption(1);                
+                reset($all);
+                $first_key = key($all);
+                $dmsp = $first_key;
+            }
+            if(isset($_GET['ts'])){
+                $thongso = $_GET['ts'];
+            }
+        }
+        
+
         $tp = addslashes($tp);
         // echo $tp;die;
         $_DanhmucSearch = Aabc::$app->_model->DanhmucSearch;
         $searchModel = new $_DanhmucSearch([
             Aabc::$app->_danhmuc->dm_recycle => '2',
-            Aabc::$app->_danhmuc->dm_type => $tp
+            Aabc::$app->_danhmuc->dm_type => $tp,
+            'dm_dmsp' => $dmsp,
+            'dm_thongso' => $thongso,
         ]);
         
         $dataProvider = $searchModel->search(Aabc::$app->request->queryParams);

@@ -46,15 +46,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         echo '<span>'.Sanpham::__sp_status.'</span>';
                         $status = Aabc::$app->request->get(Sanpham::sp_status);
                         $status = $status != NULL ? $status : ['' => '-- Chọn --'];
-                        echo Html::dropDownList(Sanpham::sp_status, $status , Sanpham::getTrangthaiOption() , [                
-                                'multiple'=>'multiple',
-                                D::i =>   Sanpham::tt,
-                                D::ty => 'ra',
-                                D::c => 'one',
-                                D::s => 'rel',
-                                'class' => 'mulr',
-                                'id' =>  Sanpham::tt.'_status_select'
-                            ]);
+                        echo Html::dropDownList(Sanpham::sp_status, $status , Sanpham::getTrangthaiOption() , [
+                            'multiple'=>'multiple',
+                            D::i =>   Sanpham::tt,
+                            D::ty => 'ra',
+                            D::c => 'one',
+                            D::s => 'rel',
+                            'class' => 'mulr',
+                            'id' =>  Sanpham::tt.'_status_select'
+                        ]);
 
                     ?>
                  </p>
@@ -151,7 +151,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </fieldset>  
            <!--  <div class="bhelp">
-                <button class="btn btn-default bhelp" <?= D::st?>="1" <?= D::gr?>="1">Hướng dẫn sử dụng</button>
+                <button class="btn btn-default bhelp" <?php // D::st?>="1" <?php // D::gr?>="1">Hướng dẫn sử dụng</button>
             </div> -->
         </div>
 

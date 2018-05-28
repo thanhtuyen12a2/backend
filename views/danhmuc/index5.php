@@ -2,6 +2,7 @@
 
 use aabc\helpers\Html;   
 use aabc\grid\GridView;
+use common\cont\D;
 
 //use aabc\bootstrap\Modal; /*Them*/
 use aabc\helpers\Url; /*Them*/
@@ -28,11 +29,70 @@ $this->params['breadcrumbs'][] = $this->title;
 
      <div class="content-left  col-md-2">
          <div class="dnn">
-            <fieldset>               
-              
+            <fieldset> 
+
+                <div class="menucontent">              
+                <p> 
+                    <?php 
+                        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+                        echo '<span>Danh mục sản phẩm</span>';
+                        $status = Aabc::$app->request->get('dmsp');
+                        $status = $status != NULL ? $status : ['' => '-- Chọn --'];
+                        echo Html::dropDownList('dmsp', $status , $_Danhmuc::getDanhmucOption(1), [                
+                              // 'multiple'=>'multiple',
+                              D::i =>  Aabc::$app->_model->__danhmuc,
+                              D::ty => 'ra',
+                              D::c => 'one',
+                              D::s => 'rel',
+                              D::t => 'sea',
+                              'class' => 'mulr',
+                              'id' =>  Aabc::$app->_model->__danhmuc.'_dmsp_select'
+                          ]);
+
+                    ?>
+                 </p>
+
+
+                  <p> 
+                    <?php 
+                        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+
+                        if(empty(Aabc::$app->request->get('dmsp'))){
+                            $all = $_Danhmuc::getDanhmucOption(1);                
+                            reset($all);
+                            $first_key = key($all);
+                            $dmsp = $first_key;
+                        }else{
+                           $dmsp = Aabc::$app->request->get('dmsp');
+                        }
+
+                        $data_ts = $_Danhmuc::find()->andWhere(['dm_level' => 1, 'dm_dmsp' => $dmsp])->all();
+                        if($data_ts){
+                          $data_ts = ['--- Chọn ---'] + ArrayHelper::map($data_ts, Aabc::$app->_danhmuc->dm_id, 'dm_ten');
+                        }else{
+                          $data_ts = [];
+                        }                        
+
+                        echo '<span>Thông số</span>';
+                        $status = Aabc::$app->request->get('ts');
+                        $status = $status != NULL ? $status : ['' => '-- Chọn --'];
+                        echo Html::dropDownList('ts', $status , $data_ts , [                
+                              // 'multiple'=>'multiple',
+                              D::i =>  Aabc::$app->_model->__danhmuc,
+                              D::ty => 'ra',
+                              D::c => 'one',
+                              D::s => 'rel',
+                              D::t => 'sea',
+                              'class' => 'mulr',
+                              'id' =>  Aabc::$app->_model->__danhmuc.'_ts_select'
+                          ]);
+
+                    ?>
+                 </p>
+               </div>
             </fieldset>  
             <!-- <div class="bhelp">
-                <button class="btn btn-default bhelp"  <?= Aabc::$app->d->st?> ="1"    <?= Aabc::$app->d->gr?> ="1" >Hướng dẫn sử dụng</button>
+                <button class="btn btn-default bhelp"  <?php //Aabc::$app->d->st?> ="1"    <?php // Aabc::$app->d->gr?> ="1" >Hướng dẫn sử dụng</button>
             </div> -->
         </div>
     </div>
@@ -50,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
         
 
-         echo '<button type="button" '.Aabc::$app->d->m.' = "3" id="mb'.Aabc::$app->_model->__danhmuc.'"  '.Aabc::$app->d->u .'="c" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'><span class="glyphicon glyphicon-plus mtrang"></span>'.Aabc::$app->MyConst->view_btn_them.'</button>';
+         echo '<button type="button" '.Aabc::$app->d->m.' = "3" id="mb'.Aabc::$app->_model->__danhmuc.'"  '.Aabc::$app->d->u .'="c_tn" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'><span class="glyphicon glyphicon-plus mtrang"></span>Thêm nhóm</button>';
 
          ?>
     </div>

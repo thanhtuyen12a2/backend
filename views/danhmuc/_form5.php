@@ -3,17 +3,19 @@
 use aabc\helpers\Html;
 use aabc\widgets\ActiveForm;
 
+use common\cont\D;
+
 use aabc\helpers\ArrayHelper;
 /* @var $this aabc\web\View */
 //use backend\models\Danhmuc;
 /* @var $form aabc\widgets\ActiveForm */
 ?>
 
-<div class="<?=Aabc::$app->_model->__danhmuc?>-form">
+<div class="<?=Aabc::$app->_model->__danhmuc?>-form-5">
 
     <?php $form = ActiveForm::begin(
         [
-            'id' => Aabc::$app->_model->__danhmuc.'-form',
+            'id' => Aabc::$app->_model->__danhmuc.'-form-5',
             // 'enableClientValidation' => false,
             // 'enableAjaxValidation' => true,
             //'validationUrl' => ['validate'],
@@ -57,7 +59,8 @@ use aabc\helpers\ArrayHelper;
                 $idcha = $_Danhmuc::getAll1_5level2(); 
             }
         }else{
-            $idcha = $_Danhmuc::getAll1_5level2(); 
+            // $idcha = $_Danhmuc::getAll1_5level2(); 
+            $idcha = [];
         }
            array_unshift($idcha,[
             Aabc::$app->_danhmuc->dm_id => '',
@@ -67,14 +70,14 @@ use aabc\helpers\ArrayHelper;
    
     
 
-    echo $form->field($model, Aabc::$app->_danhmuc->dm_idcha)->dropDownList(ArrayHelper::map($idcha, Aabc::$app->_danhmuc->dm_id, Aabc::$app->_danhmuc->dm_char),[
+    echo $form->field($model, Aabc::$app->_danhmuc->dm_idcha,['options' => ['class' => 'hide']])->dropDownList(ArrayHelper::map($idcha, Aabc::$app->_danhmuc->dm_id, Aabc::$app->_danhmuc->dm_char),[
             //'multiple'=>'multiple', 
-            // Aabc::$app->d->s => 'search', 
-            Aabc::$app->d->ty => 'ra',
-            Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
-            Aabc::$app->d->c => 'one',
-            Aabc::$app->d->t => 'sea',
-            // Aabc::$app->d->add => '/',
+            // D::s => 'search', 
+            D::ty => 'ra',
+            D::i => Aabc::$app->_model->__danhmuc,
+            D::c => 'one',
+            D::t => 'sea',
+            // D::add => '/',
             //d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
 
             'class' => 'mulr',                        
@@ -87,6 +90,52 @@ use aabc\helpers\ArrayHelper;
         ])->label('Thông số cha'); 
     ?>
 </div>
+
+
+
+
+<div class="col-md-12 pt25">    
+    <?php 
+    $_Danhmuc = Aabc::$app->_model->Danhmuc;   
+
+
+    $danhmuc_daco_thongso =  $_Danhmuc::find()
+                      ->select(['dm_dmsp'])
+                      ->andWhere(['is not','dm_dmsp', null])
+                      ->groupBy(['dm_dmsp'])
+                      ->column();
+
+    $all = $_Danhmuc::find()
+                  ->andWhere([Aabc::$app->_danhmuc->dm_status => $_Danhmuc::ON])
+                  ->andWhere([Aabc::$app->_danhmuc->dm_recycle => $_Danhmuc::NGOAITHUNGRAC])    
+                  ->andWhere([Aabc::$app->_danhmuc->dm_type => 1])
+                  ->andWhere(['not in','dm_id', $danhmuc_daco_thongso])
+                  ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
+                  ->all();  
+    if($all){
+        $all = ArrayHelper::map($all, Aabc::$app->_danhmuc->dm_id, 'dm_ten');
+    }else{
+        $all = [];
+    }
+    
+    echo $form->field($model, 'dm_dmsp')->dropDownList($all,[
+            //'multiple'=>'multiple', 
+            // D::s => 'search', 
+            D::ty => 'ra',
+            D::i => Aabc::$app->_model->__danhmuc,
+            D::c => 'one',
+            D::t => 'sea',
+            // D::add => '/',
+            //d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+
+            'class' => 'mulr',                        
+            'id' => Aabc::$app->_model->__danhmuc.'-dm_dmsp',
+            // 'id' => 'fk-'.Aabc::$app->_model->__danhmuc           
+        ])->label('Danh mục sản phẩm'); 
+    ?>
+</div>
+
+
 
 
 
@@ -105,22 +154,6 @@ use aabc\helpers\ArrayHelper;
 
 
 
-<div class="col-md-12 pt25">
-    <?php 
-        if($model[Aabc::$app->_danhmuc->dm_status] == NULL) $model[Aabc::$app->_danhmuc->dm_status] = 1;
-    ?>
-    <?= $form->field($model, Aabc::$app->_danhmuc->dm_status)->dropDownList([ '' => '--Chọn--', 1 => 'Hiển thị', 2 => 'Ẩn', ],['data-placement' => 'right','data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'title',
-                        //'multiple'=>'multiple', 
-                        // Aabc::$app->d->s => 'search', 
-                        Aabc::$app->d->ty => 'ra',
-                        Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
-                        'class' => 'mulr',      
-                        Aabc::$app->d->c => 'one',                        
-                        'id' => Aabc::$app->_model->__danhmuc.'_dm_status_select'
-                    ]) ?>
-</div>
-
-
 
     </div>
 
@@ -128,7 +161,7 @@ use aabc\helpers\ArrayHelper;
         <?php
             if(Aabc::$app->request->get('pa') == NULL){
         ?>
-            <button <?= Aabc::$app->d->i?>=<?=Aabc::$app->_model->__danhmuc?> type="submit" class="btn btn-default haserror lvt"><span class="glyphicon glyphicon-floppy-disk mxanh"></span>Lưu và Thêm</button>
+            <button <?= D::i?>=<?=Aabc::$app->_model->__danhmuc?> type="submit" class="btn btn-default haserror lvt"><span class="glyphicon glyphicon-floppy-disk mxanh"></span>Lưu và Thêm</button>
 
         <?php 
             }
@@ -152,7 +185,7 @@ use aabc\helpers\ArrayHelper;
 
   
 
-    $('.modal-content #<?=Aabc::$app->_model->__danhmuc?>-form').on('keyup keypress', function(e) {
+    $('.modal-content #<?=Aabc::$app->_model->__danhmuc?>-form-5').on('keyup keypress', function(e) {
       var keyCode = e.keyCode || e.which;
       if (keyCode === 13) { 
         e.preventDefault();
@@ -161,7 +194,7 @@ use aabc\helpers\ArrayHelper;
     });
 
 
-$('form#<?=Aabc::$app->_model->__danhmuc?>-form').on('beforeSubmit', function(e) {
+$('form#<?=Aabc::$app->_model->__danhmuc?>-form-5').on('beforeSubmit', function(e) {
     // console.log($(this));
     loadimg();
     var form = $(this);
