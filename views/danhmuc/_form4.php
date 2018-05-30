@@ -287,7 +287,7 @@ if(empty($menu_current['child'])){
                             $icon = $model->dm_icon; 
                             $value = explode('#',$icon);
                             
-                            echo '<li><input type="hidden" name="Danhmuc[dm_icon]" value="'.$value['0'].'">';
+                            echo '<li><input type="hidden" name="Danhmuc[dm_icon]" value="'.$icon.'">';
                             if(!empty($icon)){
                                 echo Tuyen::_icon($icon);                            
                                 echo '<p>'.$value['0'].'</p>';

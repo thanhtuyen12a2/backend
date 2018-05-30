@@ -63,6 +63,9 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     <div  id="spnoidung" class="tab-pane col-md-12 float-left">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Thông tin cơ bản</a></li>
+
+            <li><a data-toggle="tab" href="#tab_thongso">Thông số sản phẩm</a></li>
+
             <li><a data-toggle="tab" href="#tab2">Nội dung chi tiết</a></li>
             <li><a data-toggle="tab" href="#thongso">Thông số kỹ thuật</a></li>
             <li><a data-toggle="tab" href="#tab_seo">Tùy chỉnh SEO</a></li>
@@ -207,42 +210,6 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                         </div> 
 
                                        
-
-                            <div class="col-md-12 col-sm-6  col-xs-12 pt160">
-                                <?php    
-                                    //Tim List Chinh sach ap dung rieng cho Danh muc nay , gan ListChinhSach vao ten Danh muc,  
-                                    $danhmuc = $_Danhmuc::getAll1_1();
-                                    foreach ($danhmuc as $keydm => $valuedm) {
-                                        $listcs = $valuedm->getChinhsachList();                                       
-                                        $listcs_html = '';
-                                        foreach ($listcs as $keydmcs => $valuedmcs) {
-                                            $listcs_html .= '#@' . $valuedmcs[Aabc::$app->_chinhsach->cs_id];
-                                        }
-
-                                        $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] = $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] . $listcs_html;
-                                    } 
-                                    array_unshift($danhmuc,[
-                                        Aabc::$app->_danhmuc->dm_id => '',
-                                        Aabc::$app->_danhmuc->dm_char =>'---Chọn---',
-                                    ]);
-
-                                    echo $form->field($model, Sanpham::sp_id_danhmuc,['options' => ['class' => '']])->dropDownList(ArrayHelper::map($danhmuc,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char),[                                    
-                                            'multiple'=>'multiple',
-                                            Aabc::$app->d->ty => 'checkbox',
-                                            // Aabc::$app->d->ty => 'ra',
-                                            // Aabc::$app->d->c => 'one',
-                                            Aabc::$app->d->add => 'ip',
-                                            // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
-                                            Aabc::$app->d->i => Sanpham::tt,
-                                            Aabc::$app->d->t => 'sea',//Search
-                                            'class' => 'mulr',                        
-                                            // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
-                                            'id' => 'fk-'.Aabc::$app->_model->__danhmuc
-                                        ])->label(Sanpham::__sp_id_danhmuc .' sản phẩm'); 
-                                ?>
-                                <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm có thể thuộc một hoặc nhiều danh mục." aria-invalid="false"></i>
-                            </div>
-
 
 
             
@@ -389,60 +356,176 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 </fieldset>
             </div>
 
-            <div id="thongso" class="tab-pane fade ">  
-                <fieldset class="ht htsp"> 
 
-                    <div id="noidung" class="tab-pane col-md-12 float-right">     
-                        <?php              
-                            $ngonngu = null;
+<div id="tab_thongso" class="tab-pane fade ">  
+    <fieldset class="ht htsp">             
+        <div class="col-md-6 col-sm-6  col-xs-12 pt160">
+            <?php    
+                //Tim List Chinh sach ap dung rieng cho Danh muc nay , gan ListChinhSach vao ten Danh muc,  
+                $danhmuc = $_Danhmuc::getAll1_1();
+                foreach ($danhmuc as $keydm => $valuedm) {
+                    $listcs = $valuedm->getChinhsachList();                                       
+                    $listcs_html = '';
+                    foreach ($listcs as $keydmcs => $valuedmcs) {
+                        $listcs_html .= '#@' . $valuedmcs[Aabc::$app->_chinhsach->cs_id];
+                    }
+                    $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] = $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] . $listcs_html;
+                } 
 
-                            $ids = [            
-                                Sanphamngonngu::spnn_idsanpham, 
-                                Sanphamngonngu::spnn_idngonngu, 
-                                Sanphamngonngu::t,//Chi co trong Text
-                            ];
-                            $thuoctinh = [
-                                Sanphamngonngu::spnn_noidungbosung,
-                                Sanphamngonngu::spnn_noidungbosung_2,                                
-                            ]; 
+                $danhmuc = ['' => '---Chọn---'] + ArrayHelper::map($danhmuc,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);                        
 
-                            $new = Sanphamngonngu::M;
-
-                            Aabc::$app->MyComponent->dangonngutext($data,$form,$ids,$thuoctinh,$model[Sanpham::sp_id],$new,'tabthongso');  
-                      
-                         ?>
-                    </div>  
-
-                </fieldset>
-            </div> 
+                // echo $form->field($model, Sanpham::sp_id_danhmuc,['options' => ['class' => '']])->dropDownList($danhmuc,[
+                //         'multiple'=>'multiple',
+                //         Aabc::$app->d->ty => 'checkbox',
+                //         // Aabc::$app->d->ty => 'ra',
+                //         // Aabc::$app->d->c => 'one',
+                //         Aabc::$app->d->add => 'ip',
+                //         // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+                //         Aabc::$app->d->i => Sanpham::tt,
+                //         Aabc::$app->d->t => 'sea',//Search
+                //         'class' => 'mulr',                        
+                //         // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
+                //         'id' => 'fk-'.Aabc::$app->_model->__danhmuc
+                //     ])->label(Sanpham::__sp_id_danhmuc .' sản phẩm'); 
 
 
+                echo $form->field($model, Sanpham::sp_id_danhmuc,['options' => ['class' => '']])->dropDownList($danhmuc,[
+                    //'multiple'=>'multiple', 
+                    Aabc::$app->d->t => 'sea',//Search
+                    // Aabc::$app->d->t => 'show', 
+                    Aabc::$app->d->ty => 'ra',                    
+                    Aabc::$app->d->i => Sanpham::tt,
+                    'class' => 'mulr',      
+                    Aabc::$app->d->c => 'one',                        
+                    'id' => 'fk-'.Aabc::$app->_model->__danhmuc
+                ])->label('Danh mục sản phẩm'); 
 
-            <div id="tab2" class="tab-pane fade ">  
-                <fieldset class="ht htsp"> 
+            ?>
+            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm có thể thuộc một hoặc nhiều danh mục." aria-invalid="false"></i>
+        </div>
+        
+        <div class="clearfix"></div>
+        <div id="select_ts"> </div>
 
-    <div id="noidung" class="tab-pane col-md-12 float-right">     
-        <?php              
-            $ngonngu = null;
+        <style type="text/css">
+            #select_ts h4 {
+                color: #0c7fb3;
+                border-bottom: 1px solid;
+                margin-right: 60px;
+                font-weight: bold;
+            }
+            #select_ts label {
+                width: 100%;
+                padding: 5px 5px 5px 20px;
+                position: relative;
+                cursor: pointer;
+            }
 
-            $ids = [            
-                Sanphamngonngu::spnn_idsanpham, 
-                Sanphamngonngu::spnn_idngonngu, 
-                Sanphamngonngu::t,//Chi co trong Text
-            ];
-            $thuoctinh = [
-                Sanphamngonngu::spnn_noidung,
-            ]; 
+            #select_ts label input {
+                position: absolute;
+                top: 3px;
+                left: 0;
+            }
+        </style>
 
-            $new = Sanphamngonngu::M;
+        <script type="text/javascript">
+            $('#fk-danhmuc-pa').change(function(){
+                var id = $(this).find('input[name="Sanpham_235[<?= Sanpham::sp_id_danhmuc;?>]"]:checked').val()
+                $.ajax({
+                    cache: false,
+                    url: "<?= Sanpham::tt.'/'.Sanpham::action_thongso  ?>",
+                    type: 'POST',  
+                    data: {
+                        dm: id,
+                    },                          
+                    success: function (data) { 
+                        unloadimg();
 
-            Aabc::$app->MyComponent->dangonngutext($data,$form,$ids,$thuoctinh,$model[Sanpham::sp_id],$new,'tabnoidung');  
-      
-         ?>
-    </div>  
+                        $('#select_ts').html(data.html)
 
-                </fieldset>
-            </div> 
+                        if(data.status == 1){    
+                            
+                        }else{
+                            popthatbai('');
+                        }
+                    },
+                    error: function () {                        
+                        poploi();
+                    }                
+                });
+            })
+        </script>
+            
+        <?php 
+
+            // echo '<pre>';
+            // print_r($model[Sanpham::sp_id_danhmuc]);
+            // echo '</pre>';
+
+        ?>
+
+    </fieldset>
+</div> 
+
+
+
+
+
+
+    <div id="thongso" class="tab-pane fade ">  
+        <fieldset class="ht htsp"> 
+
+            <div id="noidung" class="tab-pane col-md-12 float-right">     
+                <?php              
+                    $ngonngu = null;
+
+                    $ids = [            
+                        Sanphamngonngu::spnn_idsanpham, 
+                        Sanphamngonngu::spnn_idngonngu, 
+                        Sanphamngonngu::t,//Chi co trong Text
+                    ];
+                    $thuoctinh = [
+                        Sanphamngonngu::spnn_noidungbosung,
+                        Sanphamngonngu::spnn_noidungbosung_2,                                
+                    ]; 
+
+                    $new = Sanphamngonngu::M;
+
+                    Aabc::$app->MyComponent->dangonngutext($data,$form,$ids,$thuoctinh,$model[Sanpham::sp_id],$new,'tabthongso');  
+              
+                 ?>
+            </div>  
+
+        </fieldset>
+    </div> 
+
+
+
+    <div id="tab2" class="tab-pane fade ">  
+        <fieldset class="ht htsp"> 
+
+        <div id="noidung" class="tab-pane col-md-12 float-right">     
+            <?php              
+                $ngonngu = null;
+
+                $ids = [            
+                    Sanphamngonngu::spnn_idsanpham, 
+                    Sanphamngonngu::spnn_idngonngu, 
+                    Sanphamngonngu::t,//Chi co trong Text
+                ];
+                $thuoctinh = [
+                    Sanphamngonngu::spnn_noidung,
+                ]; 
+
+                $new = Sanphamngonngu::M;
+
+                Aabc::$app->MyComponent->dangonngutext($data,$form,$ids,$thuoctinh,$model[Sanpham::sp_id],$new,'tabnoidung');  
+          
+             ?>
+        </div>  
+
+        </fieldset>
+    </div> 
 
 
 
@@ -492,7 +575,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             </div>
 
 
-              <div id="tab_khuyenmai" class="tab-pane fade ">  
+            <div id="tab_khuyenmai" class="tab-pane fade ">  
                 <fieldset class="ht htsp"> 
 
                     <div id="noidung" class="tab-pane col-md-12 float-right">     

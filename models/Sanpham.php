@@ -19,6 +19,9 @@ class Sanpham extends \aabc\db\ActiveRecord
     const index_bv = 'd3';
     const update_sp = 'u';
     const update_bv = 'u_b';
+    const action_thongso = 'j3';
+
+
 
     //Controller
     const tt = 'k5';
@@ -251,10 +254,11 @@ class Sanpham extends \aabc\db\ActiveRecord
 
 
 
+
        public function getSpdmIdDanhmucs($model)
     {
-          $_Danhmuc = Aabc::$app->_model->Danhmuc;
-      return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id]);
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id]);
     }
 
 

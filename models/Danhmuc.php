@@ -23,6 +23,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
     const NOIBAT = 3;
     const TINHNANG = 5;
 
+    const MULTI = 1;
+    const ONE = 2;
 
     public function rules()
     {
@@ -43,6 +45,12 @@ class Danhmuc extends \aabc\db\ActiveRecord
             [['dm_fb','dm_youtube','dm_viber'], 'string', 'max' => 100],
 
             [['dm_dmsp'], 'integer'],
+
+            [['dm_multi'], 'integer'],
+
+             [['dm_dmsp'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_dmsp' => 'dm_id']],
+
+              [['dm_idcha'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_idcha' => 'dm_id']],
 
             // [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
             //     return ($model->dm_type != 4);
@@ -83,6 +91,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
             'dm_skype' => 'Skype',
 
             'dm_dmsp' => 'Danh mục sản phẩm',
+
+            'dm_multi' => 'Lựa chọn',
 
             Aabc::$app->_danhmuc->dm_groupmenu => Aabc::$app->_danhmuc->__dm_groupmenu ,        ];
     }
@@ -152,6 +162,22 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
 
+
+    public static function getMultiOption(){
+      return [              
+          self::ONE => 'Chọn 1 giá trị',
+          self::MULTI => 'Chọn nhiều giá trị',          
+      ];
+    }
+     public static function getMultiLabel($value = NULL){
+      $array = self::getMultiOption();
+        if ($value === null || !array_key_exists($value, $array))
+            return ' - ';
+        return $array[$value];
+    }
+
+
+
     public function getDanhmucOption($type = NULL)
     {
        $_Danhmuc = Aabc::$app->_model->Danhmuc;
@@ -176,7 +202,10 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
 
-
+    public function getDanhmuccon()
+    {
+        return $this->hasMany(Danhmuc::className(), ['dm_idcha' => 'dm_id']);        
+    }
 
 
 
@@ -550,5 +579,10 @@ return $this->hasMany($_SanphamDanhmuc::className(), [Aabc::$app->_sanphamdanhmu
 
   
 
-
+     public function getDmDmsp()
+    {
+        return $this->hasOne(Danhmuc::className(), ['dm_id' => 'dm_dmsp']);
+    }
+   
+    
 }

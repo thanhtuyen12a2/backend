@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
      <div class="content-left  col-md-2">
          <div class="dnn">
             <fieldset> 
-
+                <br/>
                 <div class="menucontent">              
                 <p> 
                     <?php 
@@ -67,16 +67,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
 
                         $data_ts = $_Danhmuc::find()->andWhere(['dm_level' => 1, 'dm_dmsp' => $dmsp])->all();
+                        $value_ts = Aabc::$app->request->get('ts');
                         if($data_ts){
-                          $data_ts = ['--- Chọn ---'] + ArrayHelper::map($data_ts, Aabc::$app->_danhmuc->dm_id, 'dm_ten');
+                          $data_ts = ['' => '--- Chọn ---'] + ArrayHelper::map($data_ts, Aabc::$app->_danhmuc->dm_id, 'dm_ten');
                         }else{
                           $data_ts = [];
+                          $value_ts = '';
                         }                        
 
                         echo '<span>Thông số</span>';
-                        $status = Aabc::$app->request->get('ts');
-                        $status = $status != NULL ? $status : ['' => '-- Chọn --'];
-                        echo Html::dropDownList('ts', $status , $data_ts , [                
+                        
+                        $value_ts = (!empty($value_ts) ? $value_ts : ['' => '--- Chọn ---']);
+                        echo Html::dropDownList('ts', $value_ts , $data_ts , [                
                               // 'multiple'=>'multiple',
                               D::i =>  Aabc::$app->_model->__danhmuc,
                               D::ty => 'ra',
@@ -86,8 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
                               'class' => 'mulr',
                               'id' =>  Aabc::$app->_model->__danhmuc.'_ts_select'
                           ]);
-
                     ?>
+
+                    <script type="text/javascript">
+                     $(document).ready(function(){                        
+                        $('#danhmuc_ts_select-pa').click();
+                    })
+                    </script>
+
                  </p>
                </div>
             </fieldset>  
@@ -109,8 +117,22 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '<button  '.Aabc::$app->d->m.' = "2"  type="button"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_tn" class="btn btn-danger mb" '.Aabc::$app->d->i.'= '.Aabc::$app->_model->__danhmuc .'><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
         
         
+          $danhmuc_daco_thongso =  $_Danhmuc::find()
+                        ->select(['dm_dmsp'])
+                        ->andWhere(['is not','dm_dmsp', null])
+                        ->groupBy(['dm_dmsp'])
+                        ->column();
 
-         echo '<button type="button" '.Aabc::$app->d->m.' = "3" id="mb'.Aabc::$app->_model->__danhmuc.'"  '.Aabc::$app->d->u .'="c_tn" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'><span class="glyphicon glyphicon-plus mtrang"></span>Thêm nhóm</button>';
+          $all = $_Danhmuc::find()
+                        ->andWhere([Aabc::$app->_danhmuc->dm_status => $_Danhmuc::ON])
+                        ->andWhere([Aabc::$app->_danhmuc->dm_recycle => $_Danhmuc::NGOAITHUNGRAC])    
+                        ->andWhere([Aabc::$app->_danhmuc->dm_type => 1])
+                        ->andWhere(['not in','dm_id', $danhmuc_daco_thongso])
+                        ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
+                        ->all();  
+          if($all){
+            echo '<button type="button" '.Aabc::$app->d->m.' = "3" id="mb'.Aabc::$app->_model->__danhmuc.'"  '.Aabc::$app->d->u .'="c_tn" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'><span class="glyphicon glyphicon-plus mtrang"></span>Thêm nhóm</button>';
+          }
 
          ?>
     </div>

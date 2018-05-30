@@ -1026,6 +1026,57 @@ class SanphamController extends Controller
     }
    
 
+
+    public function actionThongso()
+    {      
+        Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;   
+        $id = Aabc::$app->request->post('dm'); //id danh muc san pham
+
+        $_Danhmuc  = Aabc::$app->_model->Danhmuc;
+
+        $thongso = $_Danhmuc::find()
+                                ->andWhere(['dm_dmsp' => $id])
+                                ->andWhere(['in','dm_level',[1]])                                
+                                ->all();
+        $html = '';
+        foreach ($thongso as $k => $ts) {  
+            if($k%4 == 0) $html .= '<div class="clearfix"></div>';
+
+            $html .= '<div class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
+            $html .= '<div>';
+            foreach ($ts->danhmuccon as $k_gt => $gt) {
+                $html .= '<label><input type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="thongso['.$k.'][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+            }
+            $html .= '</div>';
+            $html .= '</div>';
+        }
+
+        
+        $return['html'] = $html;
+        return $return;
+        die;
+
+
+        $model = (Sanpham::M)::find()->andWhere(['<','sp_id',1000])->joinWith('sanphamDanhmucs')->all();
+       
+        // $a = Sanpham::getSanphamDanhmucs($model)->all();
+
+        echo '<pre>';
+        print_r($model);
+        echo '</pre>';
+        die;
+        
+    }
+
+
+
+
+
+
+
+
+
+
     protected function checkmasp($id = 0,$maspconstan = '') {
         $data = 'ok';
         if(Aabc::$app->request->post('check') == '') return 'ok';            

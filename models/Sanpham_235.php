@@ -448,10 +448,11 @@ return $this->hasMany($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id =
 
     
     public function getSanphamDanhmucs()
-    {
-        $_SanphamDanhmuc = Aabc::$app->_model->SanphamDanhmuc;
-return $this->hasMany($_SanphamDanhmuc::className(), [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id]);
+    {       
+        return $this->hasMany(Sanphamdanhmuc::className(), ['spdm_id_sp' => 'sp_id']);
     }
+
+
     /**
      * @return \aabc\db\ActiveQuery
      */

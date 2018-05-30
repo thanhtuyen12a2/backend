@@ -84,6 +84,8 @@ class SiteController extends Controller
             Sanpham::tt.':rec' => 'sanpham/rec',
             Sanpham::tt.':ir' => 'sanpham/ir',
 
+            Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
+
             Cauhinh::tt.':'.Cauhinh::cauhinh1 => 'cauhinh/cauhinh1',
             Cauhinh::tt.':'.Cauhinh::cauhinh2 => 'cauhinh/cauhinh2',
             Cauhinh::tt.':'.Cauhinh::cauhinh3 => 'cauhinh/cauhinh3',

@@ -64,8 +64,14 @@ class DanhmucSearch extends Danhmuc
         if(!empty($this->dm_dmsp)) $query->andWhere(['dm_dmsp' => $this->dm_dmsp]);
 
         if(!empty($this->dm_thongso)){
+
+            $data_ts = $_Danhmuc::find()->andWhere(['dm_level' => 1, 'dm_dmsp' => $this->dm_dmsp, 'dm_id' => $this->dm_thongso])->exists();
+            // echo '<pre>';
+            // print_r($data_ts);
+            // echo '</pre>';
+            // die;
             $query->andWhere(['or',
-                ['dm_id' => $this->dm_thongso],
+                (!$data_ts)?:['dm_id' => $this->dm_thongso],
                 ['dm_idcha' => $this->dm_thongso],
             ]);
         }

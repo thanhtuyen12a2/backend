@@ -6,7 +6,7 @@ use aabc\helpers\Html;
 /* @var $this aabc\web\View */
 /* @var $model backend\models\Danhmuc */
 
-$this->title = 'Thêm tính năng';
+$this->title = 'Thêm mới';
 $this->params['breadcrumbs'][] = ['label' => 'Danhmucs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

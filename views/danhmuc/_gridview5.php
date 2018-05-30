@@ -1,7 +1,7 @@
 <?php
 use aabc\helpers\Html;   
 use aabc\grid\GridView;
-
+use common\components\Tuyen;
 use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
@@ -64,7 +64,12 @@ use aabc\widgets\ActiveForm;
                         if($model[Aabc::$app->_danhmuc->dm_level] == 0 ){
                             return '<h4>Nhóm: '.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</h4>';    
                         }elseif($model[Aabc::$app->_danhmuc->dm_level] == 1 ){
-                            return '<b>'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b> (Thông số)';    
+                            $icon = '';
+                            if(!empty($model->dm_icon)){
+                              $icon = explode('#',$model->dm_icon);
+                              $icon = '<div class="g-icon"><div class="'.(empty($icon['1'])?'':$icon['1']).'">'.Tuyen::_icon($icon['0']) .'</div></div>';
+                            }
+                            return $icon.'<b style="line-height: 30px;">'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b> (Thông số)';    
                         }else{
                             return '<i>'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).' (Giá trị</i>)';
                         }
@@ -125,10 +130,7 @@ use aabc\widgets\ActiveForm;
 
 
                     <div class="gn"></div>
-                    '.                        
-                        (Aabc::$app->user->can('web') ?  ($model[Aabc::$app->_danhmuc->dm_status] == 2 ? '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'   '.Aabc::$app->d->u.'="us_tn?id='.$model[Aabc::$app->_danhmuc->dm_id].'">'.Aabc::$app->MyConst->gridview_menu_hienthi.'<span class="glyphicon glyphicon-eye-open"></span></button>' : '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'   '.Aabc::$app->d->u.'="us_tn?id='.$model[Aabc::$app->_danhmuc->dm_id].'">'.Aabc::$app->MyConst->gridview_menu_an.'<span class="glyphicon glyphicon-eye-open"></span></button>') : "" )
-
-                    .'
+                                       
                     <button type="button" class="br btn btn-default"  '.Aabc::$app->d->type.'="_tn"  '.Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'  '.Aabc::$app->d->u.'="rec_tn?id='.$model[Aabc::$app->_danhmuc->dm_id].'">'.Aabc::$app->MyConst->gridview_menu_thungrac.'<span class="glyphicon glyphicon-trash"></span></button>
 
                     </div></div>';                                      

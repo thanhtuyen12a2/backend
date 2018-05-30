@@ -175,8 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
              echo '<button type="button" '.D::m.' = "" id="mb'. Sanpham::tt.'"  '.D::u .'="c" class="btn btn-success mb"   '. D::i.'='. Sanpham::tt.'><span class="glyphicon glyphicon-plus mtrang"></span>'.Aabc::$app->MyConst->view_btn_them.'</button>';
 
-            ?>            
-                     
+            ?>
          </div>
 
     <?= GridView::widget([ 
