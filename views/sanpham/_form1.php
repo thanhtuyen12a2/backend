@@ -15,6 +15,7 @@ use aabc\helpers\ArrayHelper;
 $_Chinhsach  = Aabc::$app->_model->Chinhsach;
 $_Danhmuc  = Aabc::$app->_model->Danhmuc;
 
+if(empty($html_ts)) $html_ts = '';
 
 $new = new Sanphamngonngu();
 ?>
@@ -405,7 +406,9 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         </div>
         
         <div class="clearfix"></div>
-        <div id="select_ts"> </div>
+        <div id="select_ts">
+            <?= $html_ts ?>
+        </div>
 
         <style type="text/css">
             #select_ts h4 {
@@ -426,6 +429,13 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 top: 3px;
                 left: 0;
             }
+            #select_ts div>span{
+                position: absolute;
+                right: 65px;
+                top: 10px;
+                color: #f3a50a;
+                cursor: pointer;
+            }
         </style>
 
         <script type="text/javascript">
@@ -438,16 +448,8 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                     data: {
                         dm: id,
                     },                          
-                    success: function (data) { 
-                        unloadimg();
-
+                    success: function (data) {                         
                         $('#select_ts').html(data.html)
-
-                        if(data.status == 1){    
-                            
-                        }else{
-                            popthatbai('');
-                        }
                     },
                     error: function () {                        
                         poploi();

@@ -29,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <p>  
-        
-        <button type="button"  <?=Aabc::$app->d->m  ?>="3" id="mb<?= Aabc::$app->_model->__danhmuc?>" <?=Aabc::$app->d->u  ?>  ="c_tn" class="btn btn-default mb" <?=Aabc::$app->d->i  ?>="<?= Aabc::$app->_model->__danhmuc?>"><span class="glyphicon glyphicon-plus mxanh"></span><?=Aabc::$app->MyConst->view_btn_them?></button>
-  
+                 
 
          <?php         
         $_Danhmuc = Aabc::$app->_model->Danhmuc;        
@@ -56,6 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
   
 <div style="clear: both"></div>
 
-
+ <div class="form-group right"> 
+    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-ban-circle mdo"></span>Đóng</button>
+</div>
 
 </div>

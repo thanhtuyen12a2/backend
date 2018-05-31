@@ -19,6 +19,9 @@ use aabc\filters\AccessControl;
 
 use backend\models\Ngonngu;
 use backend\models\Sanphamngonngu;
+
+use backend\models\SanphamDanhmuc;
+
 use backend\models\SanphamngonnguSearch;
 use aabc\widgets\ActiveForm;
 use aabc\widgets\FragmentCache;
@@ -513,6 +516,7 @@ class SanphamController extends Controller
         // }
         $Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
         $Sanphamchinhsach = Aabc::$app->_model->Sanphamchinhsach;
+        $_Danhmuc  = Aabc::$app->_model->Danhmuc;
 
         $model = $this->findModel($id);
 
@@ -565,6 +569,10 @@ class SanphamController extends Controller
                 // return ActiveForm::validate($model);
             }
 
+            //Thông số
+            $tss = Aabc::$app->request->post('Ts');
+
+
             $postimg = Aabc::$app->request->post(Aabc::$app->d->postimg);
             if($postimg != ''){
                 $postimg = implode("-",$postimg);            
@@ -574,9 +582,21 @@ class SanphamController extends Controller
 
             //Mang Danh muc
             $arr_sp_id_danhmuc = NULL;
-            if( is_array($model[Sanpham::sp_id_danhmuc])){                
-                $arr_sp_id_danhmuc = array_unique($model[Sanpham::sp_id_danhmuc]); 
-            } 
+            if($tp == 2){
+                if( is_array($model[Sanpham::sp_id_danhmuc])){                
+                    $arr_sp_id_danhmuc = array_unique($model[Sanpham::sp_id_danhmuc]); 
+                } 
+            }
+
+            if($tp == 1){
+                $arr_sp_id_danhmuc[] = $model[Sanpham::sp_id_danhmuc];
+            }
+
+            // echo '<pre>';
+            // print_r($arr_sp_id_danhmuc);
+            // echo '</pre>';
+            // die;
+
 
             //Mang Chinh sach
             $arr_sp_id_chinhsach = NULL;
@@ -590,6 +610,47 @@ class SanphamController extends Controller
 
             $transaction = \Aabc::$app->db->beginTransaction(); 
             try { 
+
+                //Save thông số
+                $ts_exist = [];
+
+                // echo '<pre>';
+                // print_r($tss);
+                // echo '</pre>';
+                // die;
+
+                $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+                if(is_array($tss)) foreach ($tss as $k_ts1 => $ts_group) {
+                    
+                    if(isset(($ts_group['i']))){
+                    if(is_array($ts_group['i'])){
+                    foreach ($ts_group['i'] as $k_ts2 => $ts) {                           
+                        $new_sp_dm = $_Sanphamdanhmuc::find()
+                                            ->andWhere(['spdm_id_sp' => $id])
+                                            ->andWhere(['spdm_id_danhmuc' => $ts])
+                                            // ->andWhere(['spdm_type' => 5])
+                                            ->one();
+                        $ts_exist[] = (int)$ts;
+                        if(!$new_sp_dm){
+                            $new_sp_dm = new $_Sanphamdanhmuc();
+                            $new_sp_dm->spdm_id_sp = $id;
+                            $new_sp_dm->spdm_id_danhmuc = $ts;                            
+                        }
+                        $new_sp_dm->spdm_info = addslashes($ts_group['l']);
+                        $new_sp_dm->spdm_type = 5;
+                        if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
+                        
+                    }}}
+                }     
+                // die;
+                $_Sanphamdanhmuc::deleteAll(['and',
+                    ['spdm_id_sp' => $id],
+                    ['spdm_type' => 5],
+                    ['NOT IN','spdm_id_danhmuc',$ts_exist],
+                ]);
+                // $transaction->rollback();
+                // die;
+
                   // echo 'tuyen2-'.$id;
         // die;
                 // $data = Aabc::$app->request->post(Sanphamngonngu::T);                 
@@ -640,6 +701,7 @@ class SanphamController extends Controller
                 if(!empty($arr_sp_id_danhmuc)){ 
                     $Sanphamdanhmuc::deleteAll(['and',
                                         ['spdm_id_sp' => $model[Sanpham::sp_id]],
+                                        ['spdm_type' => 1],
                                         ['NOT IN','spdm_id_danhmuc',$arr_sp_id_danhmuc],
                                 ]);
 
@@ -715,7 +777,7 @@ class SanphamController extends Controller
                     // FragmentCache::clear('sp-'.$model->sp_id);                 
                 }else{
                     echo '<pre>';
-                    print_r($model->errors);die;
+                    print_r($model->errors);
                     
                     $transaction->rollback();                    
                     $datajson = 0; 
@@ -743,6 +805,23 @@ class SanphamController extends Controller
             // $data = $model->getSanphamNgonngus()->all();
             $data = Sanpham::getSanphamNgonngus($model)->all();
             
+
+            $id_dmsp = Sanpham::getSpdmIdDanhmucs($model)->select(['dm_id'])->one();
+            if($id_dmsp){
+                $id_dmsp = $id_dmsp->dm_id;
+            }
+            
+
+            $ts = Sanpham::getSpdmIdDanhmucsThongso($model)->select(['dm_id'])->column();
+
+            if($id_dmsp && $tp == 1){       
+                $html_ts = self::actionThongso($id_dmsp, $ts, $id);
+                $html_ts = $html_ts['html'];
+            }else{
+                $html_ts = '';
+            }
+
+
             // $data = Sanpham::getSpnnIdngonngus($model)->all();
             // $data = $model->getSpnnIdngonngus()->all();
             // echo '<pre>';
@@ -817,6 +896,7 @@ class SanphamController extends Controller
             $kq = $this->renderAjax('update'.$tp, [
                 'model' => $model,
                 'data' => $data,
+                'html_ts' => $html_ts,
                 // 'ngonngu' => $ngonngu->getAllNgonngu(),
             ]);
             $kq = Aabc::$app->d->decodeview($kq);
@@ -1027,10 +1107,13 @@ class SanphamController extends Controller
    
 
 
-    public function actionThongso()
-    {      
+    public function actionThongso($id = '',$ts_check = [],$id_sp = '')
+    {           
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;   
-        $id = Aabc::$app->request->post('dm'); //id danh muc san pham
+
+        if(empty($id)){
+            $id = Aabc::$app->request->post('dm'); //id danh muc san pham
+        }
 
         $_Danhmuc  = Aabc::$app->_model->Danhmuc;
 
@@ -1043,29 +1126,27 @@ class SanphamController extends Controller
             if($k%4 == 0) $html .= '<div class="clearfix"></div>';
 
             $html .= '<div class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
-            $html .= '<div>';
+            $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&dmsp='.$id.'" d-i="danhmuc"></span>';
+            $html .= '<div style="padding: 0 50px 0 0;">';
+
+            $info = '';
             foreach ($ts->danhmuccon as $k_gt => $gt) {
-                $html .= '<label><input type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="thongso['.$k.'][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+                if(in_array($gt->dm_id,$ts_check)){
+                    $a = $gt->getSanphamDanhmucs()->andWhere(['spdm_id_sp' => $id_sp])->one();
+                    if($a){
+                        $info = $a->spdm_info;
+                    }
+                }
+                $html .= '<label><input '.(in_array($gt->dm_id,$ts_check)?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
             }
+            $html .= '<input type="input" class="form-control" name="Ts['.$k.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
             $html .= '</div>';
             $html .= '</div>';
         }
-
         
         $return['html'] = $html;
-        return $return;
-        die;
-
-
-        $model = (Sanpham::M)::find()->andWhere(['<','sp_id',1000])->joinWith('sanphamDanhmucs')->all();
-       
-        // $a = Sanpham::getSanphamDanhmucs($model)->all();
-
-        echo '<pre>';
-        print_r($model);
-        echo '</pre>';
-        die;
-        
+        // die;
+        return $return;       
     }
 
 

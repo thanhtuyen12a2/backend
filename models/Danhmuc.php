@@ -561,12 +561,12 @@ return $this->hasMany($_DanhmucNgonngu::className(), [Aabc::$app->_danhmucngonng
 return $this->hasMany($_Ngonngu::className(), [Aabc::$app->_ngonngu->ngonngu_id => Aabc::$app->_danhmucngonngu->dmnn_id_ngonngu])->viaTable(Aabc::$app->_danhmucngonngu->table, [Aabc::$app->_danhmucngonngu->dmnn_id_danhmuc => Aabc::$app->_danhmuc->dm_id]);
     }
     /**
-     * @return \aabc\db\ActiveQuery
+     * @retur
+     n \aabc\db\ActiveQuery
      */
     public function getSanphamDanhmucs()
     {
-        $_SanphamDanhmuc = Aabc::$app->_model->SanphamDanhmuc;
-return $this->hasMany($_SanphamDanhmuc::className(), [Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc => Aabc::$app->_danhmuc->dm_id]);
+        return $this->hasMany(SanphamDanhmuc::className(), ['spdm_id_danhmuc' => 'dm_id']);
     }
     
 

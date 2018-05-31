@@ -255,10 +255,17 @@ class Sanpham extends \aabc\db\ActiveRecord
 
 
 
-       public function getSpdmIdDanhmucs($model)
+    public function getSpdmIdDanhmucs($model)
     {
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
-        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id]);
+        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_type' => 1]);
+    }
+
+
+    public function getSpdmIdDanhmucsThongso($model)
+    {
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_level' => 2])->andWhere(['is not','dm_dmsp',null]);
     }
 
 

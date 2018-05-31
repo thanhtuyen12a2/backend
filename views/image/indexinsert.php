@@ -218,6 +218,11 @@ if(empty($icon)) $icon = '';
  ?>
 
 <style type="text/css">
+    .item [class*='col-md-'] {
+        margin: 0;
+        padding: 0;
+    }
+
    .item {
         float: left;
         position: relative;

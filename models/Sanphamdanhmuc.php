@@ -31,6 +31,11 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
         return [
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp, Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'required'],
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp, Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'integer'],
+
+            [['spdm_type'],'integer'],
+
+            [['spdm_info'],'string', 'max' => 255],
+
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Danhmuc::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc => Aabc::$app->_danhmuc->dm_id]],
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Sanpham::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Aabc::$app->_sanpham->sp_id]],
         ];

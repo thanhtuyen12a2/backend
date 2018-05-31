@@ -9,6 +9,9 @@ $this->title = 'Cập nhật thông tin sản phẩm: ' . $model[Aabc::$app->_sa
 $this->params['breadcrumbs'][] = ['label' => 'Sanphams', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model[Aabc::$app->_sanpham->sp_id], 'url' => ['view', 'id' => $model[Aabc::$app->_sanpham->sp_id]]];
 $this->params['breadcrumbs'][] = 'Update';
+
+if(empty($html_ts)) $html_ts = '';
+
 ?>
 <div class="sanpham-update">
 
@@ -22,6 +25,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
         // 'ngonngu' => $ngonngu,
         'data' => $data,
+        'html_ts' => $html_ts,
     ]) ?>
 
 
