@@ -1125,10 +1125,9 @@ class SanphamController extends Controller
         foreach ($thongso as $k => $ts) {  
             if($k%4 == 0) $html .= '<div class="clearfix"></div>';
 
-            $html .= '<div class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
-            $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&dmsp='.$id.'" d-i="danhmuc"></span>';
+            $html .= '<div id="tssp'.$ts->dm_id.'" class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
+            $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
             $html .= '<div style="padding: 0 50px 0 0;">';
-
             $info = '';
             foreach ($ts->danhmuccon as $k_gt => $gt) {
                 if(in_array($gt->dm_id,$ts_check)){

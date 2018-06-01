@@ -436,6 +436,9 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 color: #f3a50a;
                 cursor: pointer;
             }
+            #select_ts .col-md-3 {
+                margin: 0 0 20px 0;
+            }
         </style>
 
         <script type="text/javascript">

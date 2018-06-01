@@ -15,7 +15,7 @@ use aabc\widgets\ActiveForm;
 // use backend\models\Danhmuc ;
 /* @var $dataProvider aabc\data\ActiveDataProvider */
 
-$this->title = 'Danh mục menu';
+$this->title = 'Thông số sản phẩm';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -24,12 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="<?= Aabc::$app->_model->__danhmuc?>-index">
 
+    <style type="text/css">
+        #modal2 .modal-header{
+            height: 30px;
+        }
+        #modal2 .modal-header button{
+            display: none;
+        }
+    </style>
+
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
 <p>  
-                 
+                
 
          <?php         
         $_Danhmuc = Aabc::$app->_model->Danhmuc;        
@@ -38,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '<button type="button"  '.Aabc::$app->d->m.'="3"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_tn" class="btn btn-danger mb" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'"><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
         
         ?>
-
-
+   
 
     </p>
 
@@ -53,9 +61,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
   
 <div style="clear: both"></div>
-
- <div class="form-group right"> 
-    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-ban-circle mdo"></span>Đóng</button>
+   
+ <div class="form-group right">    
+    <button type="button" class="btn btn-default rlts" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-ban-circle mdo"></span>Đóng</button>
 </div>
+
+
+<script type="text/javascript">        
+    $('.rlts').click(function(){
+        loadimg();
+        $.ajax({
+            cache: false,
+            url: 'danhmuc/rts?ts=<?= $_GET['ts']?>&stt=<?= $_GET['stt']?>&sp=<?= $_GET['sp']?>',
+            type: 'POST',               
+            success: function (data) {
+                $('#tssp<?= $_GET['ts']?>').html(data)
+                unloadimg(); 
+            },
+            error: function () {
+                poploi();                    
+            }
+        });
+
+    });     
+</script>
 
 </div>

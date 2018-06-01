@@ -73,6 +73,8 @@ class SiteController extends Controller
             'yur75:kh3h57' => 'site/index',
 
             // Sanpham::tt.':'.
+            'danhmuc:rts' => 'danhmuc/reloadthongso',
+
 
             Sanpham::tt.':'.Sanpham::index_sp => 'sanpham/i',
             Sanpham::tt.':'.Sanpham::index_bv => 'sanpham/i_b',

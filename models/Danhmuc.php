@@ -204,7 +204,9 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
     public function getDanhmuccon()
     {
-        return $this->hasMany(Danhmuc::className(), ['dm_idcha' => 'dm_id']);        
+        return $this->hasMany(Danhmuc::className(), ['dm_idcha' => 'dm_id'])
+                                  ->andWhere(['dm_recycle' => 2])
+                                  ->orderBy(['dm_sothutu' => SORT_ASC]);        
     }
 
 

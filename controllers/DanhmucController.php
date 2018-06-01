@@ -198,13 +198,13 @@ class DanhmucController extends Controller
             if(isset($_GET['dmsp'])){
                 $dmsp = $_GET['dmsp'];
             }
-            if(empty($dmsp)){
-                $_Danhmuc = Aabc::$app->_model->Danhmuc;
-                $all = $_Danhmuc::getDanhmucOption(1);                
-                reset($all);
-                $first_key = key($all);
-                $dmsp = $first_key;
-            }
+            // if(empty($dmsp)){
+            //     $_Danhmuc = Aabc::$app->_model->Danhmuc;
+            //     $all = $_Danhmuc::getDanhmucOption(1);                
+            //     reset($all);
+            //     $first_key = key($all);
+            //     $dmsp = $first_key;
+            // }
             if(isset($_GET['ts'])){
                 $thongso = $_GET['ts'];
             }
@@ -1082,13 +1082,47 @@ class DanhmucController extends Controller
         $tp = addslashes($tp);
         //$role = 'backend-danhmuc-deleteall';
         //if(!Aabc::$app->user->can($role)){ return 'nacc';die;}
-
         
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
         return (1 && ($_Danhmuc::deleteAll([Aabc::$app->_danhmuc->dm_recycle => '1']) ) );
         
     }
+
+
+
+    public function actionReloadthongso(){
+        if(isset($_GET['ts'])){
+            $dm_id = $_GET['ts'];
+            $stt = $_GET['stt'];
+            $sp = $_GET['sp'];
+            $html = '';
+            $_Danhmuc  = Aabc::$app->_model->Danhmuc;
+            $ts = $_Danhmuc::find()
+                            ->andWhere(['dm_id' => $dm_id])
+                            ->one();
+            if($ts){
+                $html .= '<h4>'.$ts->dm_ten.'</h4>';
+                $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$sp.'&stt='.$stt.'" d-i="danhmuc"></span>';
+                $html .= '<div style="padding: 0 50px 0 0;">';
+                $info = '';
+                foreach ($ts->danhmuccon as $k_gt => $gt) {  
+                    $a = $gt->getSanphamDanhmucs()->andWhere(['spdm_id_sp' => $sp])->one();
+                    if($a){
+                        $info = $a->spdm_info;
+                    }
+                    $html .= '<label><input '.($a?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$stt.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+                }
+                $html .= '<input type="input" class="form-control" name="Ts['.$stt.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
+                $html .= '</div>';
+            }
+
+            Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;
+            return $html;
+        }        
+    }
+
+
 
     
     protected function findModel($id)
