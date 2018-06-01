@@ -107,7 +107,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             <?= '<button type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
 
                             <div id="imgcove"></div>
-                            <ul id="editable" class="imgcove"> 
+                            <ul id="editable" class="imgcove" style="margin-top: 220px;"> 
                                 <?php
                                     if(isset($model[Sanpham::sp_images])){
                                         $listimg = explode("-",$model[Sanpham::sp_images]);
@@ -135,7 +135,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                     </div> 
 
                     
-                    <div class="col-md-7" style="border-left: 1px solid #ddd;">
+                    <div class="col-md-7" style="/*border-left: 1px solid #ddd;*/">
 
                         <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
                         <?php        
