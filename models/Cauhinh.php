@@ -5,6 +5,7 @@ use aabc\base\Model;
 use aabc\helpers\Html;
 use kartik\select2\Select2;
 use aabc\web\JsExpression;
+use common\components\Tuyen;
 
 
 class Cauhinh extends Model
@@ -42,6 +43,10 @@ class Cauhinh extends Model
     const ch_id = 'chid';
     const ch_key = 'chkey';
     const ch_data = 'chdata';
+
+
+    //Template
+     const template = 'k3';
 
 
     //Chung
@@ -95,11 +100,39 @@ class Cauhinh extends Model
     {
         $rel = new \ReflectionClass('backend\models\Cauhinh');
         $rel = $rel->getConstants();
-        if(in_array($key,$rel)){
+
+        $all_template = self::get(Cauhinh::template);
+
+        $template = preg_split('/[\n]+/', $all_template);
+
+        $module_temp = [];
+        $page_temp = [];
+
+        if(is_array($template)) foreach ($template as $k => $v) {
+            $v = trim($v);
+            $module_temp[] = Cauhinh::module . $v;
+            $page_temp[] = Cauhinh::page . $v;
+        }
+
+        if(in_array($key,$rel) || in_array($key,$page_temp) || in_array($key,$module_temp)){
             return true;
         }else{
             return false;
         }        
+    }
+
+
+    public static function template()
+    {       
+        $all_template = Tuyen::_dulieu('cauhinh', Cauhinh::template);
+        if(empty($all_template)) $all_template = self::get(Cauhinh::template);
+            
+        $template = preg_split('/[\n]+/', $all_template);
+        if(is_array($template)) foreach ($template as $k => $v) {
+            $v = trim($v);
+            if(!empty($v)) return $v;
+        }
+        return '';
     }
 
 
@@ -120,6 +153,7 @@ class Cauhinh extends Model
         $cache->set('cauhinh'.$model['ch_key'],$cache_data); 
         return $cache_data; 
     }
+
 
 
     public static function IconOptions(){

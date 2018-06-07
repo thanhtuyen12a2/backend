@@ -125,7 +125,7 @@ $this->title = 'My Aabc Application';
                         <ul class="menu cauhinh"> 
 
                             <?php                             
-                                $page = Cauhinh::get(Cauhinh::page); 
+                                $page = Cauhinh::get(Cauhinh::page.Cauhinh::template()); 
                                 $max =  empty($page['max'])? 1 : ($page['max'] + 1);
                             ?>
                             <?php for ($j=1; $j < $max ; $j++) { ?>

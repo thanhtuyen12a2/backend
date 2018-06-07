@@ -31,6 +31,16 @@ use aabc\widgets\ActiveForm;
             <fieldset>
                 <legend>Thông tin công ty</legend>
 
+
+                <div class="col-md-7 pt200">
+                    <div class="form-group required">
+                        <div class="le"><label class="control-label" for="">Template</label></div>
+                        <div class="ri"><textarea class="form-control" rows="2" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::template?>]"><?= Cauhinh::get(Cauhinh::template) ?></textarea></div>
+                    </div>
+                </div>
+
+
+
                 <div class="col-md-7 pt200">
                     <div class="form-group required">
                         <div class="le"><label class="control-label" for="">Tên công ty</label></div>

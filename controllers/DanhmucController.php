@@ -137,7 +137,7 @@ class DanhmucController extends Controller
                 $thongso = $_GET['ts'];
             }
         }
-        
+
 
         $tp = addslashes($tp);
         // echo $tp;die;
@@ -212,6 +212,12 @@ class DanhmucController extends Controller
     
 
 
+        $noibat = '';
+        if(isset($_GET['nb'])){
+            $noibat = $_GET['nb'];            
+        }
+
+
         $tp = addslashes($tp);
         // echo $tp;die;
         $_DanhmucSearch = Aabc::$app->_model->DanhmucSearch;
@@ -234,6 +240,7 @@ class DanhmucController extends Controller
             'dataProvider' => $dataProvider,
             'groupmenu' => $g,
             'title' => $l,
+            'noibat' => $noibat,
         ]);
         $kq = Aabc::$app->d->decodeview($kq);
             return $kq;
@@ -255,9 +262,9 @@ class DanhmucController extends Controller
         return $this->indexrecycle($tp = 3);
     }
 
-    public function actionIr_mn()
+    public function actionIr_mn($g = '')
     {
-        return $this->indexrecycle($tp = 4);
+        return $this->indexrecycle($tp = 4, $g);
     }
     public function actionIr_tn()
     {
@@ -268,16 +275,18 @@ class DanhmucController extends Controller
         return $this->indexrecycle($tp = 1);
     }
 
-    protected function indexrecycle($tp) //Indexrecycle
+    protected function indexrecycle($tp, $g = '') //Indexrecycle
     {
         //$role = 'backend-danhmuc-indexrecycle';
         //if(!Aabc::$app->user->can($role)){ return 'nacc';die;}
         $tp = addslashes($tp);
+        $g = addslashes($g);
         
         $_DanhmucSearch = Aabc::$app->_model->DanhmucSearch;
         $searchModel = new $_DanhmucSearch([
             Aabc::$app->_danhmuc->dm_recycle => '1',
-            Aabc::$app->_danhmuc->dm_type => $tp
+            Aabc::$app->_danhmuc->dm_type => $tp,
+            'dm_groupmenu' => $g,
         ]);
         
         $dataProvider = $searchModel->search(Aabc::$app->request->queryParams);
@@ -285,6 +294,7 @@ class DanhmucController extends Controller
         $kq = $this->renderAjax('indexrecycle'.$tp, [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'groupmenu' => $g,
         ]);
         $kq = Aabc::$app->d->decodeview($kq);
             return $kq;
@@ -418,6 +428,12 @@ class DanhmucController extends Controller
     {
         $tp = addslashes($tp);
 
+        $noibat = '';
+        if(isset($_GET['nb'])){
+            $noibat = $_GET['nb'];            
+        }
+
+
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
         $model = new $_Danhmuc();
         $datajson = '0';
@@ -427,6 +443,8 @@ class DanhmucController extends Controller
                 $model->dm_status = '1';
                 // $model->dm_groupmenu = $g;
             }
+
+            if(!empty($noibat)) $model->dm_noibat = $noibat;
 
             $model[Aabc::$app->_danhmuc->dm_type] = $tp;
 
@@ -1064,9 +1082,9 @@ class DanhmucController extends Controller
     {
         return $this->deleteall($tp = 3);
     }
-    public function actionDa_mn()
+    public function actionDa_mn($g = '')
     {
-        return $this->deleteall($tp = 4);
+        return $this->deleteall($tp = 4,$g);
     }
     public function actionDa_tn()
     {
@@ -1077,15 +1095,20 @@ class DanhmucController extends Controller
         return $this->deleteall($tp = 1);
     }
 
-    public function deleteall($tp) //Deleteall
+    public function deleteall($tp,$g = '') //Deleteall
     {        
         $tp = addslashes($tp);
+        $g = addslashes($g);
         //$role = 'backend-danhmuc-deleteall';
         //if(!Aabc::$app->user->can($role)){ return 'nacc';die;}
         
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
-        return (1 && ($_Danhmuc::deleteAll([Aabc::$app->_danhmuc->dm_recycle => '1']) ) );
+        if(empty($g)){
+            return (1 && ($_Danhmuc::deleteAll([Aabc::$app->_danhmuc->dm_recycle => '1']) ) );
+        }else{
+            return (1 && ($_Danhmuc::deleteAll([Aabc::$app->_danhmuc->dm_recycle => '1', 'dm_groupmenu' => $g]) ) );
+        }       
         
     }
 

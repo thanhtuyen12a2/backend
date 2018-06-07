@@ -10,6 +10,11 @@ use aabc\widgets\ActiveForm;
 /*use app\models\Dskh; */
 
 if(empty($groupmenu)) $groupmenu = '';
+if(empty($noibat)){
+    $noibat = '';
+}else{
+    $noibat = '&nb='.$noibat;
+}
 if(empty($title)) $title = '';
 
 
@@ -27,14 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>  
         
-        <button type="button"  <?=Aabc::$app->d->m  ?>="3" id="mb<?= Aabc::$app->_model->__danhmuc?>" <?=Aabc::$app->d->u  ?>  ="c_mn?g=<?= $groupmenu?>" class="btn btn-default mb" <?=Aabc::$app->d->i  ?>="<?= Aabc::$app->_model->__danhmuc?>"><span class="glyphicon glyphicon-plus mxanh"></span><?=Aabc::$app->MyConst->view_btn_them?></button>
+        <button type="button"  <?=Aabc::$app->d->m  ?>="3" id="mb<?= Aabc::$app->_model->__danhmuc?>" <?=Aabc::$app->d->u  ?>  ="c_mn?g=<?= $groupmenu.$noibat?>" class="btn btn-default mb" <?=Aabc::$app->d->i  ?>="<?= Aabc::$app->_model->__danhmuc?>"><span class="glyphicon glyphicon-plus mxanh"></span><?=Aabc::$app->MyConst->view_btn_them?></button>
   
 
          <?php         
-        $_Danhmuc = Aabc::$app->_model->Danhmuc;        
-        $demthungrac = count($_Danhmuc::getAllRecycle1_4());
+            $_Danhmuc = Aabc::$app->_model->Danhmuc;        
+            $demthungrac = count($_Danhmuc::getAllRecycle1_4($groupmenu));
 
-            echo '<button type="button"  '.Aabc::$app->d->m.'="3"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_mn" class="btn btn-danger mb" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'"><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
+            echo '<button type="button"  '.Aabc::$app->d->m.'="3"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_mn?g='.$groupmenu.'" class="btn btn-danger mb" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'"><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
         
         ?>
 

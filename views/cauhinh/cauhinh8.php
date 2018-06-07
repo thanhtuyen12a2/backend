@@ -22,8 +22,8 @@ use aabc\widgets\ActiveForm;
         // if(isset($_GET['page'])){
         //     $number = $_GET['page'];
         // }
-        $module = Cauhinh::get(Cauhinh::module);
-        $page = Cauhinh::get(Cauhinh::page);         
+        $module = Cauhinh::get(Cauhinh::module.Cauhinh::template());
+        $page = Cauhinh::get(Cauhinh::page.Cauhinh::template());         
         $max_page =  empty($page['max'])? 1 : ($page['max'] + 1);
         $max_module =  empty($module['max'])? 1 : ($module['max'] + 1);
     ?>
@@ -45,8 +45,11 @@ use aabc\widgets\ActiveForm;
                 for ($j=1; $j < $max_module ; $j++) {
                     $idmodule = $j;
                     $lable = empty($module['child'][$idmodule]['label'])?'':$module['child'][$idmodule]['label'];
+
+                    //group Nổi bật ở trang chủ ( 1- 20)
+                    $noibat = empty($module['child'][$idmodule]['nb'])?'':'&nb='.$module['child'][$idmodule]['nb'];
                     
-                    $replace = '<div d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).'" class="module-child pjbm"  d-i="danhmuc">Module: '. $lable .'</div>';                    
+                    $replace = '<div d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).$noibat.'" class="module-child pjbm"  d-i="danhmuc">Module: '. $lable .'</div>';                    
                     $html = str_replace('###'.$j.'###',$replace,$html);
                 }
 

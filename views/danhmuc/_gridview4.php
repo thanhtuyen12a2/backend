@@ -11,7 +11,7 @@ use common\components\Tuyen;
     h5{
       font-size: 14px;
       text-transform: uppercase;
-      color: #555;
+      color: #1190ca;
     }
 </style>
 

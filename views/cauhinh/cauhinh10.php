@@ -20,7 +20,7 @@ use aabc\widgets\ActiveForm;
     <?php
         $_Cauhinh = Cauhinh::M;
         $model = new $_Cauhinh;
-        $module = Cauhinh::get(Cauhinh::module);
+        $module = Cauhinh::get(Cauhinh::module.Cauhinh::template());
     ?>
     <?php $form = ActiveForm::begin(['id' => 'ch-form']); ?>
     

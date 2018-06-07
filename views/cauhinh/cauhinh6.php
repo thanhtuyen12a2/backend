@@ -19,8 +19,12 @@ use aabc\widgets\ActiveForm;
         $_Cauhinh = Cauhinh::M;
         $model = new $_Cauhinh;
 
+        $module_template = Cauhinh::module.Cauhinh::template();
+
+
         
-        $module = Cauhinh::get(Cauhinh::module); 
+        $module = Cauhinh::get($module_template); 
+
         $max =  empty($module['max'])? 1 : ($module['max'] + 1);
                             
     ?>
@@ -39,7 +43,7 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Tổng số Module</label></div>
                     <div class="ri">  
-                        <input placeholder="Số lượng Module" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][max]" value="<?= empty($module['max'])?'':$module['max'] ?>" />
+                        <input placeholder="Số lượng Module" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][max]" value="<?= empty($module['max'])?'':$module['max'] ?>" />
                               
                     </div>
                 </div>
@@ -51,9 +55,11 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Module: <?= $j?></label></div>
                     <div class="ri"> 
-                        <input placeholder="Tên module" class="col-md-11" type="text"  name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
+                        <input placeholder="Tên module" class="col-md-10" type="text"  name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
 
-                        <input placeholder="Số level" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][max]" value="<?= empty($module['child'][$j]['max'])?'':$module['child'][$j]['max'] ?>" />
+                        <input placeholder="Số level" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][max]" value="<?= empty($module['child'][$j]['max'])?'':$module['child'][$j]['max'] ?>" />
+
+                        <input placeholder="Nổi bật" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][nb]" value="<?= empty($module['child'][$j]['nb'])?'':$module['child'][$j]['nb'] ?>" />
 
                         <?php 
                             $max_child =  empty($module['child'][$j]['max'])? 1 : ($module['child'][$j]['max'] + 1);
@@ -63,22 +69,22 @@ use aabc\widgets\ActiveForm;
                             <div class="clearfix">   
                             <div class="col-md-1"><b>Level: <?= $i?></b></div>
                             <div class="col-md-11">
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][label]" value="1" <?= empty($module['child'][$j]['child'][$i]['label'])?'':'checked' ?>/>Label</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][url]" value="1" <?= empty($module['child'][$j]['child'][$i]['url'])?'':'checked' ?>/>Url</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][icon]" value="1" <?= empty($module['child'][$j]['child'][$i]['icon'])?'':'checked' ?>/>Icon</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][background]" value="1" <?= empty($module['child'][$j]['child'][$i]['background'])?'':'checked' ?>/>Background</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][email]" value="1" <?= empty($module['child'][$j]['child'][$i]['email'])?'':'checked' ?>/>Email</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][phone]" value="1" <?= empty($module['child'][$j]['child'][$i]['phone'])?'':'checked' ?>/>Phone</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][label]" value="1" <?= empty($module['child'][$j]['child'][$i]['label'])?'':'checked' ?>/>Label</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][url]" value="1" <?= empty($module['child'][$j]['child'][$i]['url'])?'':'checked' ?>/>Url</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][icon]" value="1" <?= empty($module['child'][$j]['child'][$i]['icon'])?'':'checked' ?>/>Icon</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][background]" value="1" <?= empty($module['child'][$j]['child'][$i]['background'])?'':'checked' ?>/>Background</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][email]" value="1" <?= empty($module['child'][$j]['child'][$i]['email'])?'':'checked' ?>/>Email</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][phone]" value="1" <?= empty($module['child'][$j]['child'][$i]['phone'])?'':'checked' ?>/>Phone</label>
 
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][fb]" value="1" <?= empty($module['child'][$j]['child'][$i]['fb'])?'':'checked' ?>/>FB</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][fb]" value="1" <?= empty($module['child'][$j]['child'][$i]['fb'])?'':'checked' ?>/>FB</label>
 
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][youtube]" value="1" <?= empty($module['child'][$j]['child'][$i]['youtube'])?'':'checked' ?>/>Youtube</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][youtube]" value="1" <?= empty($module['child'][$j]['child'][$i]['youtube'])?'':'checked' ?>/>Youtube</label>
 
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][viber]" value="1" <?= empty($module['child'][$j]['child'][$i]['viber'])?'':'checked' ?>/>Viber</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][viber]" value="1" <?= empty($module['child'][$j]['child'][$i]['viber'])?'':'checked' ?>/>Viber</label>
 
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][zalo]" value="1" <?= empty($module['child'][$j]['child'][$i]['zalo'])?'':'checked' ?>/>Zalo</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][zalo]" value="1" <?= empty($module['child'][$j]['child'][$i]['zalo'])?'':'checked' ?>/>Zalo</label>
 
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= Cauhinh::module?>][child][<?= $j?>][child][<?= $i?>][skype]" value="1" <?= empty($module['child'][$j]['child'][$i]['skype'])?'':'checked' ?>/>Skype</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][skype]" value="1" <?= empty($module['child'][$j]['child'][$i]['skype'])?'':'checked' ?>/>Skype</label>
                             </div>
                             </div>
                         <?php } ?>

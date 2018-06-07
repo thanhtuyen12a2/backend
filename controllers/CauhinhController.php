@@ -97,6 +97,8 @@ class CauhinhController extends Controller
     }
 
     protected function cauhinh($id = '',$p=0,$i=''){
+        // echo $id;
+        // die;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
             if(isset($_POST[Cauhinh::T])){
                 $data = $_POST[Cauhinh::T];  

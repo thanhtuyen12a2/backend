@@ -48,6 +48,10 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_multi'], 'integer'],
 
+            [['dm_noibat'], 'integer'],
+
+            [['dm_template'], 'string', 'max' => 100],
+
              [['dm_dmsp'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_dmsp' => 'dm_id']],
 
               [['dm_idcha'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_idcha' => 'dm_id']],
@@ -116,14 +120,15 @@ class Danhmuc extends \aabc\db\ActiveRecord
     public function Removenull($kc) //Loại bỏ trường ko nhập dữ liệu
     {        
       if(is_array($kc)) foreach ($kc as $k => $v) {
-          $this[$k] = '';
+          if(isset($this[$k])) $this[$k] = '';
       }       
     }
 
 
 
     public function beforeSave($insert)
-    {              
+    {             
+        $this->dm_template = Cauhinh::template(); 
         if($this->dm_type == 4){ 
 
             $link = $this->dm_link;
@@ -238,13 +243,24 @@ class Danhmuc extends \aabc\db\ActiveRecord
                            ->all();
    }
     
-    public function getAllRecycle1_4()
+    public function getAllRecycle1_4($group = '')
    {
-        $_Danhmuc = Aabc::$app->_model->Danhmuc;
-       return   $_Danhmuc::find()
+       $group = (int)($group);
+       $_Danhmuc = Aabc::$app->_model->Danhmuc;
+       if(empty($group)){
+                return   $_Danhmuc::find()                           
                            ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '1'])
                            ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
                            ->all();
+        }else{
+                return   $_Danhmuc::find()
+                           ->andWhere([
+                                (empty($group))?:Aabc::$app->_danhmuc->dm_groupmenu => $group
+                            ])
+                           ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '1'])
+                           ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
+                           ->all();
+        }
    }
    public function getAllRecycle1_5()
    {

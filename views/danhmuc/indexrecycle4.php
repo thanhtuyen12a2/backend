@@ -9,7 +9,7 @@ use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 /*use app\models\Dskh; */
 
-
+if(empty($groupmenu)) $groupmenu = '';
 
 /* @var $this aabc\web\View */
 // use backend\models\DanhmucSearch ;
@@ -33,10 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
   
     <?php  
     $_Danhmuc = Aabc::$app->_model->Danhmuc; 
-    $countgetAllRecycle1_4 = count($_Danhmuc::getAllRecycle1_4());
+    $countgetAllRecycle1_4 = count($_Danhmuc::getAllRecycle1_4($groupmenu));
     
     if($countgetAllRecycle1_4 > 0){       
-        echo '<button type="button"  '.Aabc::$app->d->ct.'="'.$countgetAllRecycle1_4.'" '.Aabc::$app->d->u.' ="da_mn" class="btn btn-default bda" '.Aabc::$app->d->i.' ="'.Aabc::$app->_model->__danhmuc.'"><span class="glyphicon glyphicon-ban-circle mden"></span>Xóa tất cả</button>';
+        echo '<button type="button"  '.Aabc::$app->d->ct.'="'.$countgetAllRecycle1_4.'" '.Aabc::$app->d->u.' ="da_mn?g='.$groupmenu.'" class="btn btn-default bda" '.Aabc::$app->d->i.' ="'.Aabc::$app->_model->__danhmuc.'"><span class="glyphicon glyphicon-ban-circle mden"></span>Xóa tất cả</button>';
     }
      ?>
 

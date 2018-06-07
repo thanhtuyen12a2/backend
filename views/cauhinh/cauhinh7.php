@@ -19,8 +19,10 @@ use aabc\widgets\ActiveForm;
         $_Cauhinh = Cauhinh::M;
         $model = new $_Cauhinh;
 
+        $page_template = Cauhinh::page.Cauhinh::template();        
         
-        $page = Cauhinh::get(Cauhinh::page); 
+        $page = Cauhinh::get($page_template); 
+
         $max =  empty($page['max'])? 1 : ($page['max'] + 1);
                             
     ?>
@@ -42,7 +44,7 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Tổng số page</label></div>
                     <div class="ri">  
-                        <input placeholder="Số lượng page" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= Cauhinh::page?>][max]" value="<?= empty($page['max'])?'':$page['max'] ?>" />
+                        <input placeholder="Số lượng page" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $page_template?>][max]" value="<?= empty($page['max'])?'':$page['max'] ?>" />
                               
                     </div>
                 </div>
@@ -54,11 +56,11 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Page: <?= $j?></label></div>
                     <div class="ri"> 
-                        <input placeholder="Tên page" class="col-md-11" type="text"  name="<?= Cauhinh::T?>[<?= Cauhinh::page?>][child][<?= $j?>][label]" value="<?= empty($page['child'][$j]['label'])?'':$page['child'][$j]['label'] ?>" />
+                        <input placeholder="Tên page" class="col-md-11" type="text"  name="<?= Cauhinh::T?>[<?= $page_template?>][child][<?= $j?>][label]" value="<?= empty($page['child'][$j]['label'])?'':$page['child'][$j]['label'] ?>" />
 
-                        <input placeholder="Icon" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= Cauhinh::page?>][child][<?= $j?>][icon]" value="<?= empty($page['child'][$j]['icon'])?'':$page['child'][$j]['icon'] ?>" />
+                        <input placeholder="Icon" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $page_template?>][child][<?= $j?>][icon]" value="<?= empty($page['child'][$j]['icon'])?'':$page['child'][$j]['icon'] ?>" />
 
-                        <textarea placeholder="Cấu trúc giao diện" class="form-control" rows="20" name="<?= Cauhinh::T?>[<?= Cauhinh::page?>][child][<?= $j?>][content]"><?= empty($page['child'][$j]['content'])?'':$page['child'][$j]['content'] ?></textarea>
+                        <textarea placeholder="Cấu trúc giao diện" class="form-control" rows="20" name="<?= Cauhinh::T?>[<?= $page_template?>][child][<?= $j?>][content]"><?= empty($page['child'][$j]['content'])?'':$page['child'][$j]['content'] ?></textarea>
                     </div>
                 </div>
             </div>   

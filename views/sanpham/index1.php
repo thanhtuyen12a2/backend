@@ -493,7 +493,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="endgr">
 <div class='per-page'>
 <?= 
-Html::dropDownList('t', $t != NULL ? $t : [20 => 20], [10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200], [    
+Html::dropDownList('t', $t != NULL ? $t : [10 => 10], [10 => 10, 50 => 50, 100 => 100, 200 => 200], [    
     'class' => 'ipage btn btn-default',
     'id' => ''
 ])?>

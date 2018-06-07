@@ -76,7 +76,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active ">
                 <fieldset class="ht htweb"> <!-- htsp-->
-                    <div class="col-md-5">
+                    <div class="col-md-6">
 
                         <div class="col-md-12 col-sm-6 col-xs-12 pt100">
                             <?php                         
@@ -99,43 +99,6 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             ?>
                         </div>
 
-
-
-            
-
-                        <div class="col-md-12 col-sm-6 col-xs-12 pt100">
-                            <?= '<button type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
-
-                            <div id="imgcove"></div>
-                            <ul id="editable" class="imgcove" style="margin-top: 220px;"> 
-                                <?php
-                                    if(isset($model[Sanpham::sp_images])){
-                                        $listimg = explode("-",$model[Sanpham::sp_images]);
-                                        foreach ($listimg as $key => $value) {
-                                            $_Image = Aabc::$app->_model->Image;
-                                            $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
-                                            if(isset($img)){
-                                                echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
-                                            }
-                                            if($key == 0){
-                                                ?>
-                                                <script type="text/javascript">
-                                                $('#imgcove').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
-                                                </script>
-                                                <?php
-                                            }
-                                        }                    
-                                    }
-                                ?>           
-                            </ul>
-                            <div class="selected-product-image"><input /></div>                       
-                        </div>
-                   
-
-                    </div> 
-
-                    
-                    <div class="col-md-7" style="/*border-left: 1px solid #ddd;*/">
 
                         <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
                         <?php        
@@ -210,8 +173,46 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tùy chọn Hiển thị bài viết trên website." aria-invalid="false"></i>
                         </div> 
 
-                                       
+            
 
+                   
+
+                    </div> 
+
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-5" style="/*border-left: 1px solid #ddd;*/">
+
+                        
+                                       
+                            
+                        <div class="col-md-12 col-sm-6 col-xs-12 pt100">
+                            <?= '<button type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
+
+                            <div id="imgcove"></div>
+                            <ul id="editable" class="imgcove" style="margin-top: 220px;"> 
+                                <?php
+                                    if(isset($model[Sanpham::sp_images])){
+                                        $listimg = explode("-",$model[Sanpham::sp_images]);
+                                        foreach ($listimg as $key => $value) {
+                                            $_Image = Aabc::$app->_model->Image;
+                                            $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
+                                            if(isset($img)){
+                                                echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
+                                            }
+                                            if($key == 0){
+                                                ?>
+                                                <script type="text/javascript">
+                                                $('#imgcove').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
+                                                </script>
+                                                <?php
+                                            }
+                                        }                    
+                                    }
+                                ?>           
+                            </ul>
+                            <div class="selected-product-image"><input /></div>                       
+                        </div>
 
             
 <!-- 

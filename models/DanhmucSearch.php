@@ -5,6 +5,7 @@ namespace backend\models;
 use Aabc;
 use aabc\base\Model;
 use aabc\data\ActiveDataProvider;
+
 //use backend\models\Danhmuc;
 
 
@@ -20,6 +21,10 @@ class DanhmucSearch extends Danhmuc
             [[Aabc::$app->_danhmuc->dm_ten, Aabc::$app->_danhmuc->dm_char, Aabc::$app->_danhmuc->dm_icon, Aabc::$app->_danhmuc->dm_background, Aabc::$app->_danhmuc->dm_link, Aabc::$app->_danhmuc->dm_ghichu, Aabc::$app->_danhmuc->dm_status, Aabc::$app->_danhmuc->dm_recycle, Aabc::$app->_danhmuc->dm_type], 'safe'],
 
             [['dm_thongso'],'integer'],
+
+            [['dm_noibat'],'integer'],
+
+            [['dm_template'],'safe'],
         ];
     }
 
@@ -59,6 +64,7 @@ class DanhmucSearch extends Danhmuc
             Aabc::$app->_danhmuc->dm_thutu => $this[Aabc::$app->_danhmuc->dm_thutu],
             Aabc::$app->_danhmuc->dm_sothutu => $this[Aabc::$app->_danhmuc->dm_sothutu],
             'dm_groupmenu' => $this->dm_groupmenu,
+            'dm_noibat' => $this->dm_noibat,
         ]);
 
         if(!empty($this->dm_dmsp)) $query->andWhere(['dm_dmsp' => $this->dm_dmsp]);
@@ -89,7 +95,8 @@ class DanhmucSearch extends Danhmuc
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_status, $this[Aabc::$app->_danhmuc->dm_status]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_recycle, $this[Aabc::$app->_danhmuc->dm_recycle]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_type, $this[Aabc::$app->_danhmuc->dm_type]]);
-            
+          
+        $query->andWhere(['dm_template' => Cauhinh::template()]);
 
         return $dataProvider;
     }

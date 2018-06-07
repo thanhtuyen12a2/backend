@@ -87,7 +87,8 @@ if(empty($pa)) $pa = '';
 // print_r($groupmenu);
 // die;
 
-    $menu = Cauhinh::get(Cauhinh::module);
+    $menu = Cauhinh::get(Cauhinh::module.Cauhinh::template());
+
 
     $menu_current = $menu['child'][$groupmenu];
 
