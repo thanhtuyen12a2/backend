@@ -1126,7 +1126,7 @@ class DanhmucController extends Controller
                             ->one();
             if($ts){
                 $html .= '<h4>'.$ts->dm_ten.'</h4>';
-                $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$sp.'&stt='.$stt.'" d-i="danhmuc"></span>';
+                $html .= '<span class="glyphicon glyphicon-pencil pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$sp.'&stt='.$stt.'" d-i="danhmuc"></span>';
                 $html .= '<div style="padding: 0 50px 0 0;">';
                 $info = '';
                 foreach ($ts->danhmuccon as $k_gt => $gt) {  

@@ -388,14 +388,27 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
 
-
+   public function getNoibatOption()
+   {
+       $_Danhmuc = Aabc::$app->_model->Danhmuc;
+       $noibat = $_Danhmuc::find()
+                           ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
+                           ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
+                           ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
+                           ->andWhere(['dm_noibat' => '1'])
+                           ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
+                           ->all();
+      if($noibat){
+         return ['' => '---Chọn---'] + ArrayHelper::map($noibat,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);
+      }
+   }
 
 
    public function getAll1_1()
    {
        $_Danhmuc = Aabc::$app->_model->Danhmuc;
        return   $_Danhmuc::find()
-                            ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
+                           ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
                            ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
                            ->andWhere([Aabc::$app->_danhmuc->dm_type => '1'])
                            ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])

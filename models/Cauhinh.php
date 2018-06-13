@@ -124,8 +124,9 @@ class Cauhinh extends Model
 
     public static function template()
     {       
-        $all_template = Tuyen::_dulieu('cauhinh', Cauhinh::template);
-        if(empty($all_template)) $all_template = self::get(Cauhinh::template);
+        // $all_template = Tuyen::_dulieu('cauhinh', Cauhinh::template);
+        // if(empty($all_template))
+        $all_template = self::get(Cauhinh::template);
             
         $template = preg_split('/[\n]+/', $all_template);
         if(is_array($template)) foreach ($template as $k => $v) {

@@ -39,7 +39,7 @@ class DanhmucSearch extends Danhmuc
     public function search($params) //GET
     //public function search() //POST
     {
-                $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
         $query = $_Danhmuc::find();
 
         // add conditions that should always apply here
@@ -95,8 +95,10 @@ class DanhmucSearch extends Danhmuc
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_status, $this[Aabc::$app->_danhmuc->dm_status]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_recycle, $this[Aabc::$app->_danhmuc->dm_recycle]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_type, $this[Aabc::$app->_danhmuc->dm_type]]);
-          
-        $query->andWhere(['dm_template' => Cauhinh::template()]);
+        
+        if($this->dm_type == 4){
+            $query->andWhere(['dm_template' => Cauhinh::template()]);
+        }
 
         return $dataProvider;
     }

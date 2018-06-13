@@ -49,7 +49,14 @@ use aabc\widgets\ActiveForm;
                     //group Nổi bật ở trang chủ ( 1- 20)
                     $noibat = empty($module['child'][$idmodule]['nb'])?'':'&nb='.$module['child'][$idmodule]['nb'];
                     
-                    $replace = '<div d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).$noibat.'" class="module-child pjbm"  d-i="danhmuc">Module: '. $lable .'</div>';                    
+                    $level = $module['child'][$idmodule]['max'];
+
+                    if(empty($level)){
+                        $replace = '<div class="module-child">Module: '. $lable .'</div>';
+                    }else{
+                        $replace = '<div class="module-child-link"><a d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).$noibat.'" class="pjbm"  d-i="danhmuc">Module: '. $lable .'</a></div>';
+                    }
+
                     $html = str_replace('###'.$j.'###',$replace,$html);
                 }
 

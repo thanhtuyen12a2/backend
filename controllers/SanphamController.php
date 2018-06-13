@@ -303,34 +303,35 @@ class SanphamController extends Controller
         if ($model->load(Aabc::$app->request->post())) { 
             //Xử lý ajax check MaSP
             if(Aabc::$app->request->post('ajax')) return ActiveForm::validate($model);
-
-            $arr_sp_id_danhmuc = NULL;
-            if( is_array($model[Sanpham::sp_id_danhmuc])){
-                $arr_sp_id_danhmuc = array_unique($model[Sanpham::sp_id_danhmuc]); 
-            } 
+            
             $model[Sanpham::sp_id_danhmuc] = null;
 
-            if($tp == 2 ){
-                $model[Sanpham::sp_gia] = '0';
-                $model[Sanpham::sp_giakhuyenmai] = '0';
-            }
+            
+           
 
-            if($model[Sanpham::sp_ngaytao] == null){
-                $model[Sanpham::sp_ngaytao] = date("Y-m-d H:i");
-            }
+            //Thông số
+            $tss = Aabc::$app->request->post('Ts');
+
 
             $postimg = Aabc::$app->request->post(Aabc::$app->d->postimg);
             if($postimg != ''){
                 $postimg = implode("-",$postimg);            
             }
             $model[Sanpham::sp_images] = $postimg;
-            
-            $model[Sanpham::sp_masp] = strtoupper($model[Sanpham::sp_masp]);
 
-            if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';
-            if($model[Sanpham::sp_recycle] == NULL) $model[Sanpham::sp_recycle] = '2';
-            if($model[Sanpham::sp_conhang] == NULL) $model[Sanpham::sp_conhang] = '1';
-            if($model[Sanpham::sp_gia] == NULL) $model[Sanpham::sp_gia] = 0;
+
+            //Mang Danh muc
+            $arr_sp_id_danhmuc = NULL;
+            if($tp == 2){
+                if( is_array($model[Sanpham::sp_id_danhmuc])){                
+                    $arr_sp_id_danhmuc = array_unique($model[Sanpham::sp_id_danhmuc]); 
+                } 
+            }
+
+            if($tp == 1){
+                $arr_sp_id_danhmuc[] = $model[Sanpham::sp_id_danhmuc];
+            }
+            
 
             $model[Sanpham::sp_type] = $tp;
 
@@ -352,43 +353,97 @@ class SanphamController extends Controller
                     $model[Sanpham::sp_id] =  $model->sp_id; 
                     $datajson = 1;   
                     $id = $model[Sanpham::sp_id];                    
-                   if(!empty($data)){
-                        foreach ($data as $key => $value) {
-                            $value[Sanphamngonngu::spnn_idsanpham]  = $id;                            
+                    
+                    //Save thông số
+                    $ts_exist = [];
+                    $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+                    if(is_array($tss)) foreach ($tss as $k_ts1 => $ts_group) {
+                        
+                        if(isset(($ts_group['i']))){
+                        if(is_array($ts_group['i'])){
+                        foreach ($ts_group['i'] as $k_ts2 => $ts) {                           
+                            $new_sp_dm = $_Sanphamdanhmuc::find()
+                                                ->andWhere(['spdm_id_sp' => $id])
+                                                ->andWhere(['spdm_id_danhmuc' => $ts])
+                                                // ->andWhere(['spdm_type' => 5])
+                                                ->one();
+                            $ts_exist[] = (int)$ts;
+                            if(!$new_sp_dm){
+                                $new_sp_dm = new $_Sanphamdanhmuc();
+                                $new_sp_dm->spdm_id_sp = $id;
+                                $new_sp_dm->spdm_id_danhmuc = $ts;                            
+                            }
+                            $new_sp_dm->spdm_info = addslashes($ts_group['l']);
+                            $new_sp_dm->spdm_type = 5;
+                            if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
+                            
+                        }}}
+                    }     
+                    $_Sanphamdanhmuc::deleteAll(['and',
+                        ['spdm_id_sp' => $id],
+                        ['spdm_type' => 5],
+                        ['NOT IN','spdm_id_danhmuc',$ts_exist],
+                    ]);
+
+
+
+                    //Save danh mục nổi bật
+                    $noibat_exist = [];
+                    $noibats = $model[Sanpham::sp_noibat];
+
+                
+                    if(is_array($noibats)) foreach ($noibats as $k_nb => $noibat) { 
+                        $new_sp_dm = $_Sanphamdanhmuc::find()
+                                            ->andWhere(['spdm_id_sp' => $id])
+                                            ->andWhere(['spdm_id_danhmuc' => $noibat])
+                                            // ->andWhere(['spdm_type' => 5])
+                                            ->one();
+                        $noibat_exist[] = (int)$noibat;
+                        if(!$new_sp_dm){
+                            $new_sp_dm = new $_Sanphamdanhmuc();
+                            $new_sp_dm->spdm_id_sp = $id;
+                            $new_sp_dm->spdm_id_danhmuc = $noibat;                            
+                        }                    
+                        $new_sp_dm->spdm_type = 4;
+                        if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
+                    }     
+                    $_Sanphamdanhmuc::deleteAll(['and',
+                        ['spdm_id_sp' => $id],
+                        ['spdm_type' => 4],
+                        ['NOT IN','spdm_id_danhmuc',$noibat_exist],
+                    ]);
+
+
+                    
+                    // $data = Aabc::$app->request->post(Sanphamngonngu::T);                 
+                    if(!empty($data)){
+                        foreach ($data as $key => $value) {                        
                             $modelspnn = (Sanphamngonngu::M)::find()
                                         ->andWhere(['spnn_idsanpham' => $value[Sanphamngonngu::spnn_idsanpham]])
                                         ->andWhere(['spnn_idngonngu' => $value[Sanphamngonngu::spnn_idngonngu]])
                                         ->one();
                             //Xu ly link anh trong bai truoc khi luu
-                            $value[Sanphamngonngu::spnn_noidung] = $this->encodelinkanh($value[Sanphamngonngu::spnn_noidung]);
+                            // $value[Sanphamngonngu::spnn_noidung] = $this->encodelinkanh($value[Sanphamngonngu::spnn_noidung]);
+
                             if($modelspnn == NULL){                            
                             //Chưa có, nên tạo mới
                                 $Sanphamngonngu = Sanphamngonngu::M; 
-                                $modelspnn = new $Sanphamngonngu();                           
-                                
-                                $modelspnn->attributes = $value;
-                               
-                                if($modelspnn->save()){              
-                                    $datajson = 1;                    
-                                }else{
-                                    $transaction->rollback();                    
-                                    $datajson = 0; 
-                                    echo '<pre>';
-                                    print_r($modelspnn->errors);die;
-                                }                        
+                                $modelspnn = new $Sanphamngonngu();        
                             }else{
-                            //Đã có, update
-                                $modelspnn->attributes = $value;                    
+                            //Đã có, update                    
+                            }
 
-                                if($modelspnn->save()){              
-                                    $datajson = 1;                    
-                                }else{
-                                    $transaction->rollback();                    
-                                    $datajson = 0; 
-                                    echo '<pre>';
-                                    print_r($modelspnn->errors);die;
-                                }     
-                            }                                
+                            $modelspnn->attributes = $value;
+
+                            if($modelspnn->save()){              
+                                $datajson = 1;                    
+                            }else{
+                                $transaction->rollback();                    
+                                $datajson = 0; 
+                                echo '<pre>';
+                                print_r($modelspnn->errors);die;
+                            }     
+                                                           
                         }  
                     }   
 
@@ -416,7 +471,7 @@ class SanphamController extends Controller
                 } 
 
             } catch (Exception $e) {  
-                //var_dump($model->errors);          
+                Aabc::error($model->errors);
                 $transaction->rollback();
                 $datajson = 0;
             }
@@ -613,12 +668,6 @@ class SanphamController extends Controller
 
                 //Save thông số
                 $ts_exist = [];
-
-                // echo '<pre>';
-                // print_r($tss);
-                // echo '</pre>';
-                // die;
-
                 $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
                 if(is_array($tss)) foreach ($tss as $k_ts1 => $ts_group) {
                     
@@ -642,17 +691,42 @@ class SanphamController extends Controller
                         
                     }}}
                 }     
-                // die;
                 $_Sanphamdanhmuc::deleteAll(['and',
                     ['spdm_id_sp' => $id],
                     ['spdm_type' => 5],
                     ['NOT IN','spdm_id_danhmuc',$ts_exist],
                 ]);
-                // $transaction->rollback();
-                // die;
 
-                  // echo 'tuyen2-'.$id;
-        // die;
+
+
+                //Save danh mục nổi bật
+                $noibat_exist = [];
+                $noibats = $model[Sanpham::sp_noibat];
+
+            
+                if(is_array($noibats)) foreach ($noibats as $k_nb => $noibat) { 
+                    $new_sp_dm = $_Sanphamdanhmuc::find()
+                                        ->andWhere(['spdm_id_sp' => $id])
+                                        ->andWhere(['spdm_id_danhmuc' => $noibat])
+                                        // ->andWhere(['spdm_type' => 5])
+                                        ->one();
+                    $noibat_exist[] = (int)$noibat;
+                    if(!$new_sp_dm){
+                        $new_sp_dm = new $_Sanphamdanhmuc();
+                        $new_sp_dm->spdm_id_sp = $id;
+                        $new_sp_dm->spdm_id_danhmuc = $noibat;                            
+                    }                    
+                    $new_sp_dm->spdm_type = 4;
+                    if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
+                }     
+                $_Sanphamdanhmuc::deleteAll(['and',
+                    ['spdm_id_sp' => $id],
+                    ['spdm_type' => 4],
+                    ['NOT IN','spdm_id_danhmuc',$noibat_exist],
+                ]);
+
+
+                
                 // $data = Aabc::$app->request->post(Sanphamngonngu::T);                 
                 if(!empty($data)){
                     foreach ($data as $key => $value) {                        
@@ -698,6 +772,7 @@ class SanphamController extends Controller
                 //     }
                 // }
 
+
                 if(!empty($arr_sp_id_danhmuc)){ 
                     $Sanphamdanhmuc::deleteAll(['and',
                                         ['spdm_id_sp' => $model[Sanpham::sp_id]],
@@ -708,25 +783,26 @@ class SanphamController extends Controller
 
                     foreach ($arr_sp_id_danhmuc as $key => $value) {  
                         $value = addslashes($value);
-                        $spdm = $Sanphamdanhmuc::find()
-                                    ->andWhere(['spdm_id_sp' => $model[Sanpham::sp_id]])
-                                    ->andWhere(['spdm_id_danhmuc' => $value])
-                                    ->one();
-                        if(!$spdm){
-                            $spdm = new $Sanphamdanhmuc();
-
-                            $spdm['spdm_id_sp'] = $model[Sanpham::sp_id];
-                            $spdm['spdm_id_danhmuc'] = $value;
-
+                        if(!empty($value)){
+                            $spdm = $Sanphamdanhmuc::find()
+                                        ->andWhere(['spdm_id_sp' => $model[Sanpham::sp_id]])
+                                        ->andWhere(['spdm_id_danhmuc' => $value])
+                                        ->one();
+                            if(!$spdm){
+                                $spdm = new $Sanphamdanhmuc();
+                                $spdm['spdm_id_sp'] = $model[Sanpham::sp_id];
+                                $spdm['spdm_id_danhmuc'] = $value;                            
+                            }      
+                            $spdm['spdm_type'] = 1;
                             if($spdm->save()){              
                                 $datajson = 1;                    
                             }else{
                                 $transaction->rollback();                    
                                 $datajson = 0; 
                                 // echo '<pre>';
-                                // print_r($model->errors);die;
-                            }
-                        }                         
+                                Aabc::error($model->errors);
+                            } 
+                        }                  
                     }
                 }
                 $model[Sanpham::sp_id_danhmuc] = null;
@@ -775,10 +851,8 @@ class SanphamController extends Controller
                     $transaction->commit();
                     $datajson = 1;                      
                     // FragmentCache::clear('sp-'.$model->sp_id);                 
-                }else{
-                    echo '<pre>';
-                    print_r($model->errors);
-                    
+                }else{                    
+                    Aabc::error($model->errors);                    
                     $transaction->rollback();                    
                     $datajson = 0; 
                 } 
@@ -835,12 +909,30 @@ class SanphamController extends Controller
             }
 
 
-            //Tìm danh sách các danh mục của sản phẩm.
+            //Tìm danh sách các danh mục (1) của sản phẩm.
             $modeldanhmuc = $Sanphamdanhmuc::find()
                                 ->andWhere(['spdm_id_sp' => $id])
+                                ->andWhere(['spdm_type' => 1])
                                 ->all();       
             $datadanhmuc = array_column($modeldanhmuc, 'spdm_id_danhmuc');
             $model[Sanpham::sp_id_danhmuc] = $datadanhmuc;
+
+            // echo '<pre>';
+            // print_r($datadanhmuc);
+            // echo '</pre>';
+            // die;
+
+
+            //Tìm danh sách các danh mục (4) của sản phẩm.
+            $modeldanhmuc = $Sanphamdanhmuc::find()
+                                ->andWhere(['spdm_id_sp' => $id])
+                                ->andWhere(['spdm_type' => 4])
+                                ->all();       
+            $datadanhmuc = array_column($modeldanhmuc, 'spdm_id_danhmuc');
+            $model[Sanpham::sp_noibat] = $datadanhmuc;
+
+
+
 
 
 
@@ -1126,7 +1218,7 @@ class SanphamController extends Controller
             if($k%4 == 0) $html .= '<div class="clearfix"></div>';
 
             $html .= '<div id="tssp'.$ts->dm_id.'" class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
-            $html .= '<span class="glyphicon glyphicon-edit pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
+            $html .= '<span class="glyphicon glyphicon-pencil pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
             $html .= '<div style="padding: 0 50px 0 0;">';
             $info = '';
             foreach ($ts->danhmuccon as $k_gt => $gt) {

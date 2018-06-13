@@ -76,111 +76,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active ">
                 <fieldset class="ht htweb"> <!-- htsp-->
-                    <div class="col-md-6">
-
-                        <div class="col-md-12 col-sm-6 col-xs-12 pt100">
-                            <?php                         
-
-                                $keys = [
-                                    Sanphamngonngu::spnn_idsanpham,
-                                    Sanphamngonngu::spnn_idngonngu,
-                                ]; 
-
-                                $thuoctinhs = [
-                                    Sanphamngonngu::spnn_ten,
-                                    Sanphamngonngu::spnn_gioithieu,
-                                    // Sanphamngonngu::spnn_tieudeseo, 
-                                    // Sanphamngonngu::spnn_motaseo,             
-                                ]; 
-    
-                                $new = Sanphamngonngu::M;
-                               
-                                 Aabc::$app->MyComponent->dangonngu($data,$form,$keys,$thuoctinhs,$model[Sanpham::sp_id],$new,'tsp','');
-                            ?>
-                        </div>
-
-
-                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
-                        <?php        
-                            echo $form->field($model, Sanpham::sp_gia,['options' => ['class' => 'giakm']])->textInput(['maxlength' => true,'class' => 'form-control', 'placeholder' => ''])->label('Giá bán');        
-                        ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá bán hiển thị với người dùng.<br/>- Sẽ được sử dụng trong hóa đơn.<br/>- Bắt buộc bạn phải điền." aria-invalid="false"></i>
-                        </div>
-
-
-                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
-                            <?php //class: nbr la chi nhan so ?>
-                          <?= $form->field($model, Sanpham::sp_giakhuyenmai,['options' => ['class' => 'giany']])->textInput(['maxlength' => true,'class' => ' form-control'])->label('Giá niêm yết') ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá này khi hiện thị sẽ bị gạch ngang, chỉ có tác dụng so sánh với giá Bán và không sử dụng trong đơn hàng.<br/>- Bạn có thể điền giá hoặc để trống." aria-invalid="false"></i>
-                        </div>
-
-
-                        <!-- <div class="col-md-6 col-sm-6  col-xs-12 pt120">
-                            <?php // $form->field($model, Sanpham::sp_masp,['options' => ['class' => ''],'enableClientValidation' => true])->textInput(['maxlength' => true,'class' => 'uppercase form-control']) ?>
-                            <?php //echo $form->field($model, Sanpham::sp_masp,['options' => ['class' => ''],'enableClientValidation' => true,'enableAjaxValidation' => true])->textInput(['maxlength' => true,'class' => 'uppercase form-control']) ?>
-
-
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Mã số, mã vạch của sản phẩm." aria-invalid="false"></i>
-                        </div> -->
-
-
-                        <div class="xd"></div>
-
-                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
-                        <?php                  
-                            if($model[Sanpham::sp_conhang] == NULL) $model[Sanpham::sp_conhang] = '1';
-                            echo $form->field($model, Sanpham::sp_conhang,['options' => ['class' => '']])->dropDownList( Sanpham::getConhangOptionColor(),[
-                                    //'multiple'=>'multiple', 
-                                    // Aabc::$app->d->s => 'search',
-                                    Aabc::$app->d->t => 'show', 
-                                    Aabc::$app->d->ty => 'ra',
-                                    Aabc::$app->d->i => Sanpham::tt,
-                                    'class' => 'mulr',      
-                                    Aabc::$app->d->c => 'one',                        
-                                     'id' => Sanpham::tt.'_sp_conhang_select'
-                                ]); 
-                            ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tình trạng hoạt động kinh doanh của sản phẩm." aria-invalid="false"></i>
-                        </div>  
-
-                        <div class="col-md-6 col-sm-6 col-xs-12 pt120">  
-                            <?php   
-                            if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
-                            echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(Sanpham::getTrangthaiOptionColor(),[
-                                    //'multiple'=>'multiple', 
-                                    // Aabc::$app->d->s => 'search',  
-                                    Aabc::$app->d->t => 'show',
-                                    Aabc::$app->d->ty => 'ra',
-                                    Aabc::$app->d->i => Sanpham::tt,
-                                    'class' => 'mulr',      
-                                    Aabc::$app->d->c => 'one',                        
-                                    'id' => Sanpham::tt.'_sp_status2_select'
-                                ]); 
-
-                            //  if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
-                            // echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(['' => '--Chọn--','1'=>'Hiển thị','2'=>'Ẩn'],[
-                            //         'data-placement' => 'top' ,'data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'Tùy chọn Hiển thị bài viết trên website.',
-                            //         //'multiple'=>'multiple', 
-                            //         // Aabc::$app->d->s => 'search',  
-                            //         Aabc::$app->d->ty => 'ra',
-                            //         Aabc::$app->d->i => Sanpham::tt,
-                            //         'class' => 'mulr',      
-                            //         Aabc::$app->d->c => 'one',                        
-                            //         'id' => Sanpham::tt.'_sp_status2_select'
-                            //     ]); 
-                          
-                            ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tùy chọn Hiển thị bài viết trên website." aria-invalid="false"></i>
-                        </div> 
-
-            
-
-                   
-
-                    </div> 
-
-                    <div class="col-md-1"></div>
-
+                    
                     <div class="col-md-5" style="/*border-left: 1px solid #ddd;*/">
 
                         
@@ -353,6 +249,129 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                    
 
 
+                    <div class="col-md-7">
+
+                        <div class="col-md-12 col-sm-6 col-xs-12 pt100">
+                            <?php                         
+
+                                $keys = [
+                                    Sanphamngonngu::spnn_idsanpham,
+                                    Sanphamngonngu::spnn_idngonngu,
+                                ]; 
+
+                                $thuoctinhs = [
+                                    Sanphamngonngu::spnn_ten,
+                                    Sanphamngonngu::spnn_gioithieu,
+                                    // Sanphamngonngu::spnn_tieudeseo, 
+                                    // Sanphamngonngu::spnn_motaseo,             
+                                ]; 
+    
+                                $new = Sanphamngonngu::M;
+                               
+                                 Aabc::$app->MyComponent->dangonngu($data,$form,$keys,$thuoctinhs,$model[Sanpham::sp_id],$new,'tsp','');
+                            ?>
+                        </div>
+
+
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
+                            <?php        
+                                echo $form->field($model, Sanpham::sp_gia,['options' => ['class' => 'giakm']])->textInput(['maxlength' => true,'class' => 'form-control', 'placeholder' => ''])->label('Giá bán');        
+                            ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá bán hiển thị với người dùng.<br/>- Sẽ được sử dụng trong hóa đơn.<br/>- Bắt buộc bạn phải điền." aria-invalid="false"></i>
+                        </div>
+
+
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
+                            <?php //class: nbr la chi nhan so ?>
+                          <?= $form->field($model, Sanpham::sp_giakhuyenmai,['options' => ['class' => 'giany']])->textInput(['maxlength' => true,'class' => ' form-control'])->label('Giá niêm yết') ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá này khi hiện thị sẽ bị gạch ngang, chỉ có tác dụng so sánh với giá Bán và không sử dụng trong đơn hàng.<br/>- Bạn có thể điền giá hoặc để trống." aria-invalid="false"></i>
+                        </div>
+
+
+                        <!-- <div class="col-md-6 col-sm-6  col-xs-12 pt120">
+                            <?php // $form->field($model, Sanpham::sp_masp,['options' => ['class' => ''],'enableClientValidation' => true])->textInput(['maxlength' => true,'class' => 'uppercase form-control']) ?>
+                            <?php //echo $form->field($model, Sanpham::sp_masp,['options' => ['class' => ''],'enableClientValidation' => true,'enableAjaxValidation' => true])->textInput(['maxlength' => true,'class' => 'uppercase form-control']) ?>
+
+
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Mã số, mã vạch của sản phẩm." aria-invalid="false"></i>
+                        </div> -->
+
+
+                        <div class="xd"></div>
+
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
+                            <?php                  
+                                if($model[Sanpham::sp_conhang] == NULL) $model[Sanpham::sp_conhang] = '1';
+                                echo $form->field($model, Sanpham::sp_conhang,['options' => ['class' => '']])->dropDownList( Sanpham::getConhangOptionColor(),[
+                                        //'multiple'=>'multiple', 
+                                        // Aabc::$app->d->s => 'search',
+                                        Aabc::$app->d->t => 'show', 
+                                        Aabc::$app->d->ty => 'ra',
+                                        Aabc::$app->d->i => Sanpham::tt,
+                                        'class' => 'mulr',      
+                                        Aabc::$app->d->c => 'one',                        
+                                         'id' => Sanpham::tt.'_sp_conhang_select'
+                                    ]); 
+                                ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tình trạng hoạt động kinh doanh của sản phẩm." aria-invalid="false"></i>
+                        </div>  
+
+                                               
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
+                            <?php  
+                                echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getNoibatOption(),[
+                                    'multiple'=>'multiple', 
+                                    Aabc::$app->d->t => 'sea',//Search
+                                    // Aabc::$app->d->t => 'show', 
+                                    Aabc::$app->d->ty => 'checkbox',                    
+                                    Aabc::$app->d->i => Sanpham::tt,
+                                    'class' => 'mulr',      
+                                    // Aabc::$app->d->c => 'one',                        
+                                    'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-noibat',
+                                ])->label('Nổi bật'); 
+
+
+                            ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm này sẽ hiển thị ra trang chủ tại các mục được chọn." aria-invalid="false"></i>
+                        </div>
+
+                         <div class="col-md-6 col-sm-6 col-xs-12 pt120">  
+                            <?php   
+                            if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
+                            echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(Sanpham::getTrangthaiOptionColor(),[
+                                    //'multiple'=>'multiple', 
+                                    // Aabc::$app->d->s => 'search',  
+                                    Aabc::$app->d->t => 'show',
+                                    Aabc::$app->d->ty => 'ra',
+                                    Aabc::$app->d->i => Sanpham::tt,
+                                    'class' => 'mulr',      
+                                    Aabc::$app->d->c => 'one',                        
+                                    'id' => Sanpham::tt.'_sp_status2_select'
+                                ]); 
+
+                            //  if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
+                            // echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(['' => '--Chọn--','1'=>'Hiển thị','2'=>'Ẩn'],[
+                            //         'data-placement' => 'top' ,'data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'Tùy chọn Hiển thị bài viết trên website.',
+                            //         //'multiple'=>'multiple', 
+                            //         // Aabc::$app->d->s => 'search',  
+                            //         Aabc::$app->d->ty => 'ra',
+                            //         Aabc::$app->d->i => Sanpham::tt,
+                            //         'class' => 'mulr',      
+                            //         Aabc::$app->d->c => 'one',                        
+                            //         'id' => Sanpham::tt.'_sp_status2_select'
+                            //     ]); 
+                          
+                            ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tùy chọn Hiển thị bài viết trên website." aria-invalid="false"></i>
+                        </div> 
+
+
+                    </div> 
+
+                    
+
+
+
 
 
                 </fieldset>
@@ -403,7 +422,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 ])->label('Danh mục sản phẩm'); 
 
             ?>
-            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm có thể thuộc một hoặc nhiều danh mục." aria-invalid="false"></i>
+            
         </div>
         
         <div class="clearfix"></div>
@@ -434,7 +453,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 position: absolute;
                 right: 65px;
                 top: 10px;
-                color: #f3a50a;
+                color: #ff7f00;
                 cursor: pointer;
             }
             #select_ts .col-md-3 {

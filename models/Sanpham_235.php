@@ -39,6 +39,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_soluotmua => null,
             Sanpham::sp_id_danhmuc => null,
             Sanpham::sp_id_chinhsach => null,
+
+            Sanpham::sp_noibat => null,
         ];
     }
     public function __get($name)
@@ -63,6 +65,11 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
+
+            [[Sanpham::sp_id_danhmuc],'required' ,'when' => function($model){
+              return $model->sp_type == 1;
+            }],
+
             [[Sanpham::sp_type ,Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
             // [[Sanpham::sp_gia,Sanpham::sp_giakhuyenmai], 'string', 'max' => 11],
             [[Sanpham::sp_ma,Sanpham::sp_view, Sanpham::sp_idnguoitao, Sanpham::sp_idnguoiupdate, Sanpham::sp_id_ncc, Sanpham::sp_id_thuonghieu,  Sanpham::sp_soluong, Sanpham::sp_soluongfake, Sanpham::sp_soluotmua], 'integer'],
@@ -96,6 +103,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             
             [[Sanpham::sp_idnguoitao], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoitao => Aabc::$app->_user->id]],
             [[Sanpham::sp_idnguoiupdate], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoiupdate => Aabc::$app->_user->id]],
+
+            [[Sanpham::sp_noibat],'safe'],
         ];
     }
 
@@ -141,7 +150,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
     public function beforeSave($insert)
     {
         // $this->sp_id = $this[Sanpham::sp_id]; 
-        $this->sp_ma = $this[Sanpham::sp_ma]; 
+        $this->sp_ma = strtoupper($this[Sanpham::sp_ma]);
         $this->sp_type = $this[Sanpham::sp_type]; 
         $this->sp_tensp = $this[Sanpham::sp_tensp]; 
         $this->sp_masp = $this[Sanpham::sp_masp]; 
@@ -166,6 +175,21 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_id_danhmuc = $this[Sanpham::sp_id_danhmuc]; 
         $this->sp_id_chinhsach = $this[Sanpham::sp_id_chinhsach];    
         
+
+        if($this->sp_type == 2 ){
+            if(empty($this->sp_gia)) $this->sp_gia = '0';
+            if(empty($this->sp_giakhuyenmai)) $this->sp_giakhuyenmai = '0';
+        }
+
+        if(!empty($this->sp_ngaytao)){
+            $this->sp_ngaytao = date("Y-m-d H:i:s",time());
+        }
+
+        if(empty($this->sp_status)) $this->sp_status = '1';
+        if(empty($this->sp_recycle)) $this->sp_recycle = '2';
+        if(empty($this->sp_conhang)) $this->sp_conhang = '1';
+            
+
         Sanpham::cache($this);       
         return true;
     }
@@ -173,8 +197,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
 
      public function afterFind()
     {   
-        if(is_numeric($this->sp_gia)) $this->sp_gia = number_format($this->sp_gia).'đ';  
-        if(is_numeric($this->sp_giakhuyenmai)) $this->sp_giakhuyenmai = number_format($this->sp_giakhuyenmai) .'đ';
+        // if(is_numeric($this->sp_gia)) $this->sp_gia = number_format($this->sp_gia).'đ';  
+        // if(is_numeric($this->sp_giakhuyenmai)) $this->sp_giakhuyenmai = number_format($this->sp_giakhuyenmai) .'đ';
 
         $this[Sanpham::sp_id] =  $this->sp_id; 
         $this[Sanpham::sp_ma] =  $this->sp_ma;

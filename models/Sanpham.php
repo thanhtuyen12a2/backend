@@ -64,6 +64,11 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_id_chinhsach = 'l44';
 
 
+     //Chỉ để trao đổi du liệu, ko có trong bảng
+     const sp_noibat = 'i7';
+
+
+
      const __sp_id = 'ID';
      const __sp_ma = 'ID';
      const __sp_type = 'sp_type';
