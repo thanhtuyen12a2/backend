@@ -81,24 +81,65 @@ class SanphamController extends Controller
                     'ut' => ['GET','POST'],
                     'i' => ['POST'],
                     'ir' => ['POST'],
-                    's' => ['POST'], //search
+                    'search' => ['POST'], //search
+                    'addspdm' => ['POST'], 
                 ],
             ],
         ];
     }
 
 
-    public function actionS()
-    {   
+    public function actionSearch()
+    {
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON; 
         $return = ['results' => ['id' => '', 'text' => '']];
-        if(Aabc::$app->request->post('q')){   
+        if(Aabc::$app->request->post('q')){
             $q = Aabc::$app->request->post('q');
-            if (!empty($q)) {            
+            if (!empty($q)) {
                 $return['results'] = Sanpham::getOptionsFind($q);
-            }            
+            }
         }
         return $return;
+    }
+
+
+    public function actionAddspdm() //add sản phẩm vào danh mục nổi bật
+    {   
+        Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON; 
+        
+        if(!empty(Aabc::$app->request->post('sp')) && !empty(Aabc::$app->request->post('dm'))){   
+            $san_pham = Aabc::$app->request->post('sp');
+            $danh_muc = Aabc::$app->request->post('dm');
+            $danh_muc = \backend\models\Danhmuc::find()->where(['dm_id' => $danh_muc])->one();
+            
+
+            $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+            $sothutu_max = $_Sanphamdanhmuc::find()
+                                        // ->select(['spdm_sothutu'])
+                                        ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
+                                        ->max('spdm_sothutu') + 1;
+            
+            $spdm = $_Sanphamdanhmuc::find()
+                                        ->andWhere(['spdm_id_sp' => $san_pham])
+                                        ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
+                                        ->one();
+            if(!$spdm){
+                $spdm = new $_Sanphamdanhmuc();
+                $spdm->spdm_id_sp = $san_pham;
+                $spdm->spdm_id_danhmuc = $danh_muc->dm_id;
+                $spdm->spdm_type = $danh_muc->dm_type;
+                $spdm->spdm_sothutu = $sothutu_max;
+                // if(!$spdm->save()) Aabc::error($spdm->errors);
+            }
+
+            $kq = $this->renderAjax('addspdm', [                
+                'iddanhmuc' => $danh_muc->dm_id,
+            ]);
+            // $kq = Aabc::$app->d->decodeview($kq);
+            return $kq;
+
+        }
+        return '';
     }
 
 

@@ -26,6 +26,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
     const MULTI = 1;
     const ONE = 2;
 
+    public $list_sp_noibat;
+
     public function rules()
     {
         return [
@@ -52,10 +54,13 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_template'], 'string', 'max' => 100],
 
+            [['dm_showmax'], 'integer'],
+
              [['dm_dmsp'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_dmsp' => 'dm_id']],
 
               [['dm_idcha'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_idcha' => 'dm_id']],
 
+            [['list_sp_noibat'],'safe'],
             // [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
             //     return ($model->dm_type != 4);
             // }],
@@ -97,6 +102,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
             'dm_dmsp' => 'Danh mục sản phẩm',
 
             'dm_multi' => 'Lựa chọn',
+
+            'dm_showmax' => 'Số hiển thị',
 
             Aabc::$app->_danhmuc->dm_groupmenu => Aabc::$app->_danhmuc->__dm_groupmenu ,        ];
     }
@@ -180,6 +187,22 @@ class Danhmuc extends \aabc\db\ActiveRecord
             return ' - ';
         return $array[$value];
     }
+
+
+    public function getSanphamOption()
+     {        
+        $model = (Sanpham::M)::find()
+                             ->andWhere(['sp_recycle' => Sanpham::NGOAITHUNGRAC])
+                             ->andWhere(['sp_status' => Sanpham::XUATBAN])
+                             ->andWhere(['sp_type' => Sanpham::SANPHAM])
+                             ->limit(200)
+                             ->all();
+        if($model){
+            return ArrayHelper::map($model,'sp_id','sp_tensp');        
+        }
+        return [];
+     }
+
 
 
 

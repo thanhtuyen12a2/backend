@@ -20,6 +20,16 @@ use aabc\helpers\ArrayHelper;
 if(empty($groupmenu)) $groupmenu = '';
 if(empty($pa)) $pa = '';
 
+if(isset($_GET['nb'])){
+    $nb = $_GET['nb'];
+}else{
+    if(!empty($model->dm_noibat)){
+        $nb = $model->dm_noibat;
+    }else{
+        $nb = '';
+    }
+}
+
 ?>
 
 <div class="<?=Aabc::$app->_model->__danhmuc?>-form">
@@ -438,6 +448,105 @@ if(empty($menu_current['child'])){
         <?php }else{
             echo '<input type="hidden" name="Kc[dm_background]" value="1"/>';
         } ?>
+
+
+        <?php if(!empty($nb)){ ?>
+            
+                <div class="clearfix"></div>
+                <style type="text/css">hr {margin: 0;}</style>
+                <hr />              
+                <div class="col-md-12 col-sm-5  col-xs-12 pt140" style="margin: 10px 0 0 0;">                    
+                    <?php if(!$model->isNewRecord){ ?>  
+                        <div>
+                        <?php     
+                            // $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
+                            
+                            // echo $form->field($model,'list_sp_noibat',['options' => ['class' => '']])->dropDownList(
+                            //     $_Danhmuc::getSanphamOption(),
+                            //     [
+                                    
+                            //         'multiple'=>'multiple',
+                            //         Aabc::$app->d->ty => 'checkbox',
+                               
+                            //         Aabc::$app->d->i => 'danhmuc',
+                            //         Aabc::$app->d->t => 'sea',//Search
+                            //         'class' => 'mulr',                        
+                            //         // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
+                            //         'id' => Aabc::$app->_model->__danhmuc.'-nb'
+                            //     ])->label('Sản phẩm nổi bật'); 
+
+                            $html = '';
+                            $url_tvbkt = ADMIN.Sanpham::tt.'/'.Sanpham::search;
+                            $data = [];
+                            $value = '';
+
+                            echo Select2::widget([
+                                'name' => 'select_spnb',
+                                'value' => $value,
+                                'data' => $data,
+                                'options' => [
+                                    'id' => 'select_spnb',
+                                    'placeholder' => 'Tìm và thêm sản phẩm vào danh mục này.'
+                                ],
+                                'pluginOptions' => [
+                                    'allowClear' => true,
+                                    'minimumInputLength' => 2,
+                                    'ajax' => [
+                                        'url' => $url_tvbkt,
+                                        'dataType' => 'json',
+                                        'method' => 'POST',
+                                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                                    ],              
+                                ],
+                            ])
+                        ?>
+
+                            <script type="text/javascript">
+                                $('select#select_spnb').change(function(){
+                                    value = $(this).val();                                    
+                                    $.ajax({
+                                        cache: false,
+                                        url: '<?= ADMIN.Sanpham::tt.'/'.Sanpham::addspdm; ?>',
+                                        type: 'POST',
+                                        data:{
+                                            sp : value,
+                                            dm : <?= $model->dm_id?>,
+                                        },
+                                        success: function (data) {   
+                                            $('#spdm_nb').html(data);
+                                        },
+                                        error: function () {
+                                            poploi();                    
+                                        }
+                                    });
+
+                                    $(this).val('');
+                                })
+                            </script>
+                        </div>
+    
+                        <h4 class="text-center">Danh sách sản phẩm</h4>
+                        <div id="spdm_nb">
+                            <?php 
+                                // echo $this->renderAjax('sanpham/addspdm', [    
+                                echo Aabc::$app->controller->renderPartial('../sanpham/addspdm',[            
+                                    'iddanhmuc' => $model->dm_id,
+                                ]);
+                            ?>
+                        </div>
+
+                    <?php }else{ echo '<i class="text-center">Sau khi Lưu trữ Danh mục thì mới thêm Sản phẩm vào danh sách.</i>'; } ?>
+                </div>
+            
+            <div class="clearfix"></div>
+            <br/>
+            <?php if(!$model->isNewRecord){ ?> 
+                <div class="col-md-12 pt140">
+                    <?php //  $form->field($model, 'dm_showmax')->textInput(['type' => 'number', 'placeholder' => 'Số sản phẩm hiển thị. Ví Dụ: 10','maxlength' => true, 'class' => 'form-control']) ?>  
+                </div>
+            <?php } ?>
+        <?php } ?>
+
 
         <!-- 
         <div class="col-md-12 col-sm-6  col-xs-12 pt140">

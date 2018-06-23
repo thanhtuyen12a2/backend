@@ -66,7 +66,12 @@ class SiteController extends Controller
             return Aabc::$app->runAction('site/login');                
         }
         $key = $k.':'.$f;
-        $arr_link = [
+
+        $arr_link = [];
+
+        $arr_link += Sanpham::actionController();
+
+        $arr_link += [
             ':' => 'site/index',
             'clear:cache' => 'site/clearcache',  
             'domain:getdep' => 'domain/getdep',
@@ -75,18 +80,16 @@ class SiteController extends Controller
             // Sanpham::tt.':'.
             'danhmuc:rts' => 'danhmuc/reloadthongso',
 
-
-            Sanpham::tt.':'.Sanpham::index_sp => 'sanpham/i',
-            Sanpham::tt.':'.Sanpham::index_bv => 'sanpham/i_b',
-            Sanpham::tt.':'.Sanpham::update_sp => 'sanpham/u',
-            Sanpham::tt.':'.Sanpham::update_bv => 'sanpham/u_b',
-            Sanpham::tt.':s' => 'sanpham/s',
-            Sanpham::tt.':c' => 'sanpham/c',
-            Sanpham::tt.':ut' => 'sanpham/ut',
-            Sanpham::tt.':rec' => 'sanpham/rec',
-            Sanpham::tt.':ir' => 'sanpham/ir',
-
-            Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
+            // Sanpham::tt.':'.Sanpham::index_sp => 'sanpham/i',
+            // Sanpham::tt.':'.Sanpham::index_bv => 'sanpham/i_b',
+            // Sanpham::tt.':'.Sanpham::update_sp => 'sanpham/u',
+            // Sanpham::tt.':'.Sanpham::update_bv => 'sanpham/u_b',
+            // Sanpham::tt.':s' => 'sanpham/s',
+            // Sanpham::tt.':c' => 'sanpham/c',
+            // Sanpham::tt.':ut' => 'sanpham/ut',
+            // Sanpham::tt.':rec' => 'sanpham/rec',
+            // Sanpham::tt.':ir' => 'sanpham/ir',
+            // Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
 
             Cauhinh::tt.':'.Cauhinh::cauhinh1 => 'cauhinh/cauhinh1',
             Cauhinh::tt.':'.Cauhinh::cauhinh2 => 'cauhinh/cauhinh2',

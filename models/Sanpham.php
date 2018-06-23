@@ -20,8 +20,26 @@ class Sanpham extends \aabc\db\ActiveRecord
     const update_sp = 'u';
     const update_bv = 'u_b';
     const action_thongso = 'j3';
+    const dddspdm = 'h8';
+    const search = 's3';
+    const addspdm = 'p9';
 
-
+    public function actionController()
+    {
+        return [
+          Sanpham::tt.':'.Sanpham::index_sp => 'sanpham/i',
+          Sanpham::tt.':'.Sanpham::index_bv => 'sanpham/i_b',
+          Sanpham::tt.':'.Sanpham::update_sp => 'sanpham/u',
+          Sanpham::tt.':'.Sanpham::update_bv => 'sanpham/u_b',
+          Sanpham::tt.':'.Sanpham::search => 'sanpham/search',
+          Sanpham::tt.':'.Sanpham::addspdm => 'sanpham/addspdm',
+          Sanpham::tt.':c' => 'sanpham/c',
+          Sanpham::tt.':ut' => 'sanpham/ut',
+          Sanpham::tt.':rec' => 'sanpham/rec',
+          Sanpham::tt.':ir' => 'sanpham/ir',
+          Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
+        ];
+    }
 
     //Controller
     const tt = 'k5';
@@ -301,8 +319,7 @@ class Sanpham extends \aabc\db\ActiveRecord
    }
 
 
-
-
+   
 
 
 

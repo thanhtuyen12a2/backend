@@ -68,10 +68,15 @@ return $this->hasOne($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aab
     public function getSpdmIdSp()
     {
         $_Sanpham = Aabc::$app->_model->Sanpham;
-return $this->hasOne($_Sanpham::className(), [Aabc::$app->_sanpham->sp_id => Aabc::$app->_sanphamdanhmuc->spdm_id_sp]);
+        return $this->hasOne($_Sanpham::className(), ['sp_id' => 'spdm_id_sp']);
     }
 
 
+    public function getThongtinSanpham()
+    {
+        $_Sanpham = Aabc::$app->_model->Sanpham;
+        return $this->hasOne($_Sanpham::className(), ['sp_id' => 'spdm_id_sp']);
+    }
 
 
 

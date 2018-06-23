@@ -347,12 +347,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-                     [                
-
+                     [  
                         'attribute' => Sanpham::sp_gia,
                         // 'attribute' => 'sp_gia', 
                         //'visible' => Aabc::$app->user->can('web'),            
                         'format' => 'raw',
+
+                        'contentOptions' => ['style' => 'width:100px;'],
+                        'headerOptions' => ['style' => 'width:100px;'],
+
                         'filterInputOptions' => [
                             'class' => 'form-control',                    
                          ],
@@ -408,9 +411,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Sanpham::sp_status, 
                 'visible' => Aabc::$app->user->can('web'),
 
-                // 'contentOptions' => ['class' => 'text-center'],
+                'contentOptions' => ['style' => 'width:100px;'],
+                'headerOptions' => ['style' => 'width:100px;'],
 
-                // 'headerOptions' => ['width' => '200'],              
                 'format' => 'raw',
                 'filterInputOptions' => [
                     'class'       => 'form-control',                    
@@ -423,23 +426,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-            [                
+            // [                
                 
-                'attribute' => Sanpham::sp_conhang, 
-                // 'headerOptions' => ['width' => '100'],  
-                 // 'header' => 'sp_conhang'
-                // 'contentOptions' => ['class' => 'text-center'],
+            //     'attribute' => Sanpham::sp_conhang, 
+            //     // 'headerOptions' => ['width' => '100'],  
+            //      // 'header' => 'sp_conhang'
+            //     'contentOptions' => ['style' => 'width:100px;'],
+            //     'headerOptions' => ['style' => 'width:100px;'],
 
-                // 'headerOptions' => ['width' => '200'],              
-                'format' => 'raw',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',                    
-                 ],
-                'value' => function ($model) {                
-                    return $model->getConhangLabelColor($model[Sanpham::sp_conhang]);
-                }, 
+            //     'format' => 'raw',
+            //     'filterInputOptions' => [
+            //         'class'       => 'form-control',                    
+            //      ],
+            //     'value' => function ($model) {                
+            //         return $model->getConhangLabelColor($model[Sanpham::sp_conhang]);
+            //     }, 
 
-            ],
+            // ],
 
 
 
@@ -447,16 +450,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
              [                
                 //'header' => '<a href="'.Aabc::$app->homeUrl.'sanpham">Reset</a>',
-                'attribute' => Sanpham::sp_id,
-                  // 'headerOptions' => ['width' => '100'], 
-                // 'headerOptions' => ['width' => '100'],  
-                // 'headerOptions' => ['width' => '30px'],
+                // 'attribute' => Sanpham::sp_id,
+                'attribute' => Sanpham::sp_conhang, 
+                
+                'contentOptions' => ['style' => 'width:100px;'],
+                'headerOptions' => ['style' => 'width:100px;'],
+
                 'contentOptions' => [
                     'class' => 'omb',                    
                 ],
                 'format' => 'raw',
                 'value' => function ($model) {                         
-                    return '<div>'.$model[Sanpham::sp_ma].'</div><div class="omc" id="'. Sanpham::tt.$model[Sanpham::sp_id].'"><div class="omd">
+                    return '<div>'.$model->getConhangLabelColor($model[Sanpham::sp_conhang]).'</div><div class="omc" id="'. Sanpham::tt.$model[Sanpham::sp_id].'"><div class="omd">
                     
 
                     <button '.D::i.'="'. Sanpham::tt.'" class="mb btn btn-default" '.D::u.'="u?id='.$model[Sanpham::sp_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>

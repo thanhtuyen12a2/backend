@@ -1181,7 +1181,7 @@ class Cauhinh extends Model
         }
 
         $html = '';
-        $url_tvbkt = '/ad/'.Sanpham::tt.'/s';
+        $url_tvbkt = '/ad/'.Sanpham::tt.'/'.Sanpham::search;
         $data = [];
         switch ($check) {
             case 3:
