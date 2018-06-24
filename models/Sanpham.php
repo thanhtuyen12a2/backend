@@ -4,6 +4,7 @@ use Aabc;
 use aabc\helpers\ArrayHelper;
 use common\cont\_SANPHAM;
 use common\cont\D;
+use common\components\Tuyen;
 
 class Sanpham extends \aabc\db\ActiveRecord
 {    
@@ -23,6 +24,7 @@ class Sanpham extends \aabc\db\ActiveRecord
     const dddspdm = 'h8';
     const search = 's3';
     const addspdm = 'p9';
+    const removespdmnb = 'e9';
 
     public function actionController()
     {
@@ -33,6 +35,8 @@ class Sanpham extends \aabc\db\ActiveRecord
           Sanpham::tt.':'.Sanpham::update_bv => 'sanpham/u_b',
           Sanpham::tt.':'.Sanpham::search => 'sanpham/search',
           Sanpham::tt.':'.Sanpham::addspdm => 'sanpham/addspdm',
+          Sanpham::tt.':'.Sanpham::removespdmnb => 'sanpham/removespdmnb',
+
           Sanpham::tt.':c' => 'sanpham/c',
           Sanpham::tt.':ut' => 'sanpham/ut',
           Sanpham::tt.':rec' => 'sanpham/rec',
@@ -152,20 +156,52 @@ class Sanpham extends \aabc\db\ActiveRecord
 
 
 
-     public static function getOptionsFind($q = NULL){
+     public static function getOptionsFind($q = NULL, $dm = ''){
         $sp = (Sanpham::M)::find()
-                    ->select(['sp_id','sp_tensp'])
-                    ->where(['like','sp_tensp',$q])                    
+                    ->select(['sp_id','sp_tensp','sp_images'])
+                    ->andWhere(['like','sp_tensp',$q])
+                    ->andWhere(['sp_type' => self::SANPHAM])
+                    ->andWhere(['sp_recycle' => self::NGOAITHUNGRAC])
+                    ->andWhere(['sp_status' => self::XUATBAN])
                     ->asArray()
                     ->limit(20)                    
                     ->all(); 
           if ($sp) {  
             $return = [];
-            foreach ($sp as $k => $v) {
-                $return[$k] = [
+            foreach ($sp as $k => $v) {   
+                $img = '';
+                if(!empty($v['sp_images'])){
+                  $img_arr = explode('-', $v['sp_images']);
+                  $img = $img_arr[0];
+                }
+
+                if(empty($img)){
+                  $img = '';
+                }else{
+                  $img = Tuyen::_dulieu('image', $img, '25x25');
+                }
+
+                $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;                
+                $spdm = $_Sanphamdanhmuc::find()
+                                ->andWhere(['spdm_id_sp' => $v['sp_id']])
+                                ->andWhere(['spdm_id_danhmuc' => $dm])
+                                ->one();
+
+                if($spdm){
+                  $return[$k] = [
                         'id' => $v['sp_id'],
                         'text' => $v['sp_tensp'],
+                        'img' => $img,
+                        'check' => 'true',
                     ];
+                }
+                else{
+                  $return[$k] = [
+                        'id' => $v['sp_id'],
+                        'text' => $v['sp_tensp'],
+                        'img' => $img,
+                    ];
+                }
             }
             return $return;
         }

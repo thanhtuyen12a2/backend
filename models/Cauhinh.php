@@ -1225,7 +1225,16 @@ class Cauhinh extends Model
                             'dataType' => 'json',
                             'method' => 'POST',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],              
+                        ],   
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(model) {
+                            if(model.img !== ""){
+                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
+                            }else{
+                                return model.text;
+                            }
+                        }'),
+                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),           
                     ],
                 ])
             .'</div>' ;
@@ -1248,7 +1257,16 @@ class Cauhinh extends Model
                             'dataType' => 'json',
                             'method' => 'POST',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],              
+                        ],  
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(model) {
+                            if(model.img !== ""){
+                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
+                            }else{
+                                return model.text;
+                            }
+                        }'),
+                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),            
                     ],
                 ])
             .'</div>' ;
@@ -1272,7 +1290,16 @@ class Cauhinh extends Model
                             'dataType' => 'json',
                             'method' => 'POST',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],              
+                        ],  
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(model) {
+                            if(model.img !== ""){
+                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
+                            }else{
+                                return model.text;
+                            }
+                        }'),
+                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),            
                     ],
                 ])
             .'</div>' ;
@@ -1295,7 +1322,16 @@ class Cauhinh extends Model
                             'dataType' => 'json',
                             'method' => 'POST',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],              
+                        ],   
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(model) {
+                            if(model.img !== ""){
+                                return "<img src=\'" + model.img + "\' /> "  + " "  +  model.text;
+                            }else{
+                                return model.text;
+                            }
+                        }'),
+                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),           
                     ],
                 ])
             .'</div>' ;

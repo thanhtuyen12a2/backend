@@ -476,7 +476,7 @@ if(empty($menu_current['child'])){
                             //     ])->label('Sản phẩm nổi bật'); 
 
                             $html = '';
-                            $url_tvbkt = ADMIN.Sanpham::tt.'/'.Sanpham::search;
+                            $url_tvbkt = ADMIN.Sanpham::tt.'/'.Sanpham::search.'?dm='.$model->dm_id;
                             $data = [];
                             $value = '';
 
@@ -496,14 +496,33 @@ if(empty($menu_current['child'])){
                                         'dataType' => 'json',
                                         'method' => 'POST',
                                         'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                                    ],              
-                                ],
+                                    ],  
+                                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                    'templateResult' => new JsExpression('function(model) {
+                                        if(isEmpty(model.img)){
+                                            img_html = "";
+                                        }else{
+                                            img_html = "<img src=" + model.img + " /> "  + " ";
+                                        }
+
+                                        if(isEmpty(model.check)){
+                                            check_html = "";
+                                        }else{
+                                            check_html = " <span class=\'glyphicon glyphicon-ok text-success\'></span> ";
+                                        }
+
+                                        return  check_html + img_html + model.text;
+                                    }'),
+                                    // 'templateSelection' => new JsExpression('function (model) { return model.text; }'),          
+                                ],                                
+
                             ])
                         ?>
 
                             <script type="text/javascript">
                                 $('select#select_spnb').change(function(){
-                                    value = $(this).val();                                    
+                                    value = $(this).val();
+                                    loadimg();                        
                                     $.ajax({
                                         cache: false,
                                         url: '<?= ADMIN.Sanpham::tt.'/'.Sanpham::addspdm; ?>',
@@ -514,6 +533,7 @@ if(empty($menu_current['child'])){
                                         },
                                         success: function (data) {   
                                             $('#spdm_nb').html(data);
+                                            unloadimg();
                                         },
                                         error: function () {
                                             poploi();                    
@@ -525,7 +545,7 @@ if(empty($menu_current['child'])){
                             </script>
                         </div>
     
-                        <h4 class="text-center">Danh sách sản phẩm</h4>
+                        <h4 class="text-center">Danh sách sản phẩm <i>(Đã thêm)</i></h4>
                         <div id="spdm_nb">
                             <?php 
                                 // echo $this->renderAjax('sanpham/addspdm', [    
