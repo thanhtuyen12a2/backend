@@ -22,14 +22,43 @@ $model = $_Sanphamdanhmuc::find()
         $anh = Tuyen::_dulieu('image', $sp_images['0'], '25x25');
     ?>
         <tr data-sp="<?= $sanpham->thongtinSanpham->sp_id?>" >
-            <td><?= ($k + 1)?></td>
+            <td width="25px"><?= ($k + 1)?></td>
             <td><img src="<?= $anh?>" /> <?= $sanpham->thongtinSanpham->sp_tensp?></td>
-            <td><span class="spdm-remove" title="Loại khỏi danh sách">✖</span></td>
+            <td width="20px">
+                <span class="spdm-first" title="Lên đầu">&#8673;</span>
+            </td>
+            <td width="20px">
+                <span class="spdm-remove" title="Loại khỏi danh sách">✖</span>
+            </td>
         </tr>
     <?php } ?>
     </table>
 
     <script type="text/javascript">
+
+        $('span.spdm-first').click(function(){
+            if(confirm('Bạn muốn sản phẩm này nổi bật lên trên?')){
+                parent = $(this).parents('tr');
+                loadimg();
+                $.ajax({
+                    cache: false,
+                    url: '<?= ADMIN.Sanpham::tt.'/'.Sanpham::fristspdmnb; ?>',
+                    type: 'POST',
+                    data:{
+                        sp : parent.attr('data-sp'),
+                        dm : <?= $iddanhmuc?>,
+                    },
+                    success: function (data) {   
+                        $('#spdm_nb').html(data);
+                        unloadimg();
+                    },
+                    error: function () {
+                        poploi();                    
+                    }
+                });
+            }
+        })
+
         $('span.spdm-remove').click(function(){
             if(confirm('Bạn muốn loại bỏ sản phẩm này khỏi danh sách?')){
                 parent = $(this).parents('tr');

@@ -114,11 +114,7 @@ class SanphamController extends Controller
             
 
             $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
-            $sothutu_max = $_Sanphamdanhmuc::find()
-                                        // ->select(['spdm_sothutu'])
-                                        ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
-                                        ->max('spdm_sothutu') + 1;
-            
+                        
             $spdm = $_Sanphamdanhmuc::find()
                                         ->andWhere(['spdm_id_sp' => $san_pham])
                                         ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
@@ -127,8 +123,7 @@ class SanphamController extends Controller
                 $spdm = new $_Sanphamdanhmuc();
                 $spdm->spdm_id_sp = $san_pham;
                 $spdm->spdm_id_danhmuc = $danh_muc->dm_id;
-                $spdm->spdm_type = $danh_muc->dm_type;
-                $spdm->spdm_sothutu = $sothutu_max;
+                $spdm->spdm_type = $danh_muc->dm_type;                
                 if(!$spdm->save()) Aabc::error($spdm->errors);
             }
 
@@ -151,15 +146,41 @@ class SanphamController extends Controller
             $danh_muc = Aabc::$app->request->post('dm');
             $danh_muc = \backend\models\Danhmuc::find()->where(['dm_id' => $danh_muc])->one();
             
+            $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;            
+            
+            $_Sanphamdanhmuc::xoatatca(['spdm_id_sp' => $san_pham, 'spdm_id_danhmuc' => $danh_muc->dm_id]);
+           
+            $kq = $this->renderAjax('addspdm', [                
+                'iddanhmuc' => $danh_muc->dm_id,
+            ]);
+            // $kq = Aabc::$app->d->decodeview($kq);
+            return $kq;
+
+        }
+        return '';
+    }
+
+
+    public function actionFristspdmnb() //sản phẩm lên vị trí frist
+    {   
+        Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON; 
+        
+        if(!empty(Aabc::$app->request->post('sp')) && !empty(Aabc::$app->request->post('dm'))){   
+            $san_pham = Aabc::$app->request->post('sp');
+            $danh_muc = Aabc::$app->request->post('dm');
+            $danh_muc = \backend\models\Danhmuc::find()->where(['dm_id' => $danh_muc])->one();
+            
 
             $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
-            $sothutu_max = $_Sanphamdanhmuc::find()
-                                        // ->select(['spdm_sothutu'])
+                        
+            $spdm = $_Sanphamdanhmuc::find()
+                                        ->andWhere(['spdm_id_sp' => $san_pham])
                                         ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
-                                        ->max('spdm_sothutu') + 1;
-            
-            $_Sanphamdanhmuc::deleteAll(['spdm_id_sp' => $san_pham, 'spdm_id_danhmuc' => $danh_muc->dm_id]);
-           
+                                        ->one();
+            if($spdm){                               
+                if(!$spdm->save()) Aabc::error($spdm->errors);
+            }
+
             $kq = $this->renderAjax('addspdm', [                
                 'iddanhmuc' => $danh_muc->dm_id,
             ]);
@@ -448,7 +469,7 @@ class SanphamController extends Controller
                             
                         }}}
                     }     
-                    $_Sanphamdanhmuc::deleteAll(['and',
+                    $_Sanphamdanhmuc::xoatatca(['and',
                         ['spdm_id_sp' => $id],
                         ['spdm_type' => 5],
                         ['NOT IN','spdm_id_danhmuc',$ts_exist],
@@ -476,7 +497,7 @@ class SanphamController extends Controller
                         $new_sp_dm->spdm_type = 4;
                         if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
                     }     
-                    $_Sanphamdanhmuc::deleteAll(['and',
+                    $_Sanphamdanhmuc::xoatatca(['and',
                         ['spdm_id_sp' => $id],
                         ['spdm_type' => 4],
                         ['NOT IN','spdm_id_danhmuc',$noibat_exist],
@@ -760,7 +781,7 @@ class SanphamController extends Controller
                         
                     }}}
                 }     
-                $_Sanphamdanhmuc::deleteAll(['and',
+                $_Sanphamdanhmuc::xoatatca(['and',
                     ['spdm_id_sp' => $id],
                     ['spdm_type' => 5],
                     ['NOT IN','spdm_id_danhmuc',$ts_exist],
@@ -787,12 +808,17 @@ class SanphamController extends Controller
                     }                    
                     $new_sp_dm->spdm_type = 4;
                     if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
-                }     
-                $_Sanphamdanhmuc::deleteAll(['and',
+                }    
+
+                //Xử lý xóa và afterdelete
+                
+                $_Sanphamdanhmuc::xoatatca(['and',
                     ['spdm_id_sp' => $id],
                     ['spdm_type' => 4],
                     ['NOT IN','spdm_id_danhmuc',$noibat_exist],
                 ]);
+                
+                //End
 
 
                 

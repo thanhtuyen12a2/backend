@@ -189,11 +189,10 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         if(empty($this->sp_recycle)) $this->sp_recycle = '2';
         if(empty($this->sp_conhang)) $this->sp_conhang = '1';
             
-
         Sanpham::cache($this);       
         return true;
     }
-
+   
 
      public function afterFind()
     {   

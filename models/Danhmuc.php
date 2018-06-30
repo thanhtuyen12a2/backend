@@ -112,11 +112,28 @@ class Danhmuc extends \aabc\db\ActiveRecord
     {
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;        
-        $cache_data['dm_listsp'] = $model::getSpdmIdSanphams($model)
+        if($model->dm_type == 4){
+          $cache_data['dm_listsp'] = $model::getSpdmIdSanphams($model)
+                                        ->joinWith('spdmIdDanhmucs_join')
+                                        // ->orderBy(['spdm_sothutu' => SORT_DESC])
+                                        ->andWhere(['sp_recycle' => '2'])
+                                        ->andWhere(['sp_status' => '1'])
+                                        ->groupBy(['sp_id'])
+                                        // ->all();
+                                        ->column();
+        // echo '<pre>';
+        //                        echo '</pre>';                                   
+        //                        print_r($cache_data['dm_listsp']);
+        //                 die;
+
+        }else{
+          $cache_data['dm_listsp'] = $model::getSpdmIdSanphams($model)
                                         ->orderBy(['sp_id' => SORT_DESC])
                                         ->andWhere(['sp_recycle' => '2'])
                                         ->andWhere(['sp_status' => '1'])
+                                        ->groupBy(['sp_id'])
                                         ->column();
+        }
         if($model->dm_type == 1) $cache_data['dm_link'] = $model->dm_link . '-'.D::url_dm.$model->dm_id.'.html';
         if($model->dm_type == 2) $cache_data['dm_link'] = $model->dm_link . '-'.D::url_cm.$model->dm_id.'.html';
         $cache->set('danhmuc'.$model->dm_id,$cache_data); 

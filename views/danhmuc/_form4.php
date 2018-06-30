@@ -504,13 +504,11 @@ if(empty($menu_current['child'])){
                                         }else{
                                             img_html = "<img src=" + model.img + " /> "  + " ";
                                         }
-
                                         if(isEmpty(model.check)){
                                             check_html = "";
                                         }else{
                                             check_html = " <span class=\'glyphicon glyphicon-ok text-success\'></span> ";
                                         }
-
                                         return  check_html + img_html + model.text;
                                     }'),
                                     // 'templateSelection' => new JsExpression('function (model) { return model.text; }'),          

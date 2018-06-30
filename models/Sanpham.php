@@ -25,6 +25,7 @@ class Sanpham extends \aabc\db\ActiveRecord
     const search = 's3';
     const addspdm = 'p9';
     const removespdmnb = 'e9';
+    const fristspdmnb = 'u3';
 
     public function actionController()
     {
@@ -36,6 +37,7 @@ class Sanpham extends \aabc\db\ActiveRecord
           Sanpham::tt.':'.Sanpham::search => 'sanpham/search',
           Sanpham::tt.':'.Sanpham::addspdm => 'sanpham/addspdm',
           Sanpham::tt.':'.Sanpham::removespdmnb => 'sanpham/removespdmnb',
+          Sanpham::tt.':'.Sanpham::fristspdmnb => 'sanpham/fristspdmnb',
 
           Sanpham::tt.':c' => 'sanpham/c',
           Sanpham::tt.':ut' => 'sanpham/ut',
@@ -320,6 +322,12 @@ class Sanpham extends \aabc\db\ActiveRecord
         return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_type' => 1]);
     }
 
+    public function getSpdmIdDanhmucs_join()
+    {
+        $model = $this;
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        return $model->hasMany($_Danhmuc::className(), ['dm_id' => 'spdm_id_danhmuc'])->viaTable(Aabc::$app->_sanphamdanhmuc->table, ['spdm_id_sp' => 'sp_id'])->andWhere(['dm_type' => 4])->orderBy(['spdm_sothutu' => SORT_DESC]);
+    }
 
     public function getSpdmIdDanhmucsThongso($model)
     {

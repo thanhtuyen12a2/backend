@@ -36,10 +36,57 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
 
             [['spdm_info'],'string', 'max' => 255],
 
+            [['spdm_sothutu'],'string', 'max' => 20],
+
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Danhmuc::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc => Aabc::$app->_danhmuc->dm_id]],
             [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Sanpham::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Aabc::$app->_sanpham->sp_id]],
         ];
     }
+
+
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }    
+
+        $this['spdm_sothutu'] = (string)time(); 
+        return true;
+    }
+
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave( $insert, $changedAttributes );
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        $dm = $_Danhmuc::find()->andWhere(['dm_id' => $this->spdm_id_danhmuc])->one();
+        if($dm) $_Danhmuc::cache($dm);        
+    }
+
+
+    public function afterDelete()
+    {   
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        $dm = $_Danhmuc::find()->andWhere(['dm_id' => $this->spdm_id_danhmuc])->one();
+        if($dm) $_Danhmuc::cache($dm);  
+        parent::afterDelete();        
+    }
+
+
+    public static function xoatatca($condition = null)
+    {
+        $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;  
+        $spdm_delete_all = $_Sanphamdanhmuc::find()
+                                        ->andWhere($condition)
+                                        ->all();
+        $_Sanphamdanhmuc::deleteAll($condition);
+
+        foreach ($spdm_delete_all as $spdm_delete_one) {
+            $spdm_delete_one->afterDelete();
+        }
+    }
+
 
 
 
