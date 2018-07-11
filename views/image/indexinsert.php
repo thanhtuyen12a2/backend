@@ -81,7 +81,7 @@ if(empty($icon)) $icon = '';
                     if(!empty($_GET['s'])) $d_u = $_GET['s'];
                 ?>
 
-                <input value="<?= $d_u?>" id="search_img" placeholder="Tìm kiếm theo tên ảnh..." type="text" name="search_img" style="padding: 5px;    border: 1px solid #aaa;width: 200px;background: #FFF;">
+                <input value="<?= $d_u?>" id="search_img" placeholder="Tìm kiếm theo tên ảnh..." type="text" name="search_img" style="padding: 3px 5px; font-size: 12px; border: 1px solid #aaa;width: 200px;background: #FFF;">
                                 
                 <a href="/ad/?k=image&amp;f=ga&amp;i=icon&s=<?= $d_u?>" id="search_btn" data-page="1" d-u="" d-i="ga"><span style="padding: 0 7px 0 0;" class="glyphicon glyphicon-search"></span>Tìm kiếm</a>
 

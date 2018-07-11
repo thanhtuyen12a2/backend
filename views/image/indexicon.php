@@ -112,19 +112,23 @@ if(empty($icon)) $icon = '';
                     if(!empty($_GET['s'])) $d_u = $_GET['s'];
                 ?>
 
-                <input value="<?= $d_u?>" id="search_img" placeholder="Tìm kiếm icon..." type="text" name="search_img" style="padding: 5px;    border: 1px solid #aaa;width: 200px;background: #FFF;">
-                                
-                <a id="search_btn" data-page="1" d-u="" d-i="ga"><span style="padding: 0 7px 0 0;" class="glyphicon glyphicon-search"></span>Tìm kiếm</a>
-
+                <input value="<?= $d_u?>" id="search_img_icon" placeholder="Tìm kiếm icon..." type="text" name="search_img" style="padding: 3px 5px;    border: 1px solid #aaa;width: 200px;background: #FFF;">
+                                                
             </div>
 
-            <script type="text/javascript">   
-               
-              
-                $('#search_img').on('change', function(e) {
-                    v = $('#search_img').val()
-                    a = 'ga?i=icon&s=' + v
-                    $('#search_btn').attr('d-u',a)
+            <script type="text/javascript">
+            
+                $('#search_img_icon').on('change', function(e) {
+                    v = $(this).val().toUpperCase()
+                    // console.log(v)
+                    $('#list-icon .image-item').each(function(){
+                        content = $(this).find('.item.chicon>p').html().toUpperCase();                        
+                        if(content.indexOf(v) > -1){
+                            $(this).removeClass('hide')
+                        }else{
+                            $(this).addClass('hide')
+                        }
+                    })                    
                 })
                 
 
@@ -132,7 +136,7 @@ if(empty($icon)) $icon = '';
 
 
 <style type="text/css">
-    input#search_img {
+    input#search_img_icon {
     font-size: 12px;
     /* line-height: 12px; */
 }

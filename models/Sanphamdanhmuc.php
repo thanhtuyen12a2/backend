@@ -29,8 +29,8 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
         $_Sanpham = Aabc::$app->_model->Sanpham ;
         return [
-            [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp, Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'required'],
-            [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp, Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'integer'],
+            [['spdm_id_sp', 'spdm_id_danhmuc'], 'required'],
+            [['spdm_id_sp', 'spdm_id_danhmuc'], 'integer'],
 
             [['spdm_type'],'integer'],
 
@@ -38,8 +38,8 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
 
             [['spdm_sothutu'],'string', 'max' => 20],
 
-            [[Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Danhmuc::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc => Aabc::$app->_danhmuc->dm_id]],
-            [[Aabc::$app->_sanphamdanhmuc->spdm_id_sp], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Sanpham::className(), 'targetAttribute' => [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Aabc::$app->_sanpham->sp_id]],
+            [['spdm_id_danhmuc'], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Danhmuc::className(), 'targetAttribute' => ['spdm_id_danhmuc' => Aabc::$app->_danhmuc->dm_id]],
+            [['spdm_id_sp'], 'exist', 'skipOnError' => true, 'targetClass' =>  $_Sanpham::className(), 'targetAttribute' => ['spdm_id_sp' => Aabc::$app->_sanpham->sp_id]],
         ];
     }
 
@@ -94,8 +94,8 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
     {
         return [
                         
-            Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Aabc::$app->_sanphamdanhmuc->__spdm_id_sp ,                        
-            Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc => Aabc::$app->_sanphamdanhmuc->__spdm_id_danhmuc ,        ];
+            'spdm_id_sp' => Aabc::$app->_sanphamdanhmuc->__spdm_id_sp ,                        
+            'spdm_id_danhmuc' => Aabc::$app->_sanphamdanhmuc->__spdm_id_danhmuc ,        ];
     }
 
   
@@ -107,7 +107,7 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
     public function getSpdmIdDanhmuc()
     {
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
-return $this->hasOne($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc]);
+return $this->hasOne($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => 'spdm_id_danhmuc']);
     }
     /**
      * @return \aabc\db\ActiveQuery

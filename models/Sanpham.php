@@ -79,6 +79,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_id_ncc = 'a23';
      const sp_id_thuonghieu = 's74';
      const sp_gia = 'd53';
+     const sp_gia_sort = 'k1';
      const sp_giakhuyenmai = 'f22';
      const sp_soluong = 'g85';
      const sp_soluongfake = 'h76';

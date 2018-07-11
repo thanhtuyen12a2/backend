@@ -33,6 +33,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_id_ncc => null,
             Sanpham::sp_id_thuonghieu => null,
             Sanpham::sp_gia => null,
+            Sanpham::sp_gia_sort => null,
             Sanpham::sp_giakhuyenmai => null,
             Sanpham::sp_soluong => null,
             Sanpham::sp_soluongfake => null,
@@ -62,7 +63,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $_User = Aabc::$app->_model->User;
 
         return [  
-            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
+            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
 
@@ -76,7 +77,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [[Sanpham::sp_ngaytao, Sanpham::sp_ngayupdate, Sanpham::sp_id_danhmuc,  Sanpham::sp_id_chinhsach], 'safe'],
             
 
-            [[Sanpham::sp_gia, Sanpham::sp_giakhuyenmai], 'string', 'max' => 50],  
+            [[Sanpham::sp_gia, Sanpham::sp_gia_sort, Sanpham::sp_giakhuyenmai], 'string', 'max' => 50],  
 
             [[Sanpham::sp_masp], 'match', 'pattern' => '/^[a-zA-Z0-9_]+$/','message' => 'Chỉ nhập chữ và số'],
             [[Sanpham::sp_tensp], 'string', 'max' => 100],            
@@ -137,7 +138,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_id_danhmuc => Sanpham::__sp_id_danhmuc ,  //Thêm, nên không có trong table
             Sanpham::sp_id_chinhsach => Sanpham::__sp_id_chinhsach ,  //Thêm, nên không có trong table
 
-            Sanpham::sp_gia => Sanpham::__sp_gia ,                        
+            Sanpham::sp_gia => Sanpham::__sp_gia ,
+            Sanpham::sp_gia_sort => Sanpham::__sp_gia ,
             Sanpham::sp_giakhuyenmai => Sanpham::__sp_giakhuyenmai ,                        
             Sanpham::sp_soluong => Sanpham::__sp_soluong ,                        
             Sanpham::sp_soluongfake => Sanpham::__sp_soluongfake ,                        
@@ -167,7 +169,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_idnguoiupdate = $this[Sanpham::sp_idnguoiupdate]; 
         $this->sp_id_ncc = $this[Sanpham::sp_id_ncc]; 
         $this->sp_id_thuonghieu = $this[Sanpham::sp_id_thuonghieu]; 
-        $this->sp_gia = $this[Sanpham::sp_gia]; 
+        $this->sp_gia = $this[Sanpham::sp_gia];
+        $this->sp_gia_sort = $this[Sanpham::sp_gia];
         $this->sp_giakhuyenmai = $this[Sanpham::sp_giakhuyenmai]; 
         $this->sp_soluong = $this[Sanpham::sp_soluong]; 
         $this->sp_soluongfake = $this[Sanpham::sp_soluongfake]; 
@@ -218,6 +221,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this[Sanpham::sp_id_ncc] =  $this->sp_id_ncc;
         $this[Sanpham::sp_id_thuonghieu] =  $this->sp_id_thuonghieu; 
         $this[Sanpham::sp_gia] =  $this->sp_gia;
+        $this[Sanpham::sp_gia_sort] =  $this->sp_gia_sort;
         $this[Sanpham::sp_giakhuyenmai] =  $this->sp_giakhuyenmai;
         $this[Sanpham::sp_soluong] =  $this->sp_soluong;
         $this[Sanpham::sp_soluongfake] =  $this->sp_soluongfake; 
