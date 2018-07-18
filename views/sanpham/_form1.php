@@ -14,6 +14,7 @@ use aabc\helpers\ArrayHelper;
 
 $_Chinhsach  = Aabc::$app->_model->Chinhsach;
 $_Danhmuc  = Aabc::$app->_model->Danhmuc;
+$_Image = Aabc::$app->_model->Image;
 
 if(empty($html_ts)) $html_ts = '';
 
@@ -83,23 +84,30 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                                        
                             
                         <div class="col-md-12 col-sm-6 col-xs-12 pt100">
-                            <?= '<button type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
+                            
+                            <div id="imgcove">
+                                <div <?= Aabc::$app->d->m ?>="2" id="mb <?= Sanpham::tt?>"  <?= Aabc::$app->d->u?> ="ga?i=icon" class="mb"   <?= Aabc::$app->d->i?> = <?= Aabc::$app->_model->__image ?> ></div>
+                                <div class="image">
+                                    <h3 style="margin: 80px 0 0 0;color: #ccc;">Chọn ảnh đại diện</h3>
+                                </div>
+                            </div>
 
-                            <div id="imgcove"></div>
-                            <ul id="editable" class="imgcove" style="margin-top: 220px;"> 
+                                <!-- class="imgcove" -->
+                            <ul id="editable" class="hide"> 
                                 <?php
                                     if(isset($model[Sanpham::sp_images])){
                                         $listimg = explode("-",$model[Sanpham::sp_images]);
                                         foreach ($listimg as $key => $value) {
-                                            $_Image = Aabc::$app->_model->Image;
+                                            
                                             $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
+                                            
                                             if(isset($img)){
                                                 echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
                                             }
                                             if($key == 0){
                                                 ?>
                                                 <script type="text/javascript">
-                                                $('#imgcove').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
+                                                $('#imgcove>.image').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
                                                 </script>
                                                 <?php
                                             }
@@ -107,7 +115,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                                     }
                                 ?>           
                             </ul>
-                            <div class="selected-product-image"><input /></div>                       
+                            <div class="selected-product-image one"><input /></div>                       
                         </div>
 
             
@@ -453,8 +461,11 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 position: absolute;
                 right: 65px;
                 top: 10px;
-                color: #ff7f00;
+                color: #aaa;
                 cursor: pointer;
+            }
+            #select_ts div>span:hover{                
+                color: #ff7f00;
             }
             #select_ts .col-md-3 {
                 margin: 0 0 20px 0;

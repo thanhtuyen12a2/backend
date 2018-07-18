@@ -50,8 +50,7 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }    
-
-        $this['spdm_sothutu'] = (string)time(); 
+        if($this->isNewRecord)  $this['spdm_sothutu'] = (string)time(); 
         return true;
     }
 

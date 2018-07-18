@@ -177,7 +177,8 @@ class SanphamController extends Controller
                                         ->andWhere(['spdm_id_sp' => $san_pham])
                                         ->andWhere(['spdm_id_danhmuc' => $danh_muc->dm_id])
                                         ->one();
-            if($spdm){                               
+            if($spdm){          
+                $spdm->spdm_sothutu = (string)time();                      
                 if(!$spdm->save()) Aabc::error($spdm->errors);
             }
 
