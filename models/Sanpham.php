@@ -26,6 +26,7 @@ class Sanpham extends \aabc\db\ActiveRecord
     const addspdm = 'p9';
     const removespdmnb = 'e9';
     const fristspdmnb = 'u3';
+    const addalbum = 'y8';
 
     public function actionController()
     {
@@ -38,6 +39,7 @@ class Sanpham extends \aabc\db\ActiveRecord
           Sanpham::tt.':'.Sanpham::addspdm => 'sanpham/addspdm',
           Sanpham::tt.':'.Sanpham::removespdmnb => 'sanpham/removespdmnb',
           Sanpham::tt.':'.Sanpham::fristspdmnb => 'sanpham/fristspdmnb',
+          Sanpham::tt.':'.Sanpham::addalbum => 'sanpham/addalbum',
 
           Sanpham::tt.':c' => 'sanpham/c',
           Sanpham::tt.':ut' => 'sanpham/ut',
@@ -68,6 +70,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_motaseo = 'b12';
      const sp_linkanhdaidien = 'd73';
      const sp_images = 'q76';
+     const sp_album = 'k67';
      const sp_status = 'w72';
      const sp_recycle = 'e47';
      const sp_conhang = 'r47';
@@ -103,6 +106,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const __sp_motaseo = 'Mô tả seo';
      const __sp_linkanhdaidien = 'sp_linkanhdaidien';
      const __sp_images = 'sp_images';
+     const __sp_album = 'sp_album';
      const __sp_status = 'Trạng thái';
      const __sp_recycle = 'sp_recycle';
      const __sp_conhang = 'Tình trạng';

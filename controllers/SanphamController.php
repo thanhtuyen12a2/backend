@@ -88,6 +88,9 @@ class SanphamController extends Controller
         ];
     }
 
+    public function actionAddalbum(){
+        return $this->renderAjax('add-album');
+    }
 
     public function actionSearch($dm = '') //dm: danh mục
     {
@@ -714,6 +717,10 @@ class SanphamController extends Controller
                 return $errors;
                 // return ActiveForm::validate($model);
             }
+
+            //Album ảnh
+            if(Aabc::$app->request->post('Al'))
+                $model[Sanpham::sp_album] = Aabc::$app->request->post('Al');
 
             //Thông số
             $tss = Aabc::$app->request->post('Ts');

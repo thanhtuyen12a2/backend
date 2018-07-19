@@ -20,7 +20,7 @@ if(empty($html_ts)) $html_ts = '';
 
 $new = new Sanphamngonngu();
 ?>
-
+<script src="/ad/js/sortable.js"></script>
 <script src="../ckeditor/ckeditor.js"></script>
 <!-- <script src="./tt2/admin.js"></script>
 <script src="./tt2/report-vendor.js"></script>
@@ -64,10 +64,9 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     
     <div  id="spnoidung" class="tab-pane col-md-12 float-left">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Thông tin cơ bản</a></li>
-
+            <li class="active"><a data-toggle="tab" href="#home">Thông tin cơ bản</a></li>            
+            <li><a data-toggle="tab" href="#tab_anh">Ảnh sản phẩm</a></li>
             <li><a data-toggle="tab" href="#tab_thongso">Thông số sản phẩm</a></li>
-
             <li><a data-toggle="tab" href="#tab2">Nội dung chi tiết</a></li>
             <li><a data-toggle="tab" href="#thongso">Thông số kỹ thuật</a></li>
             <li><a data-toggle="tab" href="#tab_seo">Tùy chỉnh SEO</a></li>
@@ -83,7 +82,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                         
                                        
                             
-                        <div class="col-md-12 col-sm-6 col-xs-12 pt100">
+                        <div class="col-md-12 col-sm-6 col-xs-12 pt100" style="height: 250px">
                             
                             <div id="imgcove">
                                 <div <?= Aabc::$app->d->m ?>="2" id="mb <?= Sanpham::tt?>"  <?= Aabc::$app->d->u?> ="ga?i=icon" class="mb"   <?= Aabc::$app->d->i?> = <?= Aabc::$app->_model->__image ?> ></div>
@@ -98,13 +97,12 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                                     if(isset($model[Sanpham::sp_images])){
                                         $listimg = explode("-",$model[Sanpham::sp_images]);
                                         foreach ($listimg as $key => $value) {
-                                            
-                                            $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
-                                            
-                                            if(isset($img)){
-                                                echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
-                                            }
                                             if($key == 0){
+                                                $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
+                                                
+                                                if(isset($img)){
+                                                    echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
+                                                }                                            
                                                 ?>
                                                 <script type="text/javascript">
                                                 $('#imgcove>.image').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
@@ -118,7 +116,8 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             <div class="selected-product-image one"><input /></div>                       
                         </div>
 
-            
+                                   
+                        
 <!-- 
                             <div class="col-md-12 col-sm-6  col-xs-12 pt160">
                                 <?php     
@@ -503,12 +502,45 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     </fieldset>
 </div> 
 
+<style type="text/css">
+    .del-album{
+        height: 30px;
+        line-height: 23px;
+        cursor: pointer;
+    }
+    .l-album {
+        border-bottom: 1px solid #eee;
+        margin: 0 0 10px 0;
+    }
+    .add-album{
+        height: 30px;
+        line-height: 23px;
+        cursor: pointer;   
+    }
+    
+</style>
+
+<div id="tab_anh" class="tab-pane fade clearfix" style="padding: 10px 0;">    
+    <div class="list-album">
+        <?php 
+            if(!empty($model[Sanpham::sp_album])) $model[Sanpham::sp_album] = json_decode($model[Sanpham::sp_album], true);
+            foreach ($model[Sanpham::sp_album] as $key => $album) {
+                echo Aabc::$app->controller->renderPartial('add-album',[
+                    'album' => $album,
+                    'random' => $key,
+                ]);                
+            }
+        ?>        
+    </div>
+    
+    <div class="col-md-12 clearfix">
+        <span class="btn btn-default add-album" <?= Aabc::$app->d->u .'='. Sanpham::addalbum ?>  <?= Aabc::$app->d->i.'='.Sanpham::tt ?> ><span class="glyphicon text-success glyphicon-plus"></span> Thêm album</span>
+    </div>
+</div>
 
 
 
-
-
-    <div id="thongso" class="tab-pane fade ">  
+    <div id="thongso" class="tab-pane fade clearfix">  
         <fieldset class="ht htsp"> 
 
             <div id="noidung" class="tab-pane col-md-12 float-right">     
@@ -671,7 +703,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 
-<script src="/ad/js/sortable.js"></script>
+
 
 <script type="text/javascript">                
     (function () {
