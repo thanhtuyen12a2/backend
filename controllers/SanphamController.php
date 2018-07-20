@@ -88,6 +88,16 @@ class SanphamController extends Controller
         ];
     }
 
+
+    public function actionAddphienban(){
+        if(isset($_GET['option'])){
+            return $this->renderAjax('add-phienban-option');
+        }else{
+            return $this->renderAjax('add-phienban');
+        }        
+    }
+
+
     public function actionAddalbum(){
         return $this->renderAjax('add-album');
     }
@@ -721,6 +731,11 @@ class SanphamController extends Controller
             //Album ảnh
             if(Aabc::$app->request->post('Al'))
                 $model[Sanpham::sp_album] = Aabc::$app->request->post('Al');
+
+            //Phiên bản giá
+            if(Aabc::$app->request->post('Pb'))
+                $model[Sanpham::sp_phienban] = Aabc::$app->request->post('Pb');
+
 
             //Thông số
             $tss = Aabc::$app->request->post('Ts');

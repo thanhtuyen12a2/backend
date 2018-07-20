@@ -77,7 +77,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             <div id="home" class="tab-pane fade in active ">
                 <fieldset class="ht htweb"> <!-- htsp-->
                     
-                    <div class="col-md-5" style="/*border-left: 1px solid #ddd;*/">
+                    <div class="col-md-5" style="margin: 20px 0 0 0">
 
                         
                                        
@@ -116,8 +116,74 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             <div class="selected-product-image one"><input /></div>                       
                         </div>
 
-                                   
+
+
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt100">
+                            <?php                  
+                                if($model[Sanpham::sp_conhang] == NULL) $model[Sanpham::sp_conhang] = '1';
+                                echo $form->field($model, Sanpham::sp_conhang,['options' => ['class' => '']])->dropDownList( Sanpham::getConhangOptionColor(),[
+                                        //'multiple'=>'multiple', 
+                                        // Aabc::$app->d->s => 'search',
+                                        Aabc::$app->d->t => 'show', 
+                                        Aabc::$app->d->ty => 'ra',
+                                        Aabc::$app->d->i => Sanpham::tt,
+                                        'class' => 'mulr',      
+                                        Aabc::$app->d->c => 'one',                        
+                                         'id' => Sanpham::tt.'_sp_conhang_select'
+                                    ]); 
+                                ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tình trạng hoạt động kinh doanh của sản phẩm." aria-invalid="false"></i>
+                        </div>  
+
+                          
+                        <div class="col-md-6 col-sm-6 col-xs-12 pt100">  
+                            <?php   
+                            if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
+                            echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(Sanpham::getTrangthaiOptionColor(),[
+                                    //'multiple'=>'multiple', 
+                                    // Aabc::$app->d->s => 'search',  
+                                    Aabc::$app->d->t => 'show',
+                                    Aabc::$app->d->ty => 'ra',
+                                    Aabc::$app->d->i => Sanpham::tt,
+                                    'class' => 'mulr',      
+                                    Aabc::$app->d->c => 'one',                        
+                                    'id' => Sanpham::tt.'_sp_status2_select'
+                                ]); 
+
+                            //  if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
+                            // echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(['' => '--Chọn--','1'=>'Hiển thị','2'=>'Ẩn'],[
+                            //         'data-placement' => 'top' ,'data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'Tùy chọn Hiển thị bài viết trên website.',
+                            //         //'multiple'=>'multiple', 
+                            //         // Aabc::$app->d->s => 'search',  
+                            //         Aabc::$app->d->ty => 'ra',
+                            //         Aabc::$app->d->i => Sanpham::tt,
+                            //         'class' => 'mulr',      
+                            //         Aabc::$app->d->c => 'one',                        
+                            //         'id' => Sanpham::tt.'_sp_status2_select'
+                            //     ]); 
+                          
+                            ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tùy chọn Hiển thị bài viết trên website." aria-invalid="false"></i>
+                        </div>     
                         
+
+                         <div class="col-md-10 pt100">
+                            <?php  
+                                echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getNoibatOption(),[
+                                    'multiple'=>'multiple', 
+                                    Aabc::$app->d->t => 'sea',//Search
+                                    // Aabc::$app->d->t => 'show', 
+                                    Aabc::$app->d->ty => 'checkbox',                    
+                                    Aabc::$app->d->i => Sanpham::tt,
+                                    'class' => 'mulr',      
+                                    // Aabc::$app->d->c => 'one',                        
+                                    'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-noibat',
+                                ])->label('Nổi bật'); 
+
+
+                            ?>
+                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm này sẽ hiển thị ra trang chủ <br/> tại các mục được chọn." aria-invalid="false"></i>
+                        </div>
 <!-- 
                             <div class="col-md-12 col-sm-6  col-xs-12 pt160">
                                 <?php     
@@ -306,71 +372,52 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                         <div class="xd"></div>
 
-                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
-                            <?php                  
-                                if($model[Sanpham::sp_conhang] == NULL) $model[Sanpham::sp_conhang] = '1';
-                                echo $form->field($model, Sanpham::sp_conhang,['options' => ['class' => '']])->dropDownList( Sanpham::getConhangOptionColor(),[
-                                        //'multiple'=>'multiple', 
-                                        // Aabc::$app->d->s => 'search',
-                                        Aabc::$app->d->t => 'show', 
-                                        Aabc::$app->d->ty => 'ra',
-                                        Aabc::$app->d->i => Sanpham::tt,
-                                        'class' => 'mulr',      
-                                        Aabc::$app->d->c => 'one',                        
-                                         'id' => Sanpham::tt.'_sp_conhang_select'
-                                    ]); 
-                                ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tình trạng hoạt động kinh doanh của sản phẩm." aria-invalid="false"></i>
-                        </div>  
+                        <div class="col-md-12">
+                            <style type="text/css">
+                                .del-pbsp{
+                                    height: 30px;
+                                    line-height: 23px;
+                                }
+                                .l-option {
+                                    margin: 5px 0;
+                                }
+                                span.del-pbsp-option {
+                                    font-size: 12px;
+                                    line-height: 30px;
+                                    color: #e00;
+                                    float: right;
+                                    cursor: pointer;
+                                }
+                                .add-pbsp-option {
+                                    margin: 5px 0;
+                                }
+                            </style>
 
-                                               
-                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">
-                            <?php  
-                                echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getNoibatOption(),[
-                                    'multiple'=>'multiple', 
-                                    Aabc::$app->d->t => 'sea',//Search
-                                    // Aabc::$app->d->t => 'show', 
-                                    Aabc::$app->d->ty => 'checkbox',                    
-                                    Aabc::$app->d->i => Sanpham::tt,
-                                    'class' => 'mulr',      
-                                    // Aabc::$app->d->c => 'one',                        
-                                    'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-noibat',
-                                ])->label('Nổi bật'); 
+                            <div style="border: 2px dashed #f7ba0c;padding: 10px;margin: 0 0 10px 0;">
+                                <b>Thiết lập giá cho các thông số, phiên bản, các option thêm bớt của sản phẩm này.</b>
+                                <br/>
+                                <i style="font-size: 12px">VD: Sản phẩm điện thoại A, có các phiên bản bộ nhớ 32GB, 64GB, 128GB ... Hoặc về màu sắc có màu Trắng, Đen, Bạc....
+                                <br/>Phần Giá chênh lệch ví dụ cộng thêm 100.000đ ....
+                                </i>
+                            </div>
 
 
-                            ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm này sẽ hiển thị ra trang chủ tại các mục được chọn." aria-invalid="false"></i>
+                            <div id="list-pbsp">
+                                 <?php 
+                                    if(!empty($model[Sanpham::sp_phienban])) $model[Sanpham::sp_phienban] = json_decode($model[Sanpham::sp_phienban], true);
+                                    if(is_array($model[Sanpham::sp_phienban])) foreach ($model[Sanpham::sp_phienban] as $key => $phienban) {
+                                        echo Aabc::$app->controller->renderPartial('add-phienban',[
+                                            'phienban' => $phienban,
+                                            'random_pb' => $key,
+                                        ]);                
+                                    }
+
+                                ?> 
+                            </div>
+
+                            <span class="btn btn-default add-pbsp" <?= Aabc::$app->d->u .'='. Sanpham::addphienban ?>  <?= Aabc::$app->d->i.'='.Sanpham::tt ?> ><span class="glyphicon text-success glyphicon-plus"></span> Thêm thông số</span>
+
                         </div>
-
-                         <div class="col-md-6 col-sm-6 col-xs-12 pt120">  
-                            <?php   
-                            if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
-                            echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(Sanpham::getTrangthaiOptionColor(),[
-                                    //'multiple'=>'multiple', 
-                                    // Aabc::$app->d->s => 'search',  
-                                    Aabc::$app->d->t => 'show',
-                                    Aabc::$app->d->ty => 'ra',
-                                    Aabc::$app->d->i => Sanpham::tt,
-                                    'class' => 'mulr',      
-                                    Aabc::$app->d->c => 'one',                        
-                                    'id' => Sanpham::tt.'_sp_status2_select'
-                                ]); 
-
-                            //  if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
-                            // echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])->dropDownList(['' => '--Chọn--','1'=>'Hiển thị','2'=>'Ẩn'],[
-                            //         'data-placement' => 'top' ,'data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'Tùy chọn Hiển thị bài viết trên website.',
-                            //         //'multiple'=>'multiple', 
-                            //         // Aabc::$app->d->s => 'search',  
-                            //         Aabc::$app->d->ty => 'ra',
-                            //         Aabc::$app->d->i => Sanpham::tt,
-                            //         'class' => 'mulr',      
-                            //         Aabc::$app->d->c => 'one',                        
-                            //         'id' => Sanpham::tt.'_sp_status2_select'
-                            //     ]); 
-                          
-                            ?>
-                            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tùy chọn Hiển thị bài viết trên website." aria-invalid="false"></i>
-                        </div> 
 
 
                     </div> 
@@ -502,6 +549,15 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     </fieldset>
 </div> 
 
+
+
+
+
+
+
+
+
+
 <style type="text/css">
     .del-album{
         height: 30px;
@@ -524,7 +580,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     <div class="list-album">
         <?php 
             if(!empty($model[Sanpham::sp_album])) $model[Sanpham::sp_album] = json_decode($model[Sanpham::sp_album], true);
-            foreach ($model[Sanpham::sp_album] as $key => $album) {
+            if(is_array($model[Sanpham::sp_album])) foreach ($model[Sanpham::sp_album] as $key => $album) {
                 echo Aabc::$app->controller->renderPartial('add-album',[
                     'album' => $album,
                     'random' => $key,
@@ -535,8 +591,20 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     
     <div class="col-md-12 clearfix">
         <span class="btn btn-default add-album" <?= Aabc::$app->d->u .'='. Sanpham::addalbum ?>  <?= Aabc::$app->d->i.'='.Sanpham::tt ?> ><span class="glyphicon text-success glyphicon-plus"></span> Thêm album</span>
+
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

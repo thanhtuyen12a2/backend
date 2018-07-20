@@ -262,7 +262,7 @@ if(empty($icon)) $icon = '';
 </style>
 
      <?php
-     if(isset($icon)){
+     if(!empty($icon)){
         echo ListView::widget([
             'dataProvider' => $dataProvider,
             'emptyText' => Aabc::$app->MyConst->gridview_khongthayanh,

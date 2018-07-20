@@ -23,6 +23,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_motaseo => null,
             Sanpham::sp_images => null,
             Sanpham::sp_album => null,
+            Sanpham::sp_phienban => null,
             Sanpham::sp_status => null,
             Sanpham::sp_recycle => null,
             Sanpham::sp_conhang => null,
@@ -64,7 +65,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $_User = Aabc::$app->_model->User;
 
         return [  
-            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_album','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
+            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_phienban','sp_album','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
 
@@ -72,7 +73,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
               return $model->sp_type == 1;
             }],
 
-            [[Sanpham::sp_type ,Sanpham::sp_album, Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
+            [[Sanpham::sp_type ,Sanpham::sp_album,Sanpham::sp_phienban, Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
             // [[Sanpham::sp_gia,Sanpham::sp_giakhuyenmai], 'string', 'max' => 11],
             [[Sanpham::sp_ma,Sanpham::sp_view, Sanpham::sp_idnguoitao, Sanpham::sp_idnguoiupdate, Sanpham::sp_id_ncc, Sanpham::sp_id_thuonghieu,  Sanpham::sp_soluong, Sanpham::sp_soluongfake, Sanpham::sp_soluotmua], 'integer'],
             [[Sanpham::sp_ngaytao, Sanpham::sp_ngayupdate, Sanpham::sp_id_danhmuc,  Sanpham::sp_id_chinhsach], 'safe'],
@@ -126,6 +127,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
                                  
             Sanpham::sp_images => Sanpham::__sp_images ,
             Sanpham::sp_album => Sanpham::__sp_album ,
+            Sanpham::sp_phienban => Sanpham::__sp_phienban ,
             Sanpham::sp_status => Sanpham::__sp_status ,                        
             Sanpham::sp_recycle => Sanpham::__sp_recycle ,                        
             Sanpham::sp_conhang => Sanpham::__sp_conhang ,                        
@@ -162,6 +164,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_motaseo = $this[Sanpham::sp_motaseo]; 
         $this->sp_images = $this[Sanpham::sp_images]; 
         $this->sp_album = $this[Sanpham::sp_album]; 
+        $this->sp_phienban = $this[Sanpham::sp_phienban]; 
         $this->sp_status = $this[Sanpham::sp_status]; 
         $this->sp_recycle = $this[Sanpham::sp_recycle]; 
         $this->sp_conhang = $this[Sanpham::sp_conhang]; 
@@ -182,6 +185,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_id_chinhsach = $this[Sanpham::sp_id_chinhsach];    
         
         if(!empty($this->sp_album)) $this->sp_album = json_encode($this->sp_album);
+        if(!empty($this->sp_phienban)) $this->sp_phienban = json_encode($this->sp_phienban);
 
         if($this->sp_type == 2 ){
             if(empty($this->sp_gia)) $this->sp_gia = '0';
@@ -215,6 +219,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this[Sanpham::sp_motaseo] =  $this->sp_motaseo;
         $this[Sanpham::sp_images] =  $this->sp_images;
         $this[Sanpham::sp_album] =  $this->sp_album;
+        $this[Sanpham::sp_phienban] =  $this->sp_phienban;
         $this[Sanpham::sp_status] =  $this->sp_status; 
         $this[Sanpham::sp_recycle] =  $this->sp_recycle;
         $this[Sanpham::sp_conhang] =  $this->sp_conhang;

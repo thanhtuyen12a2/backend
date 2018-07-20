@@ -69,9 +69,9 @@ use aabc\widgets\ActiveForm;
                               $icon = explode('#',$model->dm_icon);
                               $icon = '<div class="g-icon"><div class="'.(empty($icon['1'])?'':$icon['1']).'">'.Tuyen::_icon($icon['0']) .'</div></div>';
                             }
-                            return $icon.'<b style="line-height: 30px;">'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b> (Thông số)';    
+                            return $icon.'<b style="line-height: 30px;">'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b>';    
                         }else{
-                            return '<i>'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).' (Giá trị</i>)';
+                            return '<i>'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</i>';
                         }
                         
                     }, 
