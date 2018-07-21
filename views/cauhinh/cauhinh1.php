@@ -8,6 +8,7 @@ use aabc\grid\GridView;
 use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
+use kartik\select2\Select2;
 ?>
 
 <div d-u="c1" id="pjch" class="pj ch-index">
@@ -96,6 +97,113 @@ use aabc\widgets\ActiveForm;
             <fieldset>
                 <legend>Website</legend>
 
+                                  
+                <div class="col-md-7 pt200">
+                    <style type="text/css">
+                        .tttg{
+                            position: relative;
+                        }
+                        .tttg .add-tttg{
+                            z-index: 99;
+                            position: absolute;
+                            bottom: 5px;
+                            right: 5px;                            
+                            font-size: 13px;
+                            color: #999;
+                        }
+                        .tttg-one{
+                            float: left;
+                            float: left;
+                            margin: 5px 5px 5px 0;
+                            border: 1px solid #ccc;
+                            padding: 2px 22px 2px 24px;
+                            border-radius: 5px;
+                            color: #888;
+                            position: relative;
+                        }
+                        .tttg-one span{
+                            position: absolute;
+                            top: 5px;
+                            right: 3px;
+                            cursor: pointer;
+                            opacity: 0.5;
+                        }
+                        .tttg-one span:hover{
+                            color: #a00;
+                            opacity: 1;
+                        }
+                        .tttg-default{
+                            position: absolute;
+                            top: 4px;
+                            left: 5px;
+                        }
+                        .tttg-one input{
+                            padding: 0;margin: 0;
+                        }
+                    </style>
+                    <div class="form-group required">
+                        <div class="le"><label class="control-label" for="">Tiền tệ</label></div>
+                        <div class="ri">                            
+                            <div class="tttg">
+                                <div class="tttg-content">
+                                    <?php
+                                        $tttg = Cauhinh::get(Cauhinh::tientetinhgia);
+                                        $tttg_child = $tttg['child'];
+                                        if(is_array($tttg_child)) foreach ($tttg_child as $k => $v) { 
+                                    ?>
+                                        <div class="tttg-one">
+                                            <input title="Mặc định" <?= ($k == $tttg['default'])?'checked':''  ?> class="tttg-default" type="radio" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][default]" value="<?= $k?>">
+                                            <span title="Xóa" class="tttg-remove glyphicon glyphicon-remove"></span><?= $v ?>
+                                            <input value="<?= $v ?>" type="text" readonly="" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][child][<?= $k?>]" class="hide">
+                                        </div>
+                                    <?php        
+                                        }
+                                    ?>
+                                </div>
+
+                                <input placeholder="Nhập thêm tiền tệ tính giá mới... VD: đ, VNĐ, đ/chiếc, đ/lốc" class="form-control input-tttg" type="text" />
+                                <i class="hide add-tttg">Ấn Enter để thêm mới</i>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $('.input-tttg').on('keyup keypress',function(e){
+                            var parent = $(this).parent()
+                            var value = $(this).val()                            
+                            var btn_add = parent.find('.add-tttg')
+                            var keyCode = e.keyCode || e.which;
+                            if (keyCode === 13){
+                                var d = new Date();
+                                var time = d.getTime();
+
+                                var add_content = parent.find('.tttg-content')
+                                var html = '<div class="tttg-one"><input title="Mặc định" class="tttg-default" type="radio" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][default]"value="'+time+'" /><span title="Xóa" class="tttg-remove glyphicon glyphicon-remove"></span>'+value+'<input value="'+value+'" type="text" readonly name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][child]['+time+']"  class="hide" /></div>'  
+
+                                if(value != ''){
+                                    add_content.append(html)
+                                }
+                                $(this).val('')
+                                btn_add.addClass('hide')
+                                e.preventDefault();
+                                return false;
+                            }                           
+                            if(value == ''){   
+                                btn_add.addClass('hide')                             
+                            }else{
+                                btn_add.removeClass('hide')
+                            }
+                        })
+
+                       
+                    </script>
+                </div>
+
+
+
+
+
+
+
 
                 <div class="col-md-7 pt200">
                     <div class="form-group required">
@@ -150,6 +258,8 @@ use aabc\widgets\ActiveForm;
                         <div class="ri"><input class="form-control" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::ngonngu?>]" value="<?= Cauhinh::get(Cauhinh::ngonngu) ?>"/></div>
                     </div>
                 </div>
+
+              
 
             </fieldset>
         </div>

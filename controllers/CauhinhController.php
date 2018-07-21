@@ -119,6 +119,11 @@ class CauhinhController extends Controller
                             $model = new $_Cauhinh;
                             $model[Cauhinh::ch_key] = $k;                            
                         }
+
+                        if(is_array($v)){
+                            Aabc::error(json_encode($v));
+                        }
+
                         $model[Cauhinh::ch_data] = $v;
                         if($model->save()){ 
                              $datajson = 1;                           

@@ -96,6 +96,8 @@ class Cauhinh extends Model
     const sp_chinhsach = 'x2';
     const sp_hotro = 'y8';
 
+    const tientetinhgia = 'g9';
+
     public static function check_key($key = '')
     {
         $rel = new \ReflectionClass('backend\models\Cauhinh');
