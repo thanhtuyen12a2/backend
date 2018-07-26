@@ -44,7 +44,7 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Tổng số page</label></div>
                     <div class="ri">  
-                        <input placeholder="Số lượng page" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $page_template?>][max]" value="<?= empty($page['max'])?'':$page['max'] ?>" />
+                        <input placeholder="Số lượng page" class="form-control" type="number" min="0" name="<?= Cauhinh::T?>[<?= $page_template?>][max]" value="<?= empty($page['max'])?'':$page['max'] ?>" />
                               
                     </div>
                 </div>

@@ -10,8 +10,7 @@ use common\components\Tuyen;
 <style type="text/css">
     h5{
       font-size: 14px;
-      text-transform: uppercase;
-      color: #1190ca;
+      color: #434546;
     }
 </style>
 

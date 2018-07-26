@@ -686,27 +686,31 @@ if(empty($menu_current['child'])){
             <?php 
                 if($model[Aabc::$app->_danhmuc->dm_status] == NULL) $model[Aabc::$app->_danhmuc->dm_status] = 1;
             ?>
-            <?= $form->field($model, Aabc::$app->_danhmuc->dm_status,['options' => ['class' => 'hide']])->dropDownList([1 => 'Xuất bản##mgr', 2 => 'Không hiển thị##mre', ],[
-                                //'multiple'=>'multiple', 
-                                // Aabc::$app->d->s => 'search', 
-                                Aabc::$app->d->t => 'show',
-                                Aabc::$app->d->ty => 'ra',
-                                Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
-                                'class' => 'mulr',      
-                                Aabc::$app->d->c => 'one',                        
-                                'id' => Aabc::$app->_model->__danhmuc.'_dm_status_select'
-                            ])->label(false) ?>
+            <?php
+
+             // $form->field($model, Aabc::$app->_danhmuc->dm_status,['options' => ['class' => 'hide']])->dropDownList([1 => 'Xuất bản##mgr', 2 => 'Không hiển thị##mre', ],[
+             //                    //'multiple'=>'multiple', 
+             //                    // Aabc::$app->d->s => 'search', 
+             //                    Aabc::$app->d->t => 'show',
+             //                    Aabc::$app->d->ty => 'ra',
+             //                    Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
+             //                    'class' => 'mulr',      
+             //                    Aabc::$app->d->c => 'one',                        
+             //                    'id' => Aabc::$app->_model->__danhmuc.'_dm_status_select'
+             //                ])->label(false) 
+            ?>
 
 
-            <?= $form->field($model, Aabc::$app->_danhmuc->dm_groupmenu,['options' => ['class' => 'hide']])->dropDownList([ '' => '--Chọn--', 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', ],['data-placement' => 'right','data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'title',
-                                //'multiple'=>'multiple', 
-                                // Aabc::$app->d->s => 'search', 
-                                Aabc::$app->d->ty => 'ra',
-                                Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
-                                'class' => 'mulr',      
-                                Aabc::$app->d->c => 'one',                        
-                                'id' => Aabc::$app->_model->__danhmuc.'_dm_groupmenu_select'
-                            ])->label(false) ?>
+            <?php
+             // $form->field($model, Aabc::$app->_danhmuc->dm_groupmenu,['options' => ['class' => 'hide']])->dropDownList([ '' => '--Chọn--', 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', ],['data-placement' => 'right','data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => 'title',
+             //                    //'multiple'=>'multiple', 
+             //                    // Aabc::$app->d->s => 'search', 
+             //                    Aabc::$app->d->ty => 'ra',
+             //                    Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
+             //                    'class' => 'mulr',      
+             //                    Aabc::$app->d->c => 'one',                        
+             //                    'id' => Aabc::$app->_model->__danhmuc.'_dm_groupmenu_select'
+             //                ])->label(false) ?>
 
 
 

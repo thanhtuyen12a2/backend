@@ -52,9 +52,9 @@ use aabc\widgets\ActiveForm;
                     $level = $module['child'][$idmodule]['max'];
 
                     if(empty($level)){
-                        $replace = '<div class="module-child">Module: '. $lable .'</div>';
+                        $replace = '<div class="module-child">Module: '. $lable .' ('.$j.')</div>';
                     }else{
-                        $replace = '<div class="module-child-link"><a d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).$noibat.'" class="pjbm"  d-i="danhmuc">Module: '. $lable .'</a></div>';
+                        $replace = '<div class="module-child-link"><a d-m="2" d-u="ip_mn?g='.$idmodule.'&l='. urlencode($lable).$noibat.'" class="pjbm"  d-i="danhmuc">Module: '. $lable .' ('.$j.')</a></div>';
                     }
 
                     $html = str_replace('###'.$j.'###',$replace,$html);

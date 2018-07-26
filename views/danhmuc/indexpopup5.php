@@ -72,10 +72,10 @@ $this->params['breadcrumbs'][] = $this->title;
         loadimg();
         $.ajax({
             cache: false,
-            url: 'danhmuc/rts?ts=<?= $_GET['ts']?>&stt=<?= $_GET['stt']?>&sp=<?= $_GET['sp']?>',
+            url: 'danhmuc/rts?ts=<?= empty($_GET['ts'])?'':$_GET['ts']?>&stt=<?= empty($_GET['stt'])?'':$_GET['stt']?>&sp=<?= empty($_GET['sp'])?'':$_GET['sp']?>',
             type: 'POST',               
             success: function (data) {
-                $('#tssp<?= $_GET['ts']?>').html(data)
+                $('#tssp<?= empty($_GET['ts'])?'':$_GET['ts']?>').html(data)
                 unloadimg(); 
             },
             error: function () {

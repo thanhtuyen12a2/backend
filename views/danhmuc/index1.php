@@ -31,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <fieldset>               
               
             </fieldset>  
-            <div class="bhelp">
+           <!--  <div class="bhelp">
                 <button class="btn btn-default bhelp"  <?= Aabc::$app->d->st?> ="1"    <?= Aabc::$app->d->gr?> ="1" >Hướng dẫn sử dụng</button>
-            </div>
+            </div> -->
         </div>
     </div>
 

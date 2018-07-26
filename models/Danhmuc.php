@@ -28,6 +28,9 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
     public $list_sp_noibat;
 
+
+    public $list_album;
+
     public function rules()
     {
         return [
@@ -42,6 +45,10 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [[Aabc::$app->_danhmuc->dm_link], 'safe'],
 
+            [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
+              return ($model->dm_type == 1 || $model->dm_type == 2);
+            }],
+
             [['dm_email','dm_phone','dm_zalo','dm_skype'], 'string', 'max' => 100],
 
             [['dm_fb','dm_youtube','dm_viber'], 'string', 'max' => 100],
@@ -54,6 +61,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_template'], 'string', 'max' => 100],
 
+            [['dm_album'], 'string', 'max' => 255],
+
             [['dm_showmax'], 'integer'],
 
              [['dm_dmsp'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_dmsp' => 'dm_id']],
@@ -61,6 +70,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
               [['dm_idcha'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_idcha' => 'dm_id']],
 
             [['list_sp_noibat'],'safe'],
+            [['list_album'],'safe'],
             // [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
             //     return ($model->dm_type != 4);
             // }],
@@ -151,7 +161,9 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
     public function beforeSave($insert)
-    {             
+    {      
+        if(!empty($this->list_album)) $this->dm_album = json_encode($this->list_album);
+
         $this->dm_template = Cauhinh::template(); 
         if($this->dm_type == 4){ 
 
@@ -618,10 +630,9 @@ return $this->hasMany($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id =
     /**
      * @return \aabc\db\ActiveQuery
      */
-    public function getDanhmucNgonngus()
+    public function getDanhmucNgonngus($model)
     {
-        $_DanhmucNgonngu = Aabc::$app->_model->DanhmucNgonngu;
-return $this->hasMany($_DanhmucNgonngu::className(), [Aabc::$app->_danhmucngonngu->dmnn_id_danhmuc => Aabc::$app->_danhmuc->dm_id]);
+        return $model->hasMany((Danhmucngonngu::M)::className(), ['dmnn_id_danhmuc' => 'dm_id']);
     }
     /**
      * @return \aabc\db\ActiveQuery

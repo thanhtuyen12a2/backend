@@ -433,6 +433,15 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 <div id="tab_thongso" class="tab-pane fade ">  
+
+    <div style="border: 2px dashed #f7ba0c;padding: 10px;margin: 10px 5px 10px 10px;">
+        <b>Thiết lập các thông số kỹ thuật, tính năng, đặc điểm của sản phẩm.</b>
+        <br/>
+        <i style="font-size: 12px">Một sản phẩm sẽ thuộc 1 danh mục sản phẩm. Tại mỗi danh mục sẽ có các thông số, tính năng khác nhau (Thiết lập tại mục Sản phẩm > Danh sách thông số).<br/>
+        </i>
+    </div>
+
+
     <fieldset class="ht htsp">             
         <div class="col-md-6 col-sm-6  col-xs-12 pt160">
             <?php    
@@ -577,6 +586,14 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 </style>
 
 <div id="tab_anh" class="tab-pane fade clearfix" style="padding: 10px 0;">    
+
+    <div style="border: 2px dashed #f7ba0c;padding: 10px;margin: 0 5px 10px 10px;">
+        <b>Thiết lập các album ảnh cho sản phẩm này.</b>
+        <br/>
+        <i style="font-size: 12px">Một sản phẩm có thể thêm 1 hoặc nhiều album ảnh khác nhau. VD Album ảnh phiên bản sản phẩm màu Bạc, màu Đỏ... Hay Album ảnh chụp từ sản phẩm, Album ảnh đặc điểm nổi bật của sản phẩm...        
+        </i>
+    </div>
+
     <div class="list-album">
         <?php 
             if(!empty($model[Sanpham::sp_album])) $model[Sanpham::sp_album] = json_decode($model[Sanpham::sp_album], true);

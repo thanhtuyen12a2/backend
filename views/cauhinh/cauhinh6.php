@@ -43,7 +43,7 @@ use aabc\widgets\ActiveForm;
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Tổng số Module</label></div>
                     <div class="ri">  
-                        <input placeholder="Số lượng Module" class="form-control" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][max]" value="<?= empty($module['max'])?'':$module['max'] ?>" />
+                        <input placeholder="Số lượng Module" class="form-control" type="number" min="0" name="<?= Cauhinh::T?>[<?= $module_template?>][max]" value="<?= empty($module['max'])?'':$module['max'] ?>" />
                               
                     </div>
                 </div>

@@ -53,7 +53,7 @@ use aabc\widgets\ActiveForm;
              // Aabc::$app->_danhmuc->dm_char,
 
                [                
-                    'header' =>'Thông số',  
+                    'header' =>'Tiêu đề',  
                     // 'visible' => Aabc::$app->user->can('web'),            
                     'format' => 'raw',
                     // 'filterInputOptions' => [
@@ -62,7 +62,7 @@ use aabc\widgets\ActiveForm;
 
                     'value' => function ($model) { 
                         if($model[Aabc::$app->_danhmuc->dm_level] == 0 ){
-                            return '<h4>Nhóm: '.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</h4>';    
+                            return '<h4>Danh mục: '.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</h4>';    
                         }elseif($model[Aabc::$app->_danhmuc->dm_level] == 1 ){
                             $icon = '';
                             if(!empty($model->dm_icon)){
@@ -107,7 +107,7 @@ use aabc\widgets\ActiveForm;
 
                       <div class="gn"></div>'.
 
-                      ($model[Aabc::$app->_danhmuc->dm_level] == 0  ? ('<button  '.Aabc::$app->d->m.'="3"  type="button" class="mb btn btn-default" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'" '.Aabc::$app->d->u.'="c_tn?pa='.$model[Aabc::$app->_danhmuc->dm_id].'">Thêm thông số vào nhóm<span class="glyphicon glyphicon-plus"></span></button>') : '')
+                      ($model[Aabc::$app->_danhmuc->dm_level] == 0  ? ('<button  '.Aabc::$app->d->m.'="3"  type="button" class="mb btn btn-default" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'" '.Aabc::$app->d->u.'="c_tn?pa='.$model[Aabc::$app->_danhmuc->dm_id].'">Thêm thông số vào danh mục<span class="glyphicon glyphicon-plus"></span></button>') : '')
                       .''.
 
                       ($model[Aabc::$app->_danhmuc->dm_level] == 1  ? ('<button  '.Aabc::$app->d->m.'="3"  type="button" class="mb btn btn-default" '.Aabc::$app->d->i.'="'.Aabc::$app->_model->__danhmuc.'" '.Aabc::$app->d->u.'="c_tn?pa='.$model[Aabc::$app->_danhmuc->dm_id].'">Thêm giá trị cho thông số<span class="glyphicon glyphicon-plus"></span></button>') : '')

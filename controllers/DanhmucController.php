@@ -8,6 +8,7 @@ use aabc\web\Controller;
 use aabc\web\NotFoundHttpException;
 use aabc\filters\VerbFilter;
 
+use backend\models\Danhmucngonngu;
 
 use aabc\db\Transaction;
 use aabc\base\Exception;
@@ -441,7 +442,7 @@ class DanhmucController extends Controller
 
             if($tp == 4){
                 $model->dm_status = '1';
-                // $model->dm_groupmenu = $g;
+                $model->dm_groupmenu = $g;
             }
 
             if(!empty($noibat)) $model->dm_noibat = $noibat;
@@ -592,7 +593,31 @@ class DanhmucController extends Controller
             
             $transaction = \Aabc::$app->db->beginTransaction(); 
 
-            try {                 
+            try {    
+                    $danhmucngonngu = Aabc::$app->request->post(Danhmucngonngu::T);
+                    $_Danhmucngonngu = (Danhmucngonngu::M);
+
+                    if(!empty($danhmucngonngu[0][Danhmucngonngu::dmnn_ten])){
+                        $model->dm_ten = $danhmucngonngu[0][Danhmucngonngu::dmnn_ten];
+                    }
+
+                    if(is_array($danhmucngonngu)) foreach ($danhmucngonngu as $k => $v) {
+                        $dmnn = $_Danhmucngonngu::find()
+                                        ->andWhere(['dmnn_id_danhmuc' => $v[Danhmucngonngu::dmnn_id_danhmuc]])
+                                        ->andWhere(['dmnn_id_ngonngu' => $v[Danhmucngonngu::dmnn_id_ngonngu]])
+                                        ->one();
+                        if(!$dmnn) $dmnn = new $_Danhmucngonngu;
+                        $dmnn->attributes = $v;
+
+                        if($dmnn->save()){              
+                            $datajson = 1;                    
+                        }else{
+                            $transaction->rollback();                    
+                            $datajson = 0; 
+                            return $datajson; 
+                        }
+                    }
+
                 
                     // Add Danhmuc - Chinh sach; 
                     $countdmcs = $_Danhmucchinhsach::find()
@@ -615,6 +640,7 @@ class DanhmucController extends Controller
                                 Aabc::error($model->errors);
                                 $transaction->rollback();                    
                                 $datajson = 0; 
+                                return $datajson; 
                             }                            
                         }
                     }
@@ -640,6 +666,7 @@ class DanhmucController extends Controller
 
                         $transaction->rollback();                    
                         $datajson = 0; 
+                        return $datajson; 
                     } 
             } catch (Exception $e) {            
                 $transaction->rollback();

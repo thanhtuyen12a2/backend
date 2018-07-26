@@ -162,7 +162,7 @@ use kartik\select2\Select2;
                                 </div>
 
                                 <input placeholder="Nhập thêm tiền tệ tính giá mới... VD: đ, VNĐ, đ/chiếc, đ/lốc" class="form-control input-tttg" type="text" />
-                                <i class="hide add-tttg">Ấn Enter để thêm mới</i>
+                                <i class="hide add-tttg">ấn ENTER để thêm mới</i>
                             </div>
                         </div>
                     </div>
