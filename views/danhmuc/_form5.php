@@ -33,7 +33,7 @@ use aabc\helpers\ArrayHelper;
       
 
 
-<div class="col-md-12 pt25">    
+<div class="col-md-12  row pt120">    
     <?php 
     $_Danhmuc = Aabc::$app->_model->Danhmuc;
     $model->dm_dmsp = '';
@@ -102,7 +102,7 @@ use aabc\helpers\ArrayHelper;
 
 
 
-<div class="col-md-12 pt25">    
+<div class="col-md-12  row pt120">    
     <?php 
     $_Danhmuc = Aabc::$app->_model->Danhmuc;   
 
@@ -167,7 +167,7 @@ use aabc\helpers\ArrayHelper;
 
 ?>
 
-<div class="col-md-12 pt25">
+<div class="col-md-12  row pt120">
     <?= $form->field($model, Aabc::$app->_danhmuc->dm_ten,['options' => ['class' => (empty($an_ten)?'':'hide')]])->textInput(['maxlength' => true,'data-placement' => 'top','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => ''])->label('Tên') ?>
     <!-- ->label('My superb label') -->
 </div>
@@ -179,32 +179,49 @@ use aabc\helpers\ArrayHelper;
 
 
 
-<div class="col-md-12 pt25">
+<div class="col-md-12  row pt120">
     <?= $form->field($model, Aabc::$app->_danhmuc->dm_ghichu)->textarea(['rows' => '2', 'maxlength' => true,'data-placement' => 'right','data-trigger' => 'focus', 'data-toggle' => 'tooltip', '' => '']) ?>
 </div>
 
 
 
+<?php if($level == 2){ //Tức là giá trị ?>
+    <div class="col-md-12  row pt120">
+        <?= $form->field($model, Aabc::$app->_danhmuc->dm_link)->textInput(['maxlength' => true,'data-placement' => 'right','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => ''])->label('Link seo') ?>
 
-<div class="col-md-12 pt25">
-    <?= $form->field($model, Aabc::$app->_danhmuc->dm_link)->textInput(['maxlength' => true,'data-placement' => 'right','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => '']) ?>
-</div>
+        <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Đường dẫn đến thông số này, sẽ hiển thị danh sách các sản phẩm có thông tin thông số giá trị này" aria-invalid="false"></i>
+    </div>
+<?php } ?>
 
-<?php if($level == 1){ ?>
+<?php if($level == 1){ //Tức là thông số ?>
 
-    <div class="col-md-12 pt25">     
+    <div class="col-md-7 row pt120">     
         <?=  $form->field($model,'dm_multi',['options' => ['class' => '']])->dropDownList( $_Danhmuc::getMultiOption() ,[
-                //'multiple'=>'multiple', 
-                // Aabc::$app->d->s => 'search',
-                // Aabc::$app->d->t => 'show', 
+                Aabc::$app->d->t => 'show',
                 Aabc::$app->d->ty => 'ra',
                 Aabc::$app->d->i => 'danhmuc',
                 'class' => 'mulr',      
                 Aabc::$app->d->c => 'one',                        
                  'id' => 'dm_multi_select'
             ]);  ?>
+        <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Chọn 1 giá trị: Thông số này chỉ được chọn 1 trong các giá trị. VD: Hãng sản xuất là: Samsung hoặc LG hoặc iPhone.<br/>- Chọn nhiều giá trị: Được chọn cùng lúc nhiều giá trị. VD: iPhone 8 có nhiều phiên bản bộ nhớ trong: 32GB, 64GB, 128GB" aria-invalid="false"></i>
     </div>
 
+
+     <div class="col-md-5 row pt100">        
+        <?= $form->field($model,'dm_allow_search')->dropDownList($_Danhmuc::getAllowsearchOption(),[
+                            //'multiple'=>'multiple', 
+                            // Aabc::$app->d->s => 'search', 
+                            Aabc::$app->d->t => 'show',
+                            Aabc::$app->d->ty => 'ra',
+                            Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
+                            'class' => 'mulr',      
+                            Aabc::$app->d->c => 'one',                        
+                            'id' => Aabc::$app->_model->__danhmuc.'_dm_status_select'
+                        ]) ?>
+
+        <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Bật: Thông số này sẽ hiển thị trong danh mục để lọc và tìm kiếm các sản phẩm có thông số này" aria-invalid="false"></i>
+    </div>
 
     <style type="text/css">
         ul#editable_icon .icon {
@@ -226,7 +243,7 @@ use aabc\helpers\ArrayHelper;
         }
     </style>
 
-    <div class="col-md-12 pt25">   
+    <div class="col-md-12 row pt120">   
         <div class="le"><label class="control-label" for="danhmuc-dm_icon">Icon</label></div>
         <div class="ri">
             <div class="">
@@ -301,6 +318,9 @@ use aabc\helpers\ArrayHelper;
             )();
         </script>
     </div>
+
+
+   
 
 <?php } ?>
 

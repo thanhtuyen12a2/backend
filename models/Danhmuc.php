@@ -65,9 +65,13 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_showmax'], 'integer'],
 
+            [['dm_allow_search'], 'integer'],
+
+
              [['dm_dmsp'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_dmsp' => 'dm_id']],
 
               [['dm_idcha'], 'exist', 'skipOnError' => true, 'targetClass' => Danhmuc::className(), 'targetAttribute' => ['dm_idcha' => 'dm_id']],
+
 
             [['list_sp_noibat'],'safe'],
             [['list_album'],'safe'],
@@ -115,6 +119,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             'dm_showmax' => 'Số hiển thị',
 
+            'dm_allow_search' => 'Bật tìm kiếm',
+
             Aabc::$app->_danhmuc->dm_groupmenu => Aabc::$app->_danhmuc->__dm_groupmenu ,        ];
     }
 
@@ -131,11 +137,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->groupBy(['sp_id'])
                                         // ->all();
                                         ->column();
-        // echo '<pre>';
-        //                        echo '</pre>';                                   
-        //                        print_r($cache_data['dm_listsp']);
-        //                 die;
-
+       
         }else{
           $cache_data['dm_listsp'] = $model::getSpdmIdSanphams($model)
                                         ->orderBy(['sp_id' => SORT_DESC])
@@ -144,8 +146,26 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->groupBy(['sp_id'])
                                         ->column();
         }
-        if($model->dm_type == 1) $cache_data['dm_link'] = $model->dm_link . '-'.D::url_dm.$model->dm_id.'.html';
+        if($model->dm_type == 1){
+            $cache_data['dm_link'] = $model->dm_link . '-'.D::url_dm.$model->dm_id.'.html';
+
+            $cache_data['list_thongso'] = $model->getThongso()
+                                                      ->select(['dm_id'])
+                                                      ->andWhere(['dm_allow_search' => 1])
+                                                      ->andWhere(['dm_level' => 1])                           
+                                                      ->column();
+        }
+
         if($model->dm_type == 2) $cache_data['dm_link'] = $model->dm_link . '-'.D::url_cm.$model->dm_id.'.html';
+
+        if($model->dm_type == 5){
+           if($model->dm_level == 1){
+                  $cache_data['list_thongso_con'] = $model->getDanhmuccon()
+                                                      ->select(['dm_id'])                                     
+                                                      ->column();
+            }
+        }
+
         $cache->set('danhmuc'.$model->dm_id,$cache_data); 
         return $cache_data; 
     }
@@ -202,6 +222,10 @@ class Danhmuc extends \aabc\db\ActiveRecord
     }  
 
 
+    // public function getThongso()
+    // {
+    //     return $this->hasMany(Danhmuc::className(), )
+    // }
 
 
     public static function getMultiOption(){
@@ -212,6 +236,23 @@ class Danhmuc extends \aabc\db\ActiveRecord
     }
      public static function getMultiLabel($value = NULL){
       $array = self::getMultiOption();
+        if ($value === null || !array_key_exists($value, $array))
+            return ' - ';
+        return $array[$value];
+    }
+
+
+     public static function getAllowsearchOption(){
+      return [              
+          1 => 'Bật',
+          2 => 'Không',
+      ];
+    }
+     public static function getAllowsearchLabel($value = NULL){
+      $array = [
+         1 => 'Bật tìm kiếm',
+         2 => 'Tắt',
+      ];
         if ($value === null || !array_key_exists($value, $array))
             return ' - ';
         return $array[$value];
@@ -257,6 +298,13 @@ class Danhmuc extends \aabc\db\ActiveRecord
         return $this->hasMany($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id => Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach])->viaTable(Aabc::$app->_danhmucchinhsach->table, [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id])->andWhere([Aabc::$app->_chinhsach->cs_status => '1'])->andWhere([Aabc::$app->_chinhsach->cs_recycle => '2'])->all();
     }
 
+
+    public function getThongso()
+    {
+        return $this->hasMany(Danhmuc::className(), ['dm_dmsp' => 'dm_id'])
+                                  ->andWhere(['dm_recycle' => 2])
+                                  ->orderBy(['dm_sothutu' => SORT_ASC]);        
+    }
 
 
     public function getDanhmuccon()

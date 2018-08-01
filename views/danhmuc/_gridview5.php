@@ -6,6 +6,7 @@ use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 
+$_Danhmuc = Aabc::$app->_model->Danhmuc;
 ?>
 
 
@@ -81,17 +82,52 @@ use aabc\widgets\ActiveForm;
             //  Aabc::$app->_danhmuc->dm_icon,
             //  Aabc::$app->_danhmuc->dm_background,
              
-             Aabc::$app->_danhmuc->dm_thutu,
-             Aabc::$app->_danhmuc->dm_sothutu,
-             Aabc::$app->_danhmuc->dm_level,
-             Aabc::$app->_danhmuc->dm_ghichu,
-             Aabc::$app->_danhmuc->dm_link,
+             // Aabc::$app->_danhmuc->dm_thutu,
+             // Aabc::$app->_danhmuc->dm_sothutu,
+             // Aabc::$app->_danhmuc->dm_level,
+             // Aabc::$app->_danhmuc->dm_ghichu,
+             // Aabc::$app->_danhmuc->dm_link,
+
             //  Aabc::$app->_danhmuc->dm_status,
             //  Aabc::$app->_danhmuc->dm_recycle,
             //  Aabc::$app->_danhmuc->dm_type,
             //  Aabc::$app->_danhmuc->dm_groupmenu,
-                     
 
+             [
+              'header' => 'Ghi chú',
+                'value' => function ($model) use($_Danhmuc) {
+                   return $model->dm_ghichu;
+                }
+             ],
+
+
+            [
+              'header' => 'Lực chọn',
+                'value' => function ($model) use($_Danhmuc) {
+                   if($model->dm_level == 1){
+                      return $_Danhmuc::getMultiLabel($model->dm_multi);
+                   }else{
+                      return '';
+                   }
+                }
+             ],
+
+
+
+            [
+              'header' => 'Tìm kiếm',
+                'value' => function ($model) use($_Danhmuc) {
+                   if($model->dm_level == 1){
+                      return $_Danhmuc::getAllowsearchLabel($model->dm_allow_search);
+                   }else{
+                      return '';
+                   }
+                }
+             ],
+
+
+
+                
              [                
                 //'header' => '<a href="'.Aabc::$app->homeUrl.'sanpham">Reset</a>',
                 'attribute' => Aabc::$app->_danhmuc->dm_id,
