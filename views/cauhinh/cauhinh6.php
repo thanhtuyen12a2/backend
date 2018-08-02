@@ -49,17 +49,42 @@ use aabc\widgets\ActiveForm;
                 </div>
             </div>   
 
+            <script type="text/javascript">
+                $('.module-clone').on('change',function(){
+                    var a = $(this).val();
+                    var b = $(this).data('to');
+                    if(confirm('Bạn muốn clone từ module '+a)){
+                        $.ajax({
+                            cache: false,
+                            url: '/ad/<?= Cauhinh::tt.'/'.Cauhinh::moduleclone?>',
+                            data:{
+                                from: a,
+                                to: b,
+                            },
+                            type: 'POST',               
+                            success: function (data) {   
+                                popthanhcong('')
+                            },
+                            error: function () {
+                                popthatbai('')  
+                            }
+                        });
+                    }                    
+                })
+            </script>
 
             <?php for ($j=1; $j < $max ; $j++) { ?>
             <div class="col-md-6 pt100">
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Module: <?= $j?></label></div>
                     <div class="ri"> 
-                        <input placeholder="Tên module" class="col-md-10" type="text"  name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
+                        <input placeholder="Tên module" class="col-md-9" type="text"  name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
 
                         <input placeholder="Số level" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][max]" value="<?= empty($module['child'][$j]['max'])?'':$module['child'][$j]['max'] ?>" />
 
-                        <input placeholder="Nổi bật" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][nb]" value="<?= empty($module['child'][$j]['nb'])?'':$module['child'][$j]['nb'] ?>" />
+                        <input placeholder="Nổi bật" class="col-md-1" type="number" min="0" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][nb]" value="<?= empty($module['child'][$j]['nb'])?'':$module['child'][$j]['nb'] ?>" />
+
+                        <input placeholder="Clone" data-to="<?= $j?>" class="col-md-1 module-clone" type="number" value="" />
 
                         <?php 
                             $max_child =  empty($module['child'][$j]['max'])? 1 : ($module['child'][$j]['max'] + 1);

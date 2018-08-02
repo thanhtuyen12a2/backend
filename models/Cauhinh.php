@@ -10,6 +10,23 @@ use common\components\Tuyen;
 
 class Cauhinh extends Model
 {  
+
+    public function actionController()
+    {
+        return [
+            Cauhinh::tt.':'.Cauhinh::cauhinh1 => 'cauhinh/cauhinh1',
+            Cauhinh::tt.':'.Cauhinh::cauhinh2 => 'cauhinh/cauhinh2',
+            Cauhinh::tt.':'.Cauhinh::cauhinh3 => 'cauhinh/cauhinh3',
+            Cauhinh::tt.':'.Cauhinh::cauhinh4 => 'cauhinh/cauhinh4',
+            Cauhinh::tt.':'.Cauhinh::cauhinh5 => 'cauhinh/cauhinh5',
+            Cauhinh::tt.':'.Cauhinh::cauhinh6 => 'cauhinh/cauhinh6',
+            Cauhinh::tt.':'.Cauhinh::cauhinh7 => 'cauhinh/cauhinh7',
+            Cauhinh::tt.':'.Cauhinh::cauhinh8 => 'cauhinh/cauhinh8',
+            Cauhinh::tt.':'.Cauhinh::cauhinh10 => 'cauhinh/cauhinh10',
+            Cauhinh::tt.':'.Cauhinh::moduleclone => 'cauhinh/moduleclone',
+        ];
+    }
+
     const table = 'db_cauhinh';
 
      //Action
@@ -22,6 +39,7 @@ class Cauhinh extends Model
     const cauhinh7 = 'c7';
     const cauhinh8 = 'c8';
     const cauhinh10 = 'o5';
+    const moduleclone = 'm7';
     
     const index = 'index';
     const view = 'view';

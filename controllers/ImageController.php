@@ -156,10 +156,10 @@ class ImageController extends Controller
                         if ($info['mime'] == 'image/png') {
                             $src = ImageCreateFromPNG($path);       
                         } 
-                        if ($info['mime'] == 'image/jpeg') {
+                        elseif ($info['mime'] == 'image/jpeg') {
                             $src = ImageCreateFromJPEG($path);      
                         }
-                        if ($info['mime'] == 'image/gif') {
+                        elseif ($info['mime'] == 'image/gif') {
                             $src = ImageCreateFromGIF($path);       
                         }   
                         $width = (int)$info[0];
@@ -168,14 +168,14 @@ class ImageController extends Controller
                         // echo $width;die;
 
                         //Resize nếu width > 900
-                        if($width > 768){
-                            $height = (int)(768 * $height / $width);
-                            $width = 768;
+                        if($width > 2048){
+                            $height = (int)(2048 * $height / $width);
+                            $width = 2048;
                         }
 
-                        if($height > 768){
-                            $width = (int)(768 * $width / $height);
-                            $height = 768;
+                        if($height > 2048){
+                            $width = (int)(2048 * $width / $height);
+                            $height = 2048;
                         }
 
 
@@ -186,7 +186,7 @@ class ImageController extends Controller
                             $scale = $width / $size[0];
                             $new_size = array($width, $width / $src_aspect);
                             $src_post = array(0, ($size[1] * $scale - $height) / $scale / 2);
-                        } else if ($src_aspect > $thumb_aspect) {
+                        } elseif ($src_aspect > $thumb_aspect) {
                             $scale = $width / $size[1];
                             $new_size = array($height * $src_aspect, $height);
                             $src_post = array(($size[0] * $scale - $width) / $scale / 2, 0);
@@ -495,7 +495,7 @@ class ImageController extends Controller
 
     protected function deletethumb($link,$img)
     {
-        require('../thumb/size.php');        
+        $size = require('../thumb/size.php');        
         foreach ($size as $key => $value) {            
             $full = $link.$value[0].'/'.$value[1].'/'.$img;
             if (file_exists($full)) {   

@@ -71,6 +71,8 @@ class SiteController extends Controller
 
         $arr_link += Sanpham::actionController();
 
+        $arr_link += Cauhinh::actionController();
+
         $arr_link += [
             ':' => 'site/index',
             'clear:cache' => 'site/clearcache',  
@@ -91,15 +93,6 @@ class SiteController extends Controller
             // Sanpham::tt.':ir' => 'sanpham/ir',
             // Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
 
-            Cauhinh::tt.':'.Cauhinh::cauhinh1 => 'cauhinh/cauhinh1',
-            Cauhinh::tt.':'.Cauhinh::cauhinh2 => 'cauhinh/cauhinh2',
-            Cauhinh::tt.':'.Cauhinh::cauhinh3 => 'cauhinh/cauhinh3',
-            Cauhinh::tt.':'.Cauhinh::cauhinh4 => 'cauhinh/cauhinh4',
-            Cauhinh::tt.':'.Cauhinh::cauhinh5 => 'cauhinh/cauhinh5',
-            Cauhinh::tt.':'.Cauhinh::cauhinh6 => 'cauhinh/cauhinh6',
-            Cauhinh::tt.':'.Cauhinh::cauhinh7 => 'cauhinh/cauhinh7',
-            Cauhinh::tt.':'.Cauhinh::cauhinh8 => 'cauhinh/cauhinh8',
-            Cauhinh::tt.':'.Cauhinh::cauhinh10 => 'cauhinh/cauhinh10',
         ];     
         if(empty($arr_link[$key])){            
             return Aabc::$app->runAction($k .'/'. $f,$_GET);

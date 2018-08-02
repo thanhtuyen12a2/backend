@@ -3,6 +3,7 @@ namespace backend\controllers;
 use Aabc;
 
 use backend\models\Cauhinh;
+use backend\models\Danhmuc;
 //use backend\models\Cauhinh_fakeSearch;
 use aabc\web\Controller;
 use aabc\web\NotFoundHttpException;
@@ -53,6 +54,81 @@ class CauhinhController extends Controller
         ];
     }
      
+    public function actionModuleclone()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+            if(isset($_POST['from']) && isset($_POST['to'])){
+                $from = (int)$_POST['from'];
+                $to = (int)$_POST['to'];
+
+                if(empty($from) || empty($to)) return 0;
+
+                $transaction = \Aabc::$app->db->beginTransaction();             
+                try {            
+                    return 0;        
+                    Danhmuc::deleteAll(['dm_groupmenu' => $to,'dm_template' => temp]);
+
+                    $model_to_0 = Danhmuc::find()
+                                ->where(['and',
+                                    ['dm_groupmenu' => $from],
+                                    ['dm_template' => temp],
+                                    ['dm_level' => 0],                                
+                                ])
+                                ->all();
+
+                    if($model_to_0){
+                        foreach ($model_to_0 as $model_0) {
+                            $model_0_new = new Danhmuc();
+                            $model_0_new->attributes = $model_0->attributes;
+                            $model_0_new->dm_groupmenu = $to;
+                            if(!$model_0_new->save(false)){
+                                $transaction->rollback();
+                                return 0;
+                            };
+                            // Aabc::error($model_0_new->attributes);
+                            $model_to_1 = $model_0->danhmuccon;
+                            if($model_to_1){
+                                foreach ($model_to_1 as $model_1) {
+                                    $model_1_new = new Danhmuc();
+                                    $model_1_new->attributes = $model_1->attributes;
+                                    $model_1_new->dm_idcha = $model_0_new->dm_id;
+                                    $model_1_new->dm_groupmenu = $to;                                    
+                                    if(!$model_1_new->save(false)){
+                                        $transaction->rollback();
+                                        return 0;
+                                    };
+                                    Aabc::error($model_1_new->attributes);
+                                    $model_to_2 = $model_1->danhmuccon;
+                                    if($model_to_2){
+                                        foreach ($model_to_2 as $model_2) {
+                                            $model_2_new = new Danhmuc();
+                                            $model_2_new->attributes = $model_2->attributes;
+                                            $model_2_new->dm_idcha = $model_1_new->dm_id;
+                                            $model_2_new->dm_groupmenu = $to;               
+                                            if(!$model_2_new->save(false)){
+                                                $transaction->rollback();
+                                                return 0;
+                                            };
+                                            Aabc::error($model_2_new->attributes);
+                                        }
+                                    }                                    
+                                }
+                            }                            
+                        }
+                    }
+
+                    $transaction->commit();
+                    return 1;
+                }
+                catch (Exception $e) {            
+                    $transaction->rollback();
+                    $datajson = 0;
+                    return $datajson;
+                }
+
+            }
+        }
+    }
    
     public function actionCauhinh1()
     {   
