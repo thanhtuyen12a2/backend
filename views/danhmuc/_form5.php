@@ -180,7 +180,7 @@ use aabc\helpers\ArrayHelper;
 
 
 <div class="col-md-12  row pt120">
-    <?= $form->field($model, Aabc::$app->_danhmuc->dm_ghichu)->textarea(['rows' => '2', 'maxlength' => true,'data-placement' => 'right','data-trigger' => 'focus', 'data-toggle' => 'tooltip', '' => '']) ?>
+    <?= $form->field($model, Aabc::$app->_danhmuc->dm_ghichu)->textarea(['rows' => '2', 'maxlength' => true,'data-placement' => 'right','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'class' => 'ath form-control']) ?>
 </div>
 
 
@@ -345,7 +345,25 @@ use aabc\helpers\ArrayHelper;
 
 <script type="text/javascript">  
 
-  
+    $('#danhmuc-dm_ten').on('keyup keypress',function(){
+        $('#danhmuc-dm_link').val(urlfriendly($(this).val()));        
+    });
+
+
+     $('.ath').on('keydown keypress', function(e){
+        autoheight(this);       
+    });
+    setTimeout( function(){ 
+        $('.ath').each(function (){
+            autoheight(this);           
+        });
+     }, 500);
+    setTimeout( function(){ 
+        $('.ath').each(function (){
+            autoheight(this);
+        });
+     }, 1500);
+
 
     $('.modal-content #<?=Aabc::$app->_model->__danhmuc?>-form-5').on('keyup keypress', function(e) {
       var keyCode = e.keyCode || e.which;

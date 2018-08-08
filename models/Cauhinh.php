@@ -1181,14 +1181,41 @@ class Cauhinh extends Model
          $data = [
             '0' => '--- Chọn link đến ---',
             '1' => 'Trang chủ',
+            '7' => 'Đường dẫn cụ thể ',
             // '2' => 'Link đến: Trang tĩnh',
             '3' => 'Danh mục sản phẩm',
             '4' => 'Sản phẩm chi tiết',
             '5' => 'Chuyên mục bài viết',
             '6' => 'Bài viết',
-            '7' => 'Đường dẫn cụ thể ',
+            '8' => 'Thông số, tính năng',
+            
         ];
         return $data;
+    }
+
+    public static function UrlSelectOptions(){
+        return [
+            '3' => [
+                'label' => 'Danh mục sản phẩm',
+                'url' => '/ad/'.Sanpham::tt.'/'.Sanpham::search.'?t=3',
+            ],
+            '4' => [
+                'label' => 'Sản phẩm',
+                'url' => '/ad/'.Sanpham::tt.'/'.Sanpham::search.'?t=4',
+            ],
+            '5' => [
+                'label' => 'Chuyên mục bài viết',
+                'url' => '/ad/'.Sanpham::tt.'/'.Sanpham::search.'?t=5',
+            ],
+            '6' => [
+                'label' => 'Bài viết',
+                'url' => '/ad/'.Sanpham::tt.'/'.Sanpham::search.'?t=6',
+            ],
+            '8' => [
+                'label' => 'Thông số, tính năng',
+                'url' => '/ad/'.Sanpham::tt.'/'.Sanpham::search.'?t=8',
+            ],
+        ];
     }
 
 
@@ -1201,167 +1228,65 @@ class Cauhinh extends Model
         }
 
         $html = '';
-        $url_tvbkt = '/ad/'.Sanpham::tt.'/'.Sanpham::search;
-        $data = [];
-        switch ($check) {
-            case 3:
+
+
+        foreach (self::UrlSelectOptions() as $k => $select) {
+            $data = [];
+            if(in_array($k,[4,6]) ){
                 $sp = (Sanpham::M)::findOne(['sp_id' => $value]);
-                if($sp){
-                    $data = [
-                        $sp->sp_id => $sp->sp_tensp,
-                    ];
-                }
-            case 4:
-                $sp = (Sanpham::M)::findOne(['sp_id' => $value]);
-                if($sp){
-                    $data = [
-                        $sp->sp_id => $sp->sp_tensp,
-                    ];
-                }
-                break;
-            default:
-                $data = [];
-                break;
+                    if($sp){
+                        $data = [
+                            $sp->sp_id => $sp->sp_tensp,
+                        ];
+                    }
+            }
+            elseif(in_array($k,[3,5,8]) ){
+                $dm = Danhmuc::findOne(['dm_id' => $value]);
+                    if($dm){
+                        $data = [
+                            $dm->dm_id => $dm->dm_ten,
+                        ];
+                    }
+            }
+
+            $html .= '<div class="sttip '.($check == $k?'':'hide').' '.$id.'" id="'.$id.'-'.$k.'">'.
+                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn '.$select['label'].' mà bạn muốn trỏ link đến." aria-invalid="false"></i>'.
+                Select2::widget([
+                    'name' => $name.'['.$k.']',
+                    'value' => $value,
+                    'data' => $data,
+                    'options' => [
+                        'placeholder' => 'Tìm và chọn '.$select['label'].'...'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        // 'minimumInputLength' => 3, 
+                        'ajax' => [
+                            'url' => $select['url'],
+                            'dataType' => 'json',
+                            'method' => 'POST',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],   
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(model) {
+                            if(isEmpty(model.img)){
+                                img_html = "";
+                            }else{
+                                img_html = "<img src=" + model.img + " /> "  + " ";
+                            }                           
+                            return  img_html + model.text;
+                        }'),
+                        // 'templateSelection' => new JsExpression('function (model) { return model.text; }'),           
+                    ],
+                ])
+            .'</div>' ;
+            
         }
 
-        // echo '<pre>';
-        // print_r($data);
-
-      
-        $html .= '<div class="sttip '.($check == 3?'':'hide').' '.$id.'" id="'.$id.'-3'.'">'.
-                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>'.
-                Select2::widget([
-                    'name' => $name.'[3]',
-                    'value' => $value,
-                    'data' => $data,
-                    'options' => [
-                        'placeholder' => 'Chọn Danh mục sản phẩm...'
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'minimumInputLength' => 3, 
-                        'ajax' => [
-                            'url' => $url_tvbkt,
-                            'dataType' => 'json',
-                            'method' => 'POST',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],   
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(model) {
-                            if(model.img !== ""){
-                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
-                            }else{
-                                return model.text;
-                            }
-                        }'),
-                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),           
-                    ],
-                ])
-            .'</div>' ;
-
-
-        $html .= '<div class="sttip '.($check == 4?'':'hide').' '.$id.'" id="'.$id.'-4'.'">'.
-                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>'.
-                Select2::widget([
-                    'name' => $name.'[4]',
-                    'value' => $value,
-                    'data' => $data,
-                    'options' => [
-                        'placeholder' => 'Chọn sản phẩm...'
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'minimumInputLength' => 3, 
-                        'ajax' => [
-                            'url' => $url_tvbkt,
-                            'dataType' => 'json',
-                            'method' => 'POST',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],  
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(model) {
-                            if(model.img !== ""){
-                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
-                            }else{
-                                return model.text;
-                            }
-                        }'),
-                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),            
-                    ],
-                ])
-            .'</div>' ;
-
-
-
-        $html .= '<div class="sttip '.($check == 5?'':'hide').' '.$id.'" id="'.$id.'-5'.'">'.
-                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>'.
-                Select2::widget([
-                    'name' => $name.'[5]',
-                    'value' => $value,
-                    'data' => $data,
-                    'options' => [
-                        'placeholder' => 'Chọn chuyên mục...'
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'minimumInputLength' => 3, 
-                        'ajax' => [
-                            'url' => $url_tvbkt,
-                            'dataType' => 'json',
-                            'method' => 'POST',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],  
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(model) {
-                            if(model.img !== ""){
-                                return "<img src=\'" + model.img + "\' />"  + " "  +  model.text;
-                            }else{
-                                return model.text;
-                            }
-                        }'),
-                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),            
-                    ],
-                ])
-            .'</div>' ;
-
-
-            $html .= '<div class="sttip '.($check == 6?'':'hide').' '.$id.'" id="'.$id.'-6'.'">'.
-                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>'.
-                Select2::widget([
-                    'name' => $name.'[6]',
-                    'value' => $value,
-                    'data' => $data,
-                    'options' => [
-                        'placeholder' => 'Chọn bài viết...'
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'minimumInputLength' => 3, 
-                        'ajax' => [
-                            'url' => $url_tvbkt,
-                            'dataType' => 'json',
-                            'method' => 'POST',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],   
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(model) {
-                            if(model.img !== ""){
-                                return "<img src=\'" + model.img + "\' /> "  + " "  +  model.text;
-                            }else{
-                                return model.text;
-                            }
-                        }'),
-                        'templateSelection' => new JsExpression('function (model) { return model.text; }'),           
-                    ],
-                ])
-            .'</div>' ;
-
-
-             $html .= '<div class="sttip '.($check == 7?'':'hide').' '.$id.'" id="'.$id.'-7'.'">'.
-                '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>
-                <textarea placeholder="Nhập link cụ thể..." aria-invalid="false" class="tsp form-control" rows="" type="text" name="'.$name.'[7]">'.$value.'</textarea>
-            </div>' ;
-
+        $html .= '<div class="sttip '.($check == 7?'':'hide').' '.$id.'" id="'.$id.'-7'.'">'.
+            '<i class="sttip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn một sản phẩm mà bạn muốn trỏ link đến." aria-invalid="false"></i>
+            <textarea placeholder="Nhập link cụ thể..." aria-invalid="false" class="tsp form-control" rows="" type="text" name="'.$name.'[7]">'.$value.'</textarea>
+        </div>' ;
 
         $html .= '
                 <script type="text/javascript">

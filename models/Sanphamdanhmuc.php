@@ -60,7 +60,12 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
         parent::afterSave( $insert, $changedAttributes );
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
         $dm = $_Danhmuc::find()->andWhere(['dm_id' => $this->spdm_id_danhmuc])->one();
-        if($dm) $_Danhmuc::cache($dm);        
+        if($dm){
+            // Aabc::error('CACHE');
+            $_Danhmuc::cache($dm);        
+        }else{
+            // Aabc::error('LOI');
+        }
     }
 
 

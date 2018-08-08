@@ -19,6 +19,7 @@ use aabc\filters\AccessControl;
 
 use backend\models\Ngonngu;
 use backend\models\Sanphamngonngu;
+use backend\models\Danhmuc;
 
 use backend\models\SanphamDanhmuc;
 
@@ -102,16 +103,21 @@ class SanphamController extends Controller
         return $this->renderAjax('add-album');
     }
 
-    public function actionSearch($dm = '') //dm: danh mục
+    public function actionSearch($dm = '',$t = 1) //dm: danh mục
     {
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON; 
-        $return = ['results' => ['id' => '', 'text' => '']];
-        if(Aabc::$app->request->post('q')){
-            $q = Aabc::$app->request->post('q');
-            if (!empty($q)) {
-                $return['results'] = Sanpham::getOptionsFind($q, $dm);
-            }
-        }
+        $return = ['results' => ['id' => '', 'text' => '']];        
+        $q = (Aabc::$app->request->post('q') !== NULL)?Aabc::$app->request->post('q'):''; 
+
+        $search = [
+            '3' => Danhmuc::getOptionsFind($q, Danhmuc::SANPHAM),
+            '4' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
+            '5' => Danhmuc::getOptionsFind($q, Danhmuc::BAIVIET),
+            '6' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),            
+            '8' => Danhmuc::getOptionsFind($q, Danhmuc::TINHNANG), //Thông số
+        ];
+        $return['results'] = $search[$t];
+
         return $return;
     }
 

@@ -127,14 +127,18 @@ class Danhmuc extends \aabc\db\ActiveRecord
     public static function cache($model)
     {
         $cache = Aabc::$app->dulieu;
-        $cache_data = $model->attributes;        
+        $cache_data = $model->attributes;
+
+        Aabc::error($model->dm_type);
+
         if($model->dm_type == 4){
-          $cache_data['dm_listsp'] = $model::getSpdmIdSanphams($model)
-                                        ->joinWith('spdmIdDanhmucs_join')
-                                        // ->orderBy(['spdm_sothutu' => SORT_DESC])
+          $cache_data['dm_listsp'] = $model::getIdSanphams($model)
+                                        ->select(['`db_sanpham`.*,`db_sanpham_danhmuc`.*'])
+                                        ->joinWith('spdmIdSp')
+                                        ->orderBy(['spdm_sothutu' => SORT_DESC])
                                         ->andWhere(['sp_recycle' => '2'])
                                         ->andWhere(['sp_status' => '1'])
-                                        ->groupBy(['sp_id'])
+                                        // ->groupBy(['sp_id'])
                                         // ->all();
                                         ->column();
        
@@ -146,6 +150,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->groupBy(['sp_id'])
                                         ->column();
         }
+
+        
         if($model->dm_type == 1){
             $cache_data['dm_link'] = $model->dm_link . '-'.D::url_dm.$model->dm_id.'.html';
 
@@ -178,6 +184,35 @@ class Danhmuc extends \aabc\db\ActiveRecord
       }       
     }
 
+
+
+    public static function getOptionsFind($q = '', $dm_type = ''){
+        $dm = Danhmuc::find()
+                    ->select(['dm_id','dm_ten'])
+                    ->andWhere(
+                      ($q == ''? :['like','dm_ten',$q])
+                    )
+                    ->andWhere(['dm_type' => $dm_type])
+                    ->andWhere(['dm_recycle' => self::NGOAITHUNGRAC])
+                    ->andWhere(['dm_status' => self::ON])
+                    ->asArray()
+                    ->limit(20)                    
+                    ->all(); 
+
+          if ($dm) {  
+            $return = [];
+            foreach ($dm as $k => $v) {   
+                $img = '';                               
+                $return[$k] = [
+                      'id' => $v['dm_id'],
+                      'text' => $v['dm_ten'],
+                      'img' => $img,
+                ];                
+            }
+            return $return;
+        }
+        return [];
+    }
 
 
     public function beforeSave($insert)
@@ -707,6 +742,12 @@ return $this->hasMany($_Ngonngu::className(), [Aabc::$app->_ngonngu->ngonngu_id 
         return $model->hasMany($_Sanpham::className(), ['sp_id' => 'spdm_id_sp'])->viaTable('db_sanpham_danhmuc', ['spdm_id_danhmuc' => 'dm_id']);
     }
 
+
+       //Lấy Danh sách Sanpham tai sanphamdanhmuc
+    public function getIdSanphams($model)
+    {
+        return $model->hasMany(Sanphamdanhmuc::className(), ['spdm_id_danhmuc' => 'dm_id']);
+    }
   
 
      public function getDmDmsp()

@@ -167,16 +167,19 @@ class Sanpham extends \aabc\db\ActiveRecord
 
 
 
-     public static function getOptionsFind($q = NULL, $dm = ''){
+     public static function getOptionsFind($q = '', $dm = '', $sp_type = self::SANPHAM){
         $sp = (Sanpham::M)::find()
                     ->select(['sp_id','sp_tensp','sp_images'])
-                    ->andWhere(['like','sp_tensp',$q])
-                    ->andWhere(['sp_type' => self::SANPHAM])
+                    ->andWhere(
+                      ($q == ''? :['like','sp_tensp',$q])
+                    )
+                    ->andWhere(['sp_type' => $sp_type])
                     ->andWhere(['sp_recycle' => self::NGOAITHUNGRAC])
                     ->andWhere(['sp_status' => self::XUATBAN])
                     ->asArray()
                     ->limit(20)                    
                     ->all(); 
+
           if ($sp) {  
             $return = [];
             foreach ($sp as $k => $v) {   
