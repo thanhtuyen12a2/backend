@@ -46,6 +46,7 @@ class Sanpham extends \aabc\db\ActiveRecord
           Sanpham::tt.':c' => 'sanpham/c',
           Sanpham::tt.':ut' => 'sanpham/ut',
           Sanpham::tt.':rec' => 'sanpham/rec',
+          Sanpham::tt.':reca' => 'sanpham/reca',
           Sanpham::tt.':ir' => 'sanpham/ir',
           Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
         ];
@@ -153,7 +154,7 @@ class Sanpham extends \aabc\db\ActiveRecord
     {
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;       
-        $cache_data['sp_linkseo'] = $model->sp_linkseo . '-'.D::url_sp.$model->sp_id.'.html'; 
+        $cache_data['sp_linkseo'] = Tuyen::_get_link($model->sp_linkseo,$model->sp_id,'sanpham'); 
         $cache_data['sp_listdm']['1'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 1])->column();
         $cache_data['sp_listdm']['2'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 2])->column();
         $cache_data['sp_listdm']['3'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 3])->column();

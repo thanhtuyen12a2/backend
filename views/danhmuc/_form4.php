@@ -152,7 +152,28 @@ if(empty($menu_current['child'])){
 
         <?php if(!empty($access['label'])){ ?>
         <div class="col-md-12 pt140">
-            <?= $form->field($model, Aabc::$app->_danhmuc->dm_ten)->textInput(['maxlength' => true])->label('Tiêu đề') ?>
+            <?php                
+                echo $form->field($model, 'dm_ten_ob[s]')->dropDownList(
+                Cauhinh::TitleOptions(),
+                 [           
+                    Aabc::$app->d->ty => 'ra',
+                    Aabc::$app->d->i => Aabc::$app->_model->__danhmuc,
+                    Aabc::$app->d->c => 'one',
+                    Aabc::$app->d->t => 'sea',            
+                    'class' => 'mulr',                        
+                    'id' => Aabc::$app->_model->__danhmuc.'-dm_ten_ob',
+                ])->label('Tiêu đề'); 
+
+                echo '<div>';
+                echo '<div class="ri" style="float: right;">';
+                echo Cauhinh::TitleHtml('Danhmuc[dm_ten_ob][c]','danhmuc-dm_ten_ob',$model->dm_ten_ob);
+                echo '</div>';
+                echo '</div>';
+            ?>
+
+            <div class="clearfix"></div>
+
+            <?php // $form->field($model, Aabc::$app->_danhmuc->dm_ten)->textInput(['maxlength' => true])->label('Tiêu đề') ?>
         </div>
         <?php }else{
             echo '<input type="hidden" name="Kc[dm_label]" value="1"/>';

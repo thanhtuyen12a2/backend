@@ -72,14 +72,16 @@ use common\components\Tuyen;
                             }
                         }         
 
+                        $tieude = Tuyen::_show_title($model);                        
 
+                        $char = '|----- ';
 
                         if($model[Aabc::$app->_danhmuc->dm_level] == 0 ){                            
-                            return $icon.$background.'<h5><b>'.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b></h5>';
+                            return $icon.$background.'<h5><b>'.Html::encode($tieude).'</b></h5>';
                         }elseif($model[Aabc::$app->_danhmuc->dm_level] == 1 ){
-                            return '<b>'.$icon.$background.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</b>';    
+                            return '<b>'.$icon.$background.$char.Html::encode($tieude).'</b>';    
                         }else{
-                            return '<i>'.$icon.$background.Html::encode($model[Aabc::$app->_danhmuc->dm_char]).'</i>';
+                            return '<i>'.$icon.$background.$char.$char.Html::encode($tieude).'</i>';
                         }
                         
                     }, 

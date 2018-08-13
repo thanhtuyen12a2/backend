@@ -34,7 +34,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
     public function rules()
     {
         return [
-            [[Aabc::$app->_danhmuc->dm_ten], 'required'],
+            // [[Aabc::$app->_danhmuc->dm_ten], 'required'],
             [[Aabc::$app->_danhmuc->dm_idcha, Aabc::$app->_danhmuc->dm_thutu, Aabc::$app->_danhmuc->dm_sothutu, Aabc::$app->_danhmuc->dm_level, 'dm_groupmenu'], 'integer'],
             [[Aabc::$app->_danhmuc->dm_status, Aabc::$app->_danhmuc->dm_recycle, Aabc::$app->_danhmuc->dm_type], 'string'],
 
@@ -63,6 +63,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['dm_album'], 'string', 'max' => 255],
 
+            [['dm_ten_ob'],'safe'],
+
             [['dm_showmax'], 'integer'],
 
             [['dm_allow_search'], 'integer'],
@@ -75,6 +77,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
             [['list_sp_noibat'],'safe'],
             [['list_album'],'safe'],
+            
             // [['dm_link'], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -', 'when' => function($model){
             //     return ($model->dm_type != 4);
             // }],
@@ -129,7 +132,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;
 
-        Aabc::error($model->dm_type);
+        // Aabc::error($model->dm_type);
 
         if($model->dm_type == 4){
           $cache_data['dm_listsp'] = $model::getIdSanphams($model)
@@ -222,11 +225,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
         $this->dm_template = Cauhinh::template(); 
         if($this->dm_type == 4){ 
 
-            $link = $this->dm_link;
-            // echo '<pre>';
-            // print_r($link);
+            $link = $this->dm_link;            
             if(is_array($link)){
-              // if(!empty($link['s']) && !empty($link['c'])){
                 $link_s = $link['s'];
                 if(!empty($link['c'][$link_s])){
                   $link_c = $link['c'][$link_s];
@@ -236,9 +236,24 @@ class Danhmuc extends \aabc\db\ActiveRecord
                 $link = [
                     's' => $link_s,
                     'c' => $link_c,
-                ];                                   
-              // }
+                ];              
               $this->dm_link = json_encode($link); 
+            }
+
+
+            $ten_ob = $this->dm_ten_ob;            
+            if(is_array($ten_ob)){
+                $link_s = $ten_ob['s'];
+                if(!empty($ten_ob['c'][$link_s])){
+                  $link_c = $ten_ob['c'][$link_s];
+                }else{
+                  $link_c = '';
+                }                
+                $ten_ob = [
+                    's' => $link_s,
+                    'c' => $link_c,
+                ];              
+              $this->dm_ten_ob = json_encode($ten_ob); 
             }  
         }else{  
           // $this->dm_link = json_encode($this->dm_link);
@@ -252,6 +267,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
     {        
         if($this->dm_type == 4){  
           $this->dm_link = json_decode($this->dm_link,true);
+          $this->dm_ten_ob = json_decode($this->dm_ten_ob,true);
         }
         parent::afterFind();
     }  

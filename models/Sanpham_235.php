@@ -69,9 +69,9 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
 
-            [[Sanpham::sp_id_danhmuc],'required' ,'when' => function($model){
-              return $model->sp_type == 1;
-            }],
+            // [[Sanpham::sp_id_danhmuc],'required' ,'when' => function($model){
+            //   return $model->sp_type == 1;
+            // }],
 
             [[Sanpham::sp_type ,Sanpham::sp_album,Sanpham::sp_phienban, Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
             // [[Sanpham::sp_gia,Sanpham::sp_giakhuyenmai], 'string', 'max' => 11],
@@ -85,7 +85,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [[Sanpham::sp_tensp], 'string', 'max' => 100],            
             [[Sanpham::sp_masp], 'string', 'max' => 20],
             // [[Sanpham::sp_masp], 'unique','message' => 'Đã bị trùng'],
-            [['sp_masp'], 'unique','message' => 'Đã bị trùng'],
+
+            // [['sp_masp'], 'unique','message' => 'Đã bị trùng'],
             
             // [[Sanpham::sp_masp], function ($attribute,$model) {
                     // if(!empty($model[Sanpham::sp_masp])){
@@ -154,7 +155,11 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
 
 
     public function beforeSave($insert)
-    {
+    {       
+        // echo '<pre>';
+        // print_r($this);
+        // echo '</pre>';
+        // die;
         // $this->sp_id = $this[Sanpham::sp_id]; 
         $this->sp_ma = strtoupper($this[Sanpham::sp_ma]);
         $this->sp_type = $this[Sanpham::sp_type]; 
@@ -183,9 +188,10 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_soluotmua = $this[Sanpham::sp_soluotmua]; 
         $this->sp_id_danhmuc = $this[Sanpham::sp_id_danhmuc]; 
         $this->sp_id_chinhsach = $this[Sanpham::sp_id_chinhsach];    
-        
-        if(!empty($this->sp_album)) $this->sp_album = json_encode($this->sp_album);
-        if(!empty($this->sp_phienban)) $this->sp_phienban = json_encode($this->sp_phienban);
+       
+        if(!empty($this->sp_album)) if(is_array($this->sp_album)) $this->sp_album = json_encode($this->sp_album);
+
+        if(!empty($this->sp_phienban)) if(is_array($this->sp_phienban)) $this->sp_phienban = json_encode($this->sp_phienban);
 
         if($this->sp_type == 2 ){
             if(empty($this->sp_gia)) $this->sp_gia = '0';

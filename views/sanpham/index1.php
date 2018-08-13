@@ -12,6 +12,7 @@ use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 
 use backend\models\Thuonghieu;
+use common\components\Tuyen;
 
 $_Danhmuc = Aabc::$app->_model->Danhmuc;
 
@@ -460,13 +461,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'omb',                    
                 ],
                 'format' => 'raw',
-                'value' => function ($model) {                         
+                'value' => function ($model) {  
+
+                    $link = Tuyen::_get_link($model['sp_linkseo'],$model['sp_id'],'sanpham');
+
                     return '<div>'.$model->getConhangLabelColor($model[Sanpham::sp_conhang]).'</div><div class="omc" id="'. Sanpham::tt.$model[Sanpham::sp_id].'"><div class="omd">
                     
 
                     <button '.D::i.'="'. Sanpham::tt.'" class="mb btn btn-default" '.D::u.'="u?id='.$model[Sanpham::sp_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>
 
-                    <button class="btn btn-default"><a class="olk" d-h="/link.html" href="">Xem trên trình duyệt</a><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-default"><a class="not-href olk"  target="_blank" href="/'.$link.'">Xem trên trình duyệt</a><span class="glyphicon glyphicon-pencil"></span></button>
                     
                     <div class="gn"></div>
                     '.  

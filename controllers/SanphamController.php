@@ -109,14 +109,18 @@ class SanphamController extends Controller
         $return = ['results' => ['id' => '', 'text' => '']];        
         $q = (Aabc::$app->request->post('q') !== NULL)?Aabc::$app->request->post('q'):''; 
 
-        $search = [
-            '3' => Danhmuc::getOptionsFind($q, Danhmuc::SANPHAM),
-            '4' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
-            '5' => Danhmuc::getOptionsFind($q, Danhmuc::BAIVIET),
-            '6' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),            
-            '8' => Danhmuc::getOptionsFind($q, Danhmuc::TINHNANG), //Thông số
-        ];
-        $return['results'] = $search[$t];
+        if($t ==1){
+            $return['results'] = Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM);
+        }else{
+            $search = [
+                '3' => Danhmuc::getOptionsFind($q, Danhmuc::SANPHAM),
+                '4' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
+                '5' => Danhmuc::getOptionsFind($q, Danhmuc::BAIVIET),
+                '6' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),            
+                '8' => Danhmuc::getOptionsFind($q, Danhmuc::TINHNANG), //Thông số
+            ];
+            $return['results'] = $search[$t];
+        }
 
         return $return;
     }
@@ -1241,6 +1245,9 @@ class SanphamController extends Controller
 
                     if($model->save()){                        
                     }else{
+                        Aabc::error($model->sp_id);
+                        Aabc::error($model->attributes);
+                        Aabc::error($model->errors);
                         $transaction->rollback();
                         return 0;
                     }
@@ -1286,7 +1293,7 @@ class SanphamController extends Controller
         $model =  $this->findModel($id);   
             
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;        
-        return (1 && ($model[Sanpham::sp_recycle] == '1')  && $model->delete());
+        return (1 && ($model['sp_recycle'] == '1')  && $model->delete());
     }
     
 

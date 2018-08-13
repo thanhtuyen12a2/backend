@@ -118,7 +118,7 @@ if(empty($icon)) $icon = '';
 
             <script type="text/javascript">
             
-                $('#search_img_icon').on('change', function(e) {
+                $('#search_img_icon').on('keyup keypress', function(e) {
                     v = $(this).val().toUpperCase()
                     // console.log(v)
                     $('#list-icon .image-item').each(function(){
