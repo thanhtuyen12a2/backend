@@ -102,35 +102,34 @@ use aabc\helpers\ArrayHelper;
 
 
 
-<div class="col-md-12  row pt120">    
+<div class="col-md-12  row pt160">    
     <?php 
     $_Danhmuc = Aabc::$app->_model->Danhmuc;   
 
     $an_ten = '';
 
-    $danhmuc_daco_thongso =  $_Danhmuc::find()
-                      ->select(['dm_dmsp'])
-                      ->andWhere(['is not','dm_dmsp', null])
-                      ->groupBy(['dm_dmsp'])
-                      ->column();
-
+    // $danhmuc_daco_thongso =  $_Danhmuc::find()
+    //                   ->select(['dm_dmsp'])
+    //                   ->andWhere(['is not','dm_dmsp', null])
+    //                   ->groupBy(['dm_dmsp'])
+    //                   ->column();
+    
     $all = $_Danhmuc::find()
                   ->andWhere([Aabc::$app->_danhmuc->dm_status => $_Danhmuc::ON])
                   ->andWhere([Aabc::$app->_danhmuc->dm_recycle => $_Danhmuc::NGOAITHUNGRAC])    
                   ->andWhere([Aabc::$app->_danhmuc->dm_type => 1])
-                  ->andWhere(['not in','dm_id', $danhmuc_daco_thongso])
+                  // ->andWhere(['not in','dm_id', $danhmuc_daco_thongso])
                   ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
                   ->all();  
     if($all){
-        $all = ArrayHelper::map($all, Aabc::$app->_danhmuc->dm_id, 'dm_ten');
-        
-        reset($all);
-        $first_key = key($all);
+        $all = ArrayHelper::map($all, Aabc::$app->_danhmuc->dm_id, 'dm_ten');        
+        // reset($all);
+        // $first_key = key($all);
 
-        if($model->isNewRecord && $level == 0){
-            $model->dm_ten = $all[$first_key];
-            $an_ten = 'an';
-        }
+        // if($model->isNewRecord && $level == 0){
+            // $model->dm_ten = $all[$first_key];
+            // $an_ten = 'an';
+        // }
     }else{
         $all = [];
     }
@@ -143,7 +142,8 @@ use aabc\helpers\ArrayHelper;
     $show_dmsp = (($model->dm_level < 1 && !empty(Aabc::$app->request->get('pa'))) || !$model->isNewRecord);
 
     if($model->isNewRecord){
-        echo $form->field($model, 'dm_dmsp',['options' => ['class' => ($show_dmsp?'hide':'') ]])->dropDownList($all,[
+        echo $form->field($model, 'dm_dmsp',['options' => ['class' => ($show_dmsp?'hide':'') ]])->dropDownList(
+            $all,[
             //'multiple'=>'multiple', 
             // D::s => 'search', 
             D::ty => 'ra',

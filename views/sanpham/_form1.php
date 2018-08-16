@@ -525,6 +525,19 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             #select_ts .col-md-3 {
                 margin: 0 0 20px 0;
             }
+            #select_ts fieldset {
+                border: 1px solid #ddd;
+                padding: 5px 15px;
+                margin: 0 0 20px 0;
+            }
+            #select_ts fieldset legend {
+                margin: 0;
+                background: #2499ce;
+                color: #FFF;
+                width: 100%;
+                font-size: 16px;
+                padding: 5px 10px;
+            }
         </style>
 
         <script type="text/javascript">

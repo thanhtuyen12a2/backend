@@ -89,6 +89,7 @@ class Sanphamngonngu_fake extends \aabc\db\ActiveRecord
         $this->spnn_tieudeseo = $this[Sanphamngonngu::spnn_tieudeseo];
         $this->spnn_motaseo = $this[Sanphamngonngu::spnn_motaseo];
 
+        Sanphamngonngu::cache($this);  
         return true;
     }
 

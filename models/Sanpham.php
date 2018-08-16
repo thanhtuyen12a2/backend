@@ -155,11 +155,21 @@ class Sanpham extends \aabc\db\ActiveRecord
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;       
         $cache_data['sp_linkseo'] = Tuyen::_get_link($model->sp_linkseo,$model->sp_id,'sanpham'); 
+        //1 Danh mục sp
         $cache_data['sp_listdm']['1'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 1])->column();
+
+        //2 Chuyên mục bài viết
         $cache_data['sp_listdm']['2'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 2])->column();
         $cache_data['sp_listdm']['3'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 3])->column();
+
+        //4 Danh mục nổi bật
         $cache_data['sp_listdm']['4'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 4])->column();
-        $cache_data['sp_listdm']['5'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 5])->column();
+
+        //5 Thông số, tính năng        
+        $a = Sanpham::getSpdmIdDanhmucs($model)->select(['dm_idcha','dm_id'])->andWhere(['dm_type' => 5])->all();
+        $a = ArrayHelper::map($a,'dm_idcha','dm_id');
+        //$a là mảng [ 'dm_idcha' => 'dm_id'] 
+        $cache_data['sp_listdm']['5'] = $a;
 
         $cache->set('sanpham'.$model->sp_id,$cache_data);
         return $cache_data; 
@@ -332,7 +342,9 @@ class Sanpham extends \aabc\db\ActiveRecord
     public function getSpdmIdDanhmucs($model)
     {
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
-        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_type' => 1]);
+        return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id]);
+
+        // return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_type' => 1]);
     }
 
     public function getSpdmIdDanhmucs_join()

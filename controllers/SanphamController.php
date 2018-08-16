@@ -1339,32 +1339,47 @@ class SanphamController extends Controller
         }
 
         $_Danhmuc  = Aabc::$app->_model->Danhmuc;
-
-        $thongso = $_Danhmuc::find()
-                                ->andWhere(['dm_dmsp' => $id])
-                                ->andWhere(['in','dm_level',[1]])                                
-                                ->all();
         $html = '';
-        foreach ($thongso as $k => $ts) {  
-            if($k%4 == 0) $html .= '<div class="clearfix"></div>';
 
-            $html .= '<div id="tssp'.$ts->dm_id.'" class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
-            $html .= '<span class="glyphicon glyphicon-pencil pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
-            $html .= '<div style="padding: 0 50px 0 0;">';
-            $info = '';
-            foreach ($ts->danhmuccon as $k_gt => $gt) {
-                if(in_array($gt->dm_id,$ts_check)){
-                    $a = $gt->getSanphamDanhmucs()->andWhere(['spdm_id_sp' => $id_sp])->one();
-                    if($a){
-                        $info = $a->spdm_info;
+        $nhomthongso = $_Danhmuc::find()
+                                ->andWhere(['dm_dmsp' => $id])
+                                ->andWhere(['in','dm_level',[0]])                                
+                                ->all();
+
+        foreach ($nhomthongso as $k_nts => $nts) {            
+            $html .= '<fieldset>';
+            $html .= '<legend>Nhóm thông số: '.$nts->dm_ten.'</legend>';  
+
+
+            $thongso = $_Danhmuc::find()
+                                    ->andWhere(['dm_idcha' => $nts->dm_id])
+                                    ->andWhere(['in','dm_level',[1]])                                
+                                    ->all();
+            
+            foreach ($thongso as $k => $ts) {  
+                if($k%4 == 0) $html .= '<div class="clearfix"></div>';
+
+                $html .= '<div id="tssp'.$ts->dm_id.'" class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
+                $html .= '<span class="glyphicon glyphicon-pencil pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
+                $html .= '<div style="padding: 0 50px 0 0;">';
+                $info = '';
+                foreach ($ts->danhmuccon as $k_gt => $gt) {
+                    if(in_array($gt->dm_id,$ts_check)){
+                        $a = $gt->getSanphamDanhmucs()->andWhere(['spdm_id_sp' => $id_sp])->one();
+                        if($a){
+                            $info = $a->spdm_info;
+                        }
                     }
+                    $html .= '<label><input '.(in_array($gt->dm_id,$ts_check)?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
                 }
-                $html .= '<label><input '.(in_array($gt->dm_id,$ts_check)?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+                $html .= '<input type="input" class="form-control" name="Ts['.$k.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
+                $html .= '</div>';
+                $html .= '</div>';
             }
-            $html .= '<input type="input" class="form-control" name="Ts['.$k.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
-            $html .= '</div>';
-            $html .= '</div>';
-        }
+
+
+            $html .= '</fieldset>';
+        }//End nhomthongso
         
         $return['html'] = $html;
         // die;

@@ -13,6 +13,7 @@ class DanhmucSearch extends Danhmuc
 {
     
     public $dm_thongso;
+    public $dm_nhomthongso;
 
     public function rules()
     {
@@ -20,7 +21,7 @@ class DanhmucSearch extends Danhmuc
             [[Aabc::$app->_danhmuc->dm_id, Aabc::$app->_danhmuc->dm_idcha, Aabc::$app->_danhmuc->dm_thutu, Aabc::$app->_danhmuc->dm_sothutu, 'dm_groupmenu','dm_dmsp',], 'integer'],
             [[Aabc::$app->_danhmuc->dm_ten, Aabc::$app->_danhmuc->dm_char, Aabc::$app->_danhmuc->dm_icon, Aabc::$app->_danhmuc->dm_background, Aabc::$app->_danhmuc->dm_link, Aabc::$app->_danhmuc->dm_ghichu, Aabc::$app->_danhmuc->dm_status, Aabc::$app->_danhmuc->dm_recycle, Aabc::$app->_danhmuc->dm_type], 'safe'],
 
-            [['dm_thongso'],'integer'],
+            [['dm_thongso','dm_nhomthongso'],'integer'],
 
             [['dm_noibat'],'integer'],
 
@@ -69,22 +70,30 @@ class DanhmucSearch extends Danhmuc
 
         if(!empty($this->dm_dmsp)) $query->andWhere(['dm_dmsp' => $this->dm_dmsp]);
 
+
+        $list = [];
+        if(!empty($this->dm_nhomthongso)){
+            $nts = $_Danhmuc::find()->andWhere(['dm_idcha' => $this->dm_nhomthongso])->column();
+            $nts[] = $this->dm_nhomthongso;
+            $list[] = $this->dm_nhomthongso;
+            if(!in_array($this->dm_thongso,$nts)){
+                if($nts) $this->dm_thongso = $nts;
+            }
+        }
+
         if(!empty($this->dm_thongso)){
             if(empty($this->dm_dmsp)){
                 $data_ts = $_Danhmuc::find()->andWhere(['dm_level' => 1, 'dm_id' => $this->dm_thongso])->exists();
             }else{
                 $data_ts = $_Danhmuc::find()->andWhere(['dm_level' => 1, 'dm_dmsp' => $this->dm_dmsp, 'dm_id' => $this->dm_thongso])->exists();
-            }
-            // echo '<pre>';
-            // print_r($data_ts);
-            // echo '</pre>';
-            // die;
+            }                       
+            $list[] = $this->dm_thongso;
             $query->andWhere(['or',
-                (!$data_ts)?:['dm_id' => $this->dm_thongso],
+                (!$data_ts)?:['dm_id' => $list],
                 ['dm_idcha' => $this->dm_thongso],
             ]);
         }
-
+        
 
         $query->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_ten, $this[Aabc::$app->_danhmuc->dm_ten]])
             ->andFilterWhere(['like', Aabc::$app->_danhmuc->dm_char, $this[Aabc::$app->_danhmuc->dm_char]])

@@ -123,19 +123,23 @@ class DanhmucController extends Controller
 
         $dmsp = '';
         $thongso = '';
+        $nhomthongso = '';
         if($tp == 5){
             if(isset($_GET['dmsp'])){
                 $dmsp = $_GET['dmsp'];
             }
             if(empty($dmsp)){
                 $_Danhmuc = Aabc::$app->_model->Danhmuc;
-                $all = $_Danhmuc::getDanhmucOption(1);                
+                $all = $_Danhmuc::getDanhmucOption(1);    
                 reset($all);
                 $first_key = key($all);
                 $dmsp = $first_key;
             }
             if(isset($_GET['ts'])){
                 $thongso = $_GET['ts'];
+            }
+            if(isset($_GET['nts'])){
+                $nhomthongso = $_GET['nts'];
             }
         }
 
@@ -148,6 +152,7 @@ class DanhmucController extends Controller
             Aabc::$app->_danhmuc->dm_type => $tp,
             'dm_dmsp' => $dmsp,
             'dm_thongso' => $thongso,
+            'dm_nhomthongso' => $nhomthongso,
         ]);
         
         $dataProvider = $searchModel->search(Aabc::$app->request->queryParams);

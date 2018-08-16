@@ -50,7 +50,8 @@ class Sanphamngonngu extends \aabc\db\ActiveRecord
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;       
        
-        $cache->set('spnn'.$model->spnn_idsanpham.'01', $cache_data);
+        $cache->set('spnn'.$model->spnn_idsanpham.'0'.$model->spnn_idngonngu, $cache_data);
+
         return $cache_data; 
     }
 
