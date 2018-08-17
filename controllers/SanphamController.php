@@ -792,10 +792,22 @@ class SanphamController extends Controller
                 //Save thông số
                 $ts_exist = [];
                 $_Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+
+                // echo '<pre>';
+                // print_r($tss);
+                // echo '</pre>';
+                // die;
+
                 if(is_array($tss)) foreach ($tss as $k_ts1 => $ts_group) {
                     
                     if(isset(($ts_group['i']))){
                     if(is_array($ts_group['i'])){
+
+                    // echo '<pre>';
+                    // print_r($ts_group);
+                    // echo '</pre>';
+                    // die;
+
                     foreach ($ts_group['i'] as $k_ts2 => $ts) {                           
                         $new_sp_dm = $_Sanphamdanhmuc::find()
                                             ->andWhere(['spdm_id_sp' => $id])
@@ -808,7 +820,9 @@ class SanphamController extends Controller
                             $new_sp_dm->spdm_id_sp = $id;
                             $new_sp_dm->spdm_id_danhmuc = $ts;                            
                         }
-                        $new_sp_dm->spdm_info = addslashes($ts_group['l']);
+                        $more_info = $ts_group['ii'][$ts];
+                        $new_sp_dm->spdm_info = addslashes($more_info);
+
                         $new_sp_dm->spdm_type = 5;
                         if(!$new_sp_dm->save()) Aabc::error($new_sp_dm->errors);
                         
@@ -1361,18 +1375,22 @@ class SanphamController extends Controller
 
                 $html .= '<div id="tssp'.$ts->dm_id.'" class="col-md-3"><h4>'.$ts->dm_ten.'</h4>';
                 $html .= '<span class="glyphicon glyphicon-pencil pjbm" d-m="2" id="menu00" d-u="ip_tn?ts='.$ts->dm_id.'&sp='.$id_sp.'&stt='.$k.'" d-i="danhmuc"></span>';
-                $html .= '<div style="padding: 0 50px 0 0;">';
-                $info = '';
+                $html .= '<div class="'.($ts->dm_multi == $_Danhmuc::MULTI?'ts-c':'ts-r').'" style="padding: 0 50px 0 0;">';                
                 foreach ($ts->danhmuccon as $k_gt => $gt) {
+                    $info = '';
                     if(in_array($gt->dm_id,$ts_check)){
                         $a = $gt->getSanphamDanhmucs()->andWhere(['spdm_id_sp' => $id_sp])->one();
                         if($a){
                             $info = $a->spdm_info;
                         }
                     }
-                    $html .= '<label><input '.(in_array($gt->dm_id,$ts_check)?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+                    $html .= '<label><input class="c_ts" '.(in_array($gt->dm_id,$ts_check)?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k_nts.$k.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten;
+
+                    $html .= '<input type="input" class="form-control '.(in_array($gt->dm_id,$ts_check)?'':'hide').' ts_more" name="Ts['.$k_nts.$k.'][ii]['.$gt->dm_id.']" value="'.$info.'" placeholder="Thông tin thêm">';
+
+                    $html .= '</label>';
                 }
-                $html .= '<input type="input" class="form-control" name="Ts['.$k.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
+                // $html .= '<input type="input" class="form-control" name="Ts['.$k.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
                 $html .= '</div>';
                 $html .= '</div>';
             }

@@ -25,28 +25,31 @@ use aabc\helpers\ArrayHelper;
     <script type="text/javascript">
       $('[data-toggle="tooltip"]').tooltip();
     </script>
-      <div class="">
-      
 
+<div class="clearfix" style="background: #FFF;padding: 20px 10px;">
 
-
-<div class="col-md-12  pt100">
-    <?= $form->field($model, Html::encode(Aabc::$app->_chinhsach->cs_ten))->textArea(['placeholder' => 'VD: Tặng chuột quang không dây trị giá 150.000đ' ,'maxlength' => true])->label('Chính sách tặng kèm')  ?>
+<div class="col-md-12  pt160">
+    <?= $form->field($model, Html::encode(Aabc::$app->_chinhsach->cs_ten))->textArea(['placeholder' => 'VD: Tặng chuột quang không dây trị giá 150.000đ' ,'maxlength' => true])->label('Tiêu đề')  ?>
 
     <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Tên chương trình khuyến mại tặng kèm." aria-invalid="false"></i>
 </div>
 
 
 
-<div class="col-md-12  pt100">
+<div class="col-md-12  pt160">
     <?= $form->field($model, Html::encode(Aabc::$app->_chinhsach->cs_ghichu))->textArea(['placeholder' => '' ,'maxlength' => true]) ?>
 
     <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Ghi chú chi tiết về chương trình khuyến mại tặng kèm." aria-invalid="false"></i>
 </div>
 
 
+<div class="col-md-12  pt160">
+    <?= $form->field($model, 'cs_tylechietkhau')->textArea(['placeholder' => 'VD: 150.000' ,'maxlength' => true])->label('Giá trị khuyến mại')  ?>
+    <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Trong đơn hàng thanh toán, số tiền của khách hàng phải trả sẽ được giảm trừ." aria-invalid="false"></i>
+</div>
 
-<div class="col-md-12  pt100">
+
+<div class="col-md-12  pt160">
     <?= $form->field($model, Aabc::$app->_chinhsach->cs_apdungcho)->dropDownList([ 1 => 'Tất cả sản phẩm', 2 => 'Danh mục sản phẩm (cụ thể)', 3 => 'Từng Sản phẩm (cụ thể)'],['placeholder' => '',
         //'multiple'=>'multiple', 
         // Aabc::$app->d->s => 'search', 
@@ -79,7 +82,7 @@ use aabc\helpers\ArrayHelper;
     });   
 </script>
 
-<div class="col-md-12 col-sm-6  col-xs-12 pt140">
+<div class="col-md-12 col-sm-6  col-xs-12 pt160">
     <?php     
         $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
         $danhmuc = $_Danhmuc::getAll1_1();                    
@@ -106,29 +109,29 @@ use aabc\helpers\ArrayHelper;
 </div>
 
 
-<div class="col-md-12 col-sm-6  col-xs-12 pt100">
+<div class="col-md-12 col-sm-6  col-xs-12 pt160">
     <?php     
-        $_Sanpham  = Aabc::$app->_model->Sanpham;                
-        $sanpham = $_Sanpham::getAll1_1();
+        // $_Sanpham  = Aabc::$app->_model->Sanpham;                
+        // $sanpham = $_Sanpham::getAll1_1();
 
-        array_unshift($sanpham,[
-            Aabc::$app->_sanpham->sp_id => '',
-            Aabc::$app->_sanpham->sp_tensp =>'---Chọn---',
-        ]);//Thêm vào đầu
-        $sanpham_hide = ($model[Aabc::$app->_chinhsach->cs_apdungcho] == 3 ? '' : 'hide'); 
-        echo $form->field($model, Aabc::$app->_chinhsach->cs_id_sp,['options' => ['class' => $sanpham_hide]])->dropDownList(ArrayHelper::map($sanpham,Aabc::$app->_sanpham->sp_id,Html::encode(Aabc::$app->_sanpham->sp_tensp)),[
-                    'multiple'=>'multiple',
-                    Aabc::$app->d->ty => 'checkbox',
-                    // Aabc::$app->d->ty => 'ra',
-                    // Aabc::$app->d->c => 'one',
-                    // Aabc::$app->d->add => 'ip',
-                    // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
-                    Aabc::$app->d->i => Aabc::$app->_model->__chinhsach,
-                    Aabc::$app->d->t => 'sea',//Search
-                    'class' => 'mulr',                        
-                    // 'id' => Aabc::$app->_model->__sanpham.'-sp_id_thuonghieu'
-                    'id' => 'hi-'.Aabc::$app->_model->__sanpham
-            ])->label(Aabc::$app->_chinhsach->__cs_id_sp); 
+        // array_unshift($sanpham,[
+        //     Aabc::$app->_sanpham->sp_id => '',
+        //     Aabc::$app->_sanpham->sp_tensp =>'---Chọn---',
+        // ]);//Thêm vào đầu
+        // $sanpham_hide = ($model[Aabc::$app->_chinhsach->cs_apdungcho] == 3 ? '' : 'hide'); 
+        // echo $form->field($model, Aabc::$app->_chinhsach->cs_id_sp,['options' => ['class' => $sanpham_hide]])->dropDownList(ArrayHelper::map($sanpham,Aabc::$app->_sanpham->sp_id,Html::encode(Aabc::$app->_sanpham->sp_tensp)),[
+        //             'multiple'=>'multiple',
+        //             Aabc::$app->d->ty => 'checkbox',
+        //             // Aabc::$app->d->ty => 'ra',
+        //             // Aabc::$app->d->c => 'one',
+        //             // Aabc::$app->d->add => 'ip',
+        //             // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+        //             Aabc::$app->d->i => Aabc::$app->_model->__chinhsach,
+        //             Aabc::$app->d->t => 'sea',//Search
+        //             'class' => 'mulr',                        
+        //             // 'id' => Aabc::$app->_model->__sanpham.'-sp_id_thuonghieu'
+        //             'id' => 'hi-'.Aabc::$app->_model->__sanpham
+        //     ])->label(Aabc::$app->_chinhsach->__cs_id_sp); 
     ?>
    
 </div>
@@ -141,7 +144,7 @@ use aabc\helpers\ArrayHelper;
 
 
 
-<div class="col-md-12 col-sm-5 col-xs-12 pt100"> 
+<div class="col-md-12 col-sm-5 col-xs-12 pt160"> 
         <?php 
             if($model[Aabc::$app->_chinhsach->cs_ngaybatdau] == null){
                 $model[Aabc::$app->_chinhsach->cs_ngaybatdau] = date("Y-m-d");
@@ -175,9 +178,7 @@ use aabc\helpers\ArrayHelper;
     </div>
 
 
-
-
-<div class="col-md-12 col-sm-5 col-xs-12 pt100"> 
+<div class="col-md-12 col-sm-5 col-xs-12 pt160"> 
         <?php 
             if($model[Aabc::$app->_chinhsach->cs_ngayketthuc] == null){
                 // $model[Aabc::$app->_chinhsach->cs_ngayketthuc] = date("Y-m-d H:i");
@@ -211,7 +212,7 @@ use aabc\helpers\ArrayHelper;
     </div>
 
 
-<div class="col-md-12  pt100">
+<div class="col-md-12  pt160">
     <?= $form->field($model, Aabc::$app->_chinhsach->cs_status)->dropDownList([ 1 => 'Kích hoạt', 2 => 'Ngừng kích hoạt##mre', ],['placeholder' => '' ,'data-placement' => 'top', 'data-html' => 'true','data-trigger' => 'focus','data-html' => 'true', 'data-toggle' => 'tooltip','title' => '',
             //'multiple'=>'multiple', 
             // Aabc::$app->d->s => 'search', 

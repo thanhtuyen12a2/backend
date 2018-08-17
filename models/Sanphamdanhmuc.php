@@ -44,6 +44,14 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
     }
 
 
+    public static function cache($model)
+    {
+        $cache = Aabc::$app->dulieu;
+        $cache_data = $model->attributes; 
+        $cache->set('tssp'.$model->spdm_id_sp.'000'.$model->spdm_id_danhmuc, $cache_data);
+        return $cache_data; 
+    }
+
 
     public function beforeSave($insert)
     {
@@ -66,6 +74,7 @@ class Sanphamdanhmuc extends \aabc\db\ActiveRecord
         }else{
             // Aabc::error('LOI');
         }
+        self::cache($this);
     }
 
 

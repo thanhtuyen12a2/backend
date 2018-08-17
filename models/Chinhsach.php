@@ -2,6 +2,7 @@
 namespace backend\models;
 use Aabc;
 use aabc\helpers\ArrayHelper;
+use backend\models\Danhmucchinhsach;
 
 class Chinhsach extends \aabc\db\ActiveRecord
 {
@@ -24,6 +25,20 @@ class Chinhsach extends \aabc\db\ActiveRecord
     const APDUNGTATCA = 1;
     const APDUNGDANHMUC = 2;
 
+
+    public function actionController()
+    {
+        return [
+            'chinhsach'.':'.'i_km' => 'chinhsach/i_km',
+            'chinhsach'.':'.'i_bh' => 'chinhsach/i_bh',
+
+            'chinhsach'.':'.'c_km' => 'chinhsach/c_km',
+            'chinhsach'.':'.'c_bh' => 'chinhsach/c_bh',
+
+            'chinhsach'.':'.'u_km' => 'chinhsach/u_km',
+            'chinhsach'.':'.'u_bh' => 'chinhsach/u_bh',
+        ];
+    }
 
     public function rules()
     {
@@ -68,7 +83,7 @@ class Chinhsach extends \aabc\db\ActiveRecord
             ];
     }
 
-  public function getOption($type = NULL)
+  public function getKhuyenmaiOption($type = NULL)
   {
     $_Chinhsach = Aabc::$app->_model->Chinhsach;
     $chinhsach =  $_Chinhsach::find()
@@ -80,13 +95,37 @@ class Chinhsach extends \aabc\db\ActiveRecord
     if($chinhsach){
         foreach ($chinhsach as $keycs => $valuecs) {
             if($valuecs[Aabc::$app->_chinhsach->cs_apdungcho] == $_Chinhsach::APDUNGTATCA){
-                $chinhsach[$keycs][Aabc::$app->_chinhsach->cs_ten] = '<i>Tất cả</i>'.$valuecs[Aabc::$app->_chinhsach->cs_ten] .'#$'.$valuecs[Aabc::$app->_chinhsach->cs_apdungcho];
+                $chinhsach[$keycs][Aabc::$app->_chinhsach->cs_ten] = '<i>Tất cả</i>'.$valuecs[Aabc::$app->_chinhsach->cs_ten] . '%&<i class="haut haut_all">(Áp dụng tất cả sản phẩm)</i>'.'#$'.$valuecs[Aabc::$app->_chinhsach->cs_apdungcho];
             }
             if($valuecs[Aabc::$app->_chinhsach->cs_apdungcho] == $_Chinhsach::APDUNGDANHMUC){
-                $chinhsach[$keycs][Aabc::$app->_chinhsach->cs_ten] = $valuecs[Aabc::$app->_chinhsach->cs_ten] .'#$'.$valuecs[Aabc::$app->_chinhsach->cs_apdungcho];
+
+                $list_dm = Danhmucchinhsach::find()
+                                      ->where(['dmcs_id_chinhsach' => $valuecs['cs_id']])
+                                      ->all();
+                $ten_dm = '';
+                if($list_dm){
+                    $ten_dm = '%&<i class="haut">(Áp dụng riêng cho Danh mục sản phẩm: ';
+                    $dem = 0;
+                    foreach ($list_dm as $dm) {
+                      $ten_dm .= ($dem > 0?', ':'').'<b>'.$dm->dmcsIdDanhmuc->dm_ten.'</b>';
+                      $dem += 1;
+                    }
+                    $ten_dm .= ')</i>';
+                }
+
+                $chinhsach[$keycs][Aabc::$app->_chinhsach->cs_ten] = $valuecs[Aabc::$app->_chinhsach->cs_ten] . $ten_dm .'#$'.$valuecs[Aabc::$app->_chinhsach->cs_apdungcho];
             }
       }
-      return ArrayHelper::map($chinhsach,Aabc::$app->_chinhsach->cs_id,Aabc::$app->_chinhsach->cs_ten);
+      // die;
+
+      // echo '<pre>';
+      // print_r($chinhsach);
+      // echo '</pre>';
+      // die;
+
+      return ArrayHelper::map($chinhsach,Aabc::$app->_chinhsach->cs_id, function($model){
+         return $model->cs_ten;
+      });
     }
     return [];
   }

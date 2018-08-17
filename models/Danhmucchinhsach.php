@@ -62,7 +62,7 @@ return $this->hasOne($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id =>
     public function getDmcsIdDanhmuc()
     {
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
-return $this->hasOne($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc]);
+        return $this->hasOne($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc]);
     }
 
 

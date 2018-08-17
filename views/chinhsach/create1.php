@@ -6,7 +6,7 @@ use aabc\helpers\Html;
 /* @var $this aabc\web\View */
 /* @var $model backend\models\Chinhsach */
 
-$this->title = 'Thêm khuyến mại tặng kèm';
+$this->title = 'Thêm khuyến mại';
 $this->params['breadcrumbs'][] = ['label' => 'Chinhsaches', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -225,10 +225,10 @@ Html::dropDownList('t', Aabc::$app->request->get('t') != NULL ? Aabc::$app->requ
  <div class='cas'>
 
      <select id="sel<?= Aabc::$app->_model->__chinhsach?>" class="btn btn-default">
-         <option value="" selected=""><?=Aabc::$app->MyConst->gridview_selectmultiitem_chonthaotac?></option>
-                  <option value="1"><?=Aabc::$app->MyConst->gridview_selectmultiitem_an?></option>
-        <option value="2"><?=Aabc::$app->MyConst->gridview_selectmultiitem_hienthi?></option>
-                <option value="3"><?=Aabc::$app->MyConst->gridview_selectmultiitem_thungrac?></option>      
+        <option value="" selected=""><?=Aabc::$app->MyConst->gridview_selectmultiitem_chonthaotac?></option>
+        <option value="1">Ngừng kích hoạt</option>
+        <option value="2">Kích hoạt</option>
+        <option value="3"><?=Aabc::$app->MyConst->gridview_selectmultiitem_thungrac?></option>      
     </select>
 
     <?= Html::button(Aabc::$app->MyConst->gridview_selectmultiitem_thuchien, [Aabc::$app->d->i => Aabc::$app->_model->__chinhsach, Aabc::$app->d->u =>'reca_km','class' => 'btn btn-default bra', 'method' => 'POST']) ?>

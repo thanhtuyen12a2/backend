@@ -10,6 +10,7 @@ use common\models\LoginForm;
 use backend\models\Sanpham;
 use backend\models\Danhmuc;
 use backend\models\Cauhinh;
+use backend\models\Chinhsach;
 use backend\models\Image;
 
 use aabc\widgets\FragmentCache;
@@ -68,6 +69,8 @@ class SiteController extends Controller
         $key = $k.':'.$f;
 
         $arr_link = [];
+
+        $arr_link += Chinhsach::actionController();
 
         $arr_link += Sanpham::actionController();
 

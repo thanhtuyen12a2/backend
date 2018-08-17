@@ -25,9 +25,9 @@ use aabc\helpers\ArrayHelper;
     <script type="text/javascript">
       $('[data-toggle="tooltip"]').tooltip();
     </script>
-      <div class="">
       
-
+      
+<div class="clearfix" style="background: #FFF;padding: 20px 10px;">
 
 
 <div class="col-md-12  pt100">

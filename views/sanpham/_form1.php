@@ -67,6 +67,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             <li class="active"><a data-toggle="tab" href="#home">Thông tin cơ bản</a></li>            
             <li><a data-toggle="tab" href="#tab_anh">Ảnh sản phẩm</a></li>
             <li><a data-toggle="tab" href="#tab_thongso">Thông số sản phẩm</a></li>
+            <li><a data-toggle="tab" href="#tab_chinhsach">Chính sách, Khuyến mại</a></li>
             <li><a data-toggle="tab" href="#tab2">Nội dung chi tiết</a></li>
             <li><a data-toggle="tab" href="#thongso">Thông số kỹ thuật</a></li>
             <li><a data-toggle="tab" href="#tab_seo">Tùy chỉnh SEO</a></li>
@@ -236,56 +237,6 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             -->
 
 
-<!-- 
-                             <div class="col-md-12 col-sm-6  col-xs-12 pt160">
-
-                                <?php  
-                                    // echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getOption($_Chinhsach::KHUYENMAI),[
-                                            
-                                    //         'multiple'=>'multiple',
-                                    //         Aabc::$app->d->ty => 'checkbox',
-                                            
-                                    //         // Aabc::$app->d->ty => 'ra',
-                                    //         // Aabc::$app->d->c => 'one',
-                                    //         // Aabc::$app->d->add => 'ip',
-                                    //         // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
-
-                                    //         Aabc::$app->d->i => Sanpham::tt,
-                                    //         Aabc::$app->d->t => 'sea',//Search
-                                    //         'class' => 'mulr',                        
-                                    //         // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
-                                    //         'id' => 'fk-'.Aabc::$app->_model->__chinhsach.'-km'
-                                    //     ])->label('Khuyến mại tặng kèm'); 
-                                ?>
-                                <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Các Chương trình khuyến mại tặng kèm khi khách hàng mua sản phẩm này.<br/>- Một sản phẩm có thể có cùng lúc nhiều chương trình khuyến mại khác nhau.<br/>- Các chương trình áp dụng cho <b>Tất cả sản phẩm</b> và <b>Danh mục sản phẩm</b> sẽ được ghim lên trên và được chọn tự động." aria-invalid="false"></i>
-                            </div> -->
-
-
-
-
-<!-- 
-                             <div class="col-md-12 col-sm-6  col-xs-12 pt160">
-
-                                <?php  
-                                    // echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getOption($_Chinhsach::BAOHANH),[
-                                            
-                                    //         'multiple'=>'multiple',
-                                    //         Aabc::$app->d->ty => 'checkbox',
-                                            
-                                    //         // Aabc::$app->d->ty => 'ra',
-                                    //         // Aabc::$app->d->c => 'one',
-                                    //         // Aabc::$app->d->add => 'ip',
-                                    //         // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
-
-                                    //         Aabc::$app->d->i => Sanpham::tt,
-                                    //         Aabc::$app->d->t => 'sea',//Search
-                                    //         'class' => 'mulr',                        
-                                    //         // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
-                                    //         'id' => 'fk-'.Aabc::$app->_model->__chinhsach.'-bh'
-                                    //     ])->label('Chính sách bảo hành'); 
-                                ?>
-                                <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Các Chương trình Bảo hành khi khách hàng mua sản phẩm này.<br/>- Một sản phẩm có thể có cùng lúc nhiều chương trình Bảo hành khác nhau.<br/>- Các chương trình áp dụng cho <b>Tất cả sản phẩm</b> và <b>Danh mục sản phẩm</b> sẽ được ghim lên trên và được chọn tự động." aria-invalid="false"></i>
-                            </div> -->
                 
 
 
@@ -294,7 +245,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                                 <?php     
                                     
-                                    // echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getOption($_Chinhsach::GIAOHANG),[
+                                    // echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getKhuyenmaiOption($_Chinhsach::GIAOHANG),[
                                             
                                     //         'multiple'=>'multiple',
                                     //         Aabc::$app->d->ty => 'checkbox',
@@ -422,14 +373,84 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                     </div> 
 
-                    
-
-
-
-
-
                 </fieldset>
+
+                
+                <div class="col-md-12 text-center">
+                    <span class="btn-default btn next-step">Bước tiếp theo</span>
+                </div>
             </div>
+
+
+
+<div id="tab_chinhsach" class="tab-pane fade ">
+    <div style="border: 2px dashed #f7ba0c;padding: 10px;margin: 10px 5px 10px 10px;">
+        <b>Thiết lập các chính sách, khuyến mại áp dụng cho sản phẩm.</b>
+        <br/>
+        <i style="font-size: 12px">Một sản phẩm sẽ thuộc 1 danh mục sản phẩm. Tại mỗi danh mục sẽ có các thông số, tính năng khác nhau (Thiết lập tại mục Sản phẩm > Danh sách thông số).<br/>
+        </i>
+    </div>
+    <fieldset class="ht htsp">
+        <div class="col-md-12 col-sm-6  col-xs-12 pt160">
+            <?php  
+                echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getKhuyenmaiOption($_Chinhsach::KHUYENMAI),[                        
+                        'multiple'=>'multiple',
+                        Aabc::$app->d->ty => 'checkbox',                        
+                        // Aabc::$app->d->ty => 'ra',
+                        // Aabc::$app->d->c => 'one',
+                        // Aabc::$app->d->add => 'ip',
+                        // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+                        Aabc::$app->d->i => Sanpham::tt,
+                        Aabc::$app->d->t => 'sea',//Search
+                        'class' => 'mulr',                        
+                        // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
+                        'id' => 'fk-'.Aabc::$app->_model->__chinhsach.'-km'
+                    ])->label('Khuyến mại'); 
+            ?>
+            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Các Chương trình khuyến mại tặng kèm khi khách hàng mua sản phẩm này.<br/>- Một sản phẩm có thể có cùng lúc nhiều chương trình khuyến mại khác nhau.<br/>- Các chương trình áp dụng cho <b>Tất cả sản phẩm</b> và <b>Danh mục sản phẩm</b> sẽ được ghim lên trên và được chọn tự động." aria-invalid="false"></i>
+        </div>
+
+
+
+
+
+         <div class="col-md-12 col-sm-6  col-xs-12 pt160">
+            <?php  
+                echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getKhuyenmaiOption($_Chinhsach::BAOHANH),[
+                        
+                        'multiple'=>'multiple',
+                        Aabc::$app->d->ty => 'checkbox',
+                        
+                        // Aabc::$app->d->ty => 'ra',
+                        // Aabc::$app->d->c => 'one',
+                        // Aabc::$app->d->add => 'ip',
+                        // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+
+                        Aabc::$app->d->i => Sanpham::tt,
+                        Aabc::$app->d->t => 'sea',//Search
+                        'class' => 'mulr',                        
+                        // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
+                        'id' => 'fk-'.Aabc::$app->_model->__chinhsach.'-bh'
+                    ])->label('Chính sách'); 
+            ?>
+            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Các Chương trình Bảo hành khi khách hàng mua sản phẩm này.<br/>- Một sản phẩm có thể có cùng lúc nhiều chương trình Bảo hành khác nhau.<br/>- Các chương trình áp dụng cho <b>Tất cả sản phẩm</b> và <b>Danh mục sản phẩm</b> sẽ được ghim lên trên và được chọn tự động." aria-invalid="false"></i>
+        </div> 
+        
+        <div class="clearfix"></div>
+       
+    </fieldset>
+
+    <div class="col-md-12 text-center">
+        <span class="btn-default btn next-step">Bước tiếp theo</span>
+    </div>
+</div> 
+
+
+
+
+
+
+
 
 
 <div id="tab_thongso" class="tab-pane fade ">  
@@ -453,11 +474,13 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                     foreach ($listcs as $keydmcs => $valuedmcs) {
                         $listcs_html .= '#@' . $valuedmcs[Aabc::$app->_chinhsach->cs_id];
                     }
+                    if(empty($listcs_html)) $listcs_html = '#@0';
                     $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] = $danhmuc[$keydm][Aabc::$app->_danhmuc->dm_char] . $listcs_html;
                 } 
 
-                $danhmuc = ['' => '---Chọn---'] + ArrayHelper::map($danhmuc,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);                        
+                $danhmuc = ['' => '---Chọn---#@0'] + ArrayHelper::map($danhmuc,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);                        
 
+                
                 // echo $form->field($model, Sanpham::sp_id_danhmuc,['options' => ['class' => '']])->dropDownList($danhmuc,[
                 //         'multiple'=>'multiple',
                 //         Aabc::$app->d->ty => 'checkbox',
@@ -507,11 +530,16 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 cursor: pointer;
             }
 
-            #select_ts label input {
+            #select_ts label input.c_ts {
                 position: absolute;
                 top: 3px;
                 left: 0;
             }
+
+            #select_ts label input.ts_more {
+                font-weight: normal;
+            }
+            
             #select_ts div>span{
                 position: absolute;
                 right: 65px;
@@ -569,6 +597,10 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         ?>
 
     </fieldset>
+
+    <div class="col-md-12 text-center">
+        <span class="btn-default btn next-step">Bước tiếp theo</span>
+    </div>
 </div> 
 
 
@@ -623,6 +655,10 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         <span class="btn btn-default add-album" <?= Aabc::$app->d->u .'='. Sanpham::addalbum ?>  <?= Aabc::$app->d->i.'='.Sanpham::tt ?> ><span class="glyphicon text-success glyphicon-plus"></span> Thêm album</span>
 
     </div>
+
+    <div class="col-md-12 text-center">
+        <span class="btn-default btn next-step">Bước tiếp theo</span>
+    </div>
 </div>
 
 
@@ -663,6 +699,9 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             </div>  
 
         </fieldset>
+        <div class="col-md-12 text-center">
+            <span class="btn-default btn next-step">Bước tiếp theo</span>
+        </div>
     </div> 
 
 
@@ -691,6 +730,10 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         </div>  
 
         </fieldset>
+    
+        <div class="col-md-12 text-center">
+            <span class="btn-default btn next-step">Bước tiếp theo</span>
+        </div>
     </div> 
 
 
@@ -738,6 +781,10 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                 </div>
 
                 </fieldset>
+            
+                <div class="col-md-12 text-center">
+                    <span class="btn-default btn next-step">Bước tiếp theo</span>
+                </div>
             </div>
 
 
@@ -766,12 +813,15 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                     </div>  
 
                 </fieldset>
+
             </div> 
 
 
 
             <div class="clearfix"></div>
         </div>
+
+
     </div>
     
      

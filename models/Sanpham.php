@@ -166,10 +166,13 @@ class Sanpham extends \aabc\db\ActiveRecord
         $cache_data['sp_listdm']['4'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 4])->column();
 
         //5 Thông số, tính năng        
-        $a = Sanpham::getSpdmIdDanhmucs($model)->select(['dm_idcha','dm_id'])->andWhere(['dm_type' => 5])->all();
-        $a = ArrayHelper::map($a,'dm_idcha','dm_id');
-        //$a là mảng [ 'dm_idcha' => 'dm_id'] 
-        $cache_data['sp_listdm']['5'] = $a;
+        $a = Sanpham::getSpdmIdDanhmucs($model)->select(['dm_id','dm_idcha'])->andWhere(['dm_type' => 5])->all();
+        $b = [];
+        foreach ($a as $v) {
+            $b[$v['dm_idcha']][$v['dm_id']] = $v['dm_id'];
+        }               
+        //$b là mảng [ 'dm_idcha' => ['dm_id','dm_id'] 
+        $cache_data['sp_listdm']['5'] = $b;
 
         $cache->set('sanpham'.$model->sp_id,$cache_data);
         return $cache_data; 

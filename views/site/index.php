@@ -82,6 +82,21 @@ $this->title = 'My Aabc Application';
                             </li> 
 
 
+                            <li id ='menu00' class="menu-child" >
+                                <div  id ='menu00' <?=D::u?>='i_km' class="menu-item pjb" <?=D::i?> = 'chinhsach'>
+                                    <span class="ico icon6"></span>
+                                    <p>Khuyến mại</p>
+                                </div>
+                            </li> 
+
+
+                            <li id ='menu00' class="menu-child" >
+                                <div  id ='menu00' <?=D::u?>='i_bh' class="menu-item pjb" <?=D::i?> = 'chinhsach'>
+                                    <span class="ico icon7"></span>
+                                    <p>Chính sách</p>
+                                </div>
+                            </li> 
+
                      
                             <li id ='menu00' class="menu-child" >                               
                                 <div id ='menu00' <?=D::u?>='i' class="menu-item pjb " <?=D::i?> = <?=Aabc::$app->_model->__image?>>
