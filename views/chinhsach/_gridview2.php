@@ -5,7 +5,7 @@ use aabc\grid\GridView;
 use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
-
+use common\components\Tuyen;
 ?>
 
 
@@ -53,8 +53,13 @@ use aabc\widgets\ActiveForm;
                 'filterInputOptions' => [
                     'class'       => 'form-control',                    
                  ],
-                'value' => function ($model) {                          
-                    return Html::encode($model[Aabc::$app->_chinhsach->cs_ten]);
+                'value' => function ($model) {  
+                    $icon = '';
+                    if(!empty($model->cs_icon)){
+                      $icon = explode('#',$model->cs_icon);
+                      $icon = '<div class="g-icon"><div class="'.(empty($icon['1'])?'':$icon['1']).'">'.Tuyen::_icon($icon['0']) .'</div></div>';
+                    }
+                    return $icon . Html::encode($model[Aabc::$app->_chinhsach->cs_ten]);
                 }, 
             ],
 
@@ -176,14 +181,14 @@ use aabc\widgets\ActiveForm;
                 'value' => function ($model) {                         
                     return '<div>'.$model[Aabc::$app->_chinhsach->cs_id].'</div><div class="omc" id="'.Aabc::$app->_model->__chinhsach.$model[Aabc::$app->_chinhsach->cs_id].'"><div class="omd">
 
-                    <button type="button"  '.Aabc::$app->d->m.'="3"  class="mb btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'  '.Aabc::$app->d->u.'="u_bh?id='.$model[Aabc::$app->_chinhsach->cs_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button"  '.Aabc::$app->d->m.'="3"  class="mb btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'  '.Aabc::$app->d->u.'="u_km?id='.$model[Aabc::$app->_chinhsach->cs_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>
 
                     <div class="gn"></div>
                     '.                        
-                        (Aabc::$app->user->can('web') ?  ($model[Aabc::$app->_chinhsach->cs_status] == 2 ? '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'   '.Aabc::$app->d->u.'="us_bh?id='.$model[Aabc::$app->_chinhsach->cs_id].'">Kích hoạt<span class="glyphicon glyphicon-eye-open"></span></button>' : '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'   '.Aabc::$app->d->u.'="us_bh?id='.$model[Aabc::$app->_chinhsach->cs_id].'">Ngừng kích hoạt<span class="glyphicon glyphicon-eye-open"></span></button>') : "" )
+                        (Aabc::$app->user->can('web') ?  ($model[Aabc::$app->_chinhsach->cs_status] == 2 ? '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'   '.Aabc::$app->d->u.'="us_km?id='.$model[Aabc::$app->_chinhsach->cs_id].'">Kích hoạt<span class="glyphicon glyphicon-eye-open"></span></button>' : '<button type="button" class="ml btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'   '.Aabc::$app->d->u.'="us_km?id='.$model[Aabc::$app->_chinhsach->cs_id].'">Ngừng kích hoạt<span class="glyphicon glyphicon-eye-open"></span></button>') : "" )
 
                     .'
-                    <button type="button" class="br btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'  '.Aabc::$app->d->u.'="rec_bh?id='.$model[Aabc::$app->_chinhsach->cs_id].'">'.Aabc::$app->MyConst->gridview_menu_thungrac.'<span class="glyphicon glyphicon-trash"></span></button>
+                    <button type="button" class="br btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__chinhsach.'  '.Aabc::$app->d->u.'="rec_km?id='.$model[Aabc::$app->_chinhsach->cs_id].'">'.Aabc::$app->MyConst->gridview_menu_thungrac.'<span class="glyphicon glyphicon-trash"></span></button>
 
                     </div></div>';                                      
                 }, 
@@ -225,13 +230,13 @@ Html::dropDownList('t', Aabc::$app->request->get('t') != NULL ? Aabc::$app->requ
  <div class='cas'>
 
      <select id="sel<?= Aabc::$app->_model->__chinhsach?>" class="btn btn-default">
-         <option value="" selected=""><?=Aabc::$app->MyConst->gridview_selectmultiitem_chonthaotac?></option>
-                  <option value="1"><?=Aabc::$app->MyConst->gridview_selectmultiitem_an?></option>
-        <option value="2"><?=Aabc::$app->MyConst->gridview_selectmultiitem_hienthi?></option>
-                <option value="3"><?=Aabc::$app->MyConst->gridview_selectmultiitem_thungrac?></option>      
+        <option value="" selected=""><?=Aabc::$app->MyConst->gridview_selectmultiitem_chonthaotac?></option>
+        <option value="1">Ngừng kích hoạt</option>
+        <option value="2">Kích hoạt</option>
+        <option value="3"><?=Aabc::$app->MyConst->gridview_selectmultiitem_thungrac?></option>      
     </select>
 
-    <?= Html::button(Aabc::$app->MyConst->gridview_selectmultiitem_thuchien, [Aabc::$app->d->i => Aabc::$app->_model->__chinhsach, Aabc::$app->d->u =>'reca_bh','class' => 'btn btn-default bra', 'method' => 'POST']) ?>
+    <?= Html::button(Aabc::$app->MyConst->gridview_selectmultiitem_thuchien, [Aabc::$app->d->i => Aabc::$app->_model->__chinhsach, Aabc::$app->d->u =>'reca_km','class' => 'btn btn-default bra', 'method' => 'POST']) ?>
 </div>
 
 </div>

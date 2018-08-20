@@ -154,8 +154,33 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->column();
         }
 
-        
+
         if($model->dm_type == 1){
+
+            //CS 1
+            $km = $model::getChinhsach($model)
+                          ->orderBy(['cs_id' => SORT_DESC])
+                          ->where(['and',
+                            ['cs_apdungcho' => Chinhsach::APDUNGDANHMUC],
+                            ['cs_status' => Chinhsach::ON],
+                            ['cs_recycle' => Chinhsach::NGOAITHUNGRAC],
+                            ['cs_type' => Chinhsach::KHUYENMAI],
+                        ])
+                        ->column();
+            $cache_data['dm_khuyenmai'] = $km;
+            //CS 2
+            $bh = $model::getChinhsach($model)
+                          ->orderBy(['cs_id' => SORT_DESC])
+                          ->where(['and',
+                            ['cs_apdungcho' => Chinhsach::APDUNGDANHMUC],
+                            ['cs_status' => Chinhsach::ON],
+                            ['cs_recycle' => Chinhsach::NGOAITHUNGRAC],
+                            ['cs_type' => Chinhsach::BAOHANH],
+                        ])
+                        ->column();
+            $cache_data['dm_chinhsach'] = $bh;
+
+
             $cache_data['dm_link'] = $model->dm_link . '-'.D::url_dm.$model->dm_id.'.html';
 
             $cache_data['list_thongso'] = $model->getThongso()
@@ -257,13 +282,18 @@ class Danhmuc extends \aabc\db\ActiveRecord
             }  
         }else{  
           // $this->dm_link = json_encode($this->dm_link);
-        }
-        Danhmuc::cache($this);
+        }        
         return true;
     }
 
+     public function afterSave($insert, $changedAttributes)
+    {
+      parent::afterSave( $insert, $changedAttributes );  
+      self::cache($this);
+    }
 
-     public function afterFind()
+
+    public function afterFind()
     {        
         if($this->dm_type == 4){  
           $this->dm_link = json_decode($this->dm_link,true);
@@ -348,7 +378,6 @@ class Danhmuc extends \aabc\db\ActiveRecord
         $_Chinhsach = Aabc::$app->_model->Chinhsach;
         return $this->hasMany($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id => Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach])->viaTable(Aabc::$app->_danhmucchinhsach->table, [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id])->andWhere([Aabc::$app->_chinhsach->cs_status => '1'])->andWhere([Aabc::$app->_chinhsach->cs_recycle => '2'])->all();
     }
-
 
     public function getThongso()
     {
@@ -714,17 +743,15 @@ return $this->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_idcha =>
      * @return \aabc\db\ActiveQuery
      */
     public function getDanhmucChinhsaches()
-    {
-        $_DanhmucChinhsach = Aabc::$app->_model->DanhmucChinhsach;
-return $this->hasMany($_DanhmucChinhsach::className(), [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id]);
+    {       
+       return $this->hasMany(Danhmucchinhsach::className(), ['dmcs_id_danhmuc' => 'dm_id']);
     }
     /**
      * @return \aabc\db\ActiveQuery
      */
-    public function getDmcsIdChinhsaches()
-    {
-        $_Chinhsach = Aabc::$app->_model->Chinhsach;
-return $this->hasMany($_Chinhsach::className(), [Aabc::$app->_chinhsach->cs_id => Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach])->viaTable(Aabc::$app->_danhmucchinhsach->table, [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id]);
+    public function getChinhsach($model)
+    {        
+      return $model->hasMany(Chinhsach::className(), ['cs_id' => 'dmcs_id_chinhsach'])->viaTable('db_danhmuc_chinhsach', ['dmcs_id_danhmuc' => 'dm_id']);
     }
     /**
      * @return \aabc\db\ActiveQuery

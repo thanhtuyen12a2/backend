@@ -946,44 +946,54 @@ class SanphamController extends Controller
                             } 
                         }                  
                     }
+                }else{
+                    $Sanphamdanhmuc::deleteAll(['and',
+                                        ['spdm_id_sp' => $model[Sanpham::sp_id]],
+                                        ['spdm_type' => 1],
+                                ]);
                 }
                 $model[Sanpham::sp_id_danhmuc] = null;
 
 
 
 
-                // Add Sanpham-chinhsach;              
-                //  $Sanphamchinhsach::deleteAll(['and',
-                //                         ['spcs_id_sp' => $model[Sanpham::sp_id]],
-                //                         ['NOT IN','spcs_id_chinhsach',$arr_sp_id_chinhsach],
-                //                 ]);
-                // if(isset($arr_sp_id_chinhsach)){ 
-                //     foreach ($arr_sp_id_chinhsach as $key => $value) {  
-                //         $value = addslashes($value); 
+                // Add Sanpham-chinhsach; 
+                if(!empty($arr_sp_id_chinhsach)){ 
+                     $Sanphamchinhsach::deleteAll(['and',
+                                        ['spcs_id_sp' => $model[Sanpham::sp_id]],
+                                        ['NOT IN','spcs_id_chinhsach',$arr_sp_id_chinhsach],
+                                ]);
 
-                //         $spcs = $Sanphamchinhsach::find()
-                //                     ->andWhere(['spcs_id_sp' => $model[Sanpham::sp_id]])
-                //                     ->andWhere(['spcs_id_chinhsach' => $value])
-                //                     ->one();
-                //         if(!$spcs){
+                    foreach ($arr_sp_id_chinhsach as $key => $value) {  
+                        $value = addslashes($value); 
+
+                        $spcs = $Sanphamchinhsach::find()
+                                    ->andWhere(['spcs_id_sp' => $model[Sanpham::sp_id]])
+                                    ->andWhere(['spcs_id_chinhsach' => $value])
+                                    ->one();
+                        if(!$spcs){
                            
-                //             $spcs = new $Sanphamchinhsach();
+                            $spcs = new $Sanphamchinhsach();
 
-                //             $spcs['spcs_id_sp'] = $model[Sanpham::sp_id];
-                //             $spcs['spcs_id_chinhsach'] = $value;
+                            $spcs['spcs_id_sp'] = $model[Sanpham::sp_id];
+                            $spcs['spcs_id_chinhsach'] = $value;
 
-                //             if($spcs->save()){              
-                //                 $datajson = 1;                    
-                //             }else{
-                //                 $transaction->rollback();                    
-                //                 $datajson = 0; 
-                //                 // echo '<pre>';
-                //                 // print_r($model->errors);die;
-                //             }
-                //         } 
+                            if($spcs->save()){              
+                                $datajson = 1;                    
+                            }else{
+                                $transaction->rollback();                    
+                                $datajson = 0; 
+                                // echo '<pre>';
+                                // print_r($model->errors);die;
+                            }
+                        } 
 
-                //     }
-                // }
+                    }
+                }else{
+                    $Sanphamchinhsach::deleteAll(['and',
+                                        ['spcs_id_sp' => $model[Sanpham::sp_id]],
+                                ]);
+                }
                 $model[Sanpham::sp_id_chinhsach] = null;
                
                 // print_r($model);

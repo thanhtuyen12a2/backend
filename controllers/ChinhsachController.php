@@ -17,6 +17,8 @@ use aabc\base\ErrorHandler;
 use aabc\web\ForbiddenHttpException;
 use aabc\filters\AccessControl;
 //use aabc\widgets\ActiveForm;
+use backend\models\Sanpham;
+use backend\models\Chinhsach;
 
 
 class ChinhsachController extends Controller
@@ -265,6 +267,13 @@ class ChinhsachController extends Controller
         $datajson = 0;
         if ($model->load(Aabc::$app->request->post())) {   
 
+            $post_ = $_POST;
+            $post_cs = $post_['Chinhsach'];
+            if(!isset($post_cs['cs_icon'])){
+                $model->cs_icon = '';
+            }
+            
+
             $model[Aabc::$app->_chinhsach->cs_recycle] = '2';
             $model[Aabc::$app->_chinhsach->cs_status] = '1';
             $model[Aabc::$app->_chinhsach->cs_type] = (string)$tp;
@@ -407,6 +416,12 @@ class ChinhsachController extends Controller
         $datajson = 0;
         if ($model->load(Aabc::$app->request->post()) ) {
             
+            $post_ = $_POST;
+            $post_cs = $post_['Chinhsach'];
+            if(!isset($post_cs['cs_icon'])){
+                $model->cs_icon = '';
+            }
+
             $arr_cs_id_danhmuc = NULL;
             if($model[Aabc::$app->_chinhsach->cs_apdungcho] == 2){
                 if( is_array($model[Aabc::$app->_chinhsach->cs_id_danhmuc])){
@@ -560,11 +575,27 @@ class ChinhsachController extends Controller
             }
              /* Json */
             Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;
-            
-            // if($model->save()){
-            // }
-            // print_r($model->errors);
-            return (1 && $model->save());
+                        
+            if($model->save()){                
+                $list_dm = Chinhsach::getDmcsIdDanhmucs($model)->all(); 
+                $_Danhmuc = Aabc::$app->_model->Danhmuc;               
+                if($list_dm) foreach ($list_dm as $dm) {
+                    $_Danhmuc::cache($dm);        
+                }
+                
+                $list_sp = Chinhsach::getSpcsIdSps($model)->all(); 
+
+                // echo '<pre>';
+                // print_r($list_sp);
+                // echo '</pre>';
+                // die;
+
+                if($list_sp) foreach ($list_sp as $sp) {
+                    Sanpham::cache($sp);
+                }
+
+                return 1;
+            }
         } 
         die;
     }

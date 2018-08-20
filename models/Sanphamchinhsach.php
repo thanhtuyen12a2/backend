@@ -31,10 +31,30 @@ class Sanphamchinhsach extends \aabc\db\ActiveRecord
         return [
             [[Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach, Aabc::$app->_sanphamchinhsach->spcs_id_sp], 'required'],
             [[Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach, Aabc::$app->_sanphamchinhsach->spcs_id_sp], 'integer'],
-            [[Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach], 'exist', 'skipOnError' => true, 'targetClass' => $_Chinhsach::className(), 'targetAttribute' => [Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach => Aabc::$app->_chinhsach->cs_id]],
-            [[Aabc::$app->_sanphamchinhsach->spcs_id_sp], 'exist', 'skipOnError' => true, 'targetClass' => $_Sanpham::className(), 'targetAttribute' => [Aabc::$app->_sanphamchinhsach->spcs_id_sp => Aabc::$app->_sanpham->sp_id]],
+            // [[Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach], 'exist', 'skipOnError' => true, 'targetClass' => $_Chinhsach::className(), 'targetAttribute' => [Aabc::$app->_sanphamchinhsach->spcs_id_chinhsach => Aabc::$app->_chinhsach->cs_id]],
+            // [[Aabc::$app->_sanphamchinhsach->spcs_id_sp], 'exist', 'skipOnError' => true, 'targetClass' => $_Sanpham::className(), 'targetAttribute' => [Aabc::$app->_sanphamchinhsach->spcs_id_sp => Aabc::$app->_sanpham->sp_id]],
         ];
     }
+
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave( $insert, $changedAttributes );        
+        $sp = (Sanpham::M)::find()->andWhere(['sp_id' => $this->spcs_id_sp])->one();
+        if($sp){            
+            Sanpham::cache($sp);
+        }
+        self::cache($this);
+    }
+
+    public static function cache($model)
+    {
+        $cache = Aabc::$app->dulieu;
+        $cache_data = $model->attributes;
+        $cache->set('cssp'.$model->spcs_id_chinhsach.'000'.$model->spcs_id_sp, $cache_data); 
+        return $cache_data;
+    }
+
 
 
 

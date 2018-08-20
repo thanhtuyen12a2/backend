@@ -155,6 +155,28 @@ class Sanpham extends \aabc\db\ActiveRecord
         $cache = Aabc::$app->dulieu;
         $cache_data = $model->attributes;       
         $cache_data['sp_linkseo'] = Tuyen::_get_link($model->sp_linkseo,$model->sp_id,'sanpham'); 
+
+        //CS 1: KHuyến mại
+        $cache_data['sp_khuyenmai'] = Sanpham::getChinhsach($model)
+                                            ->where(['and',
+                                              ['cs_type' => Chinhsach::KHUYENMAI],
+                                              ['cs_apdungcho' => Chinhsach::APDUNGSANPHAM],
+                                              ['cs_recycle' => Chinhsach::NGOAITHUNGRAC],
+                                              ['cs_status' => Chinhsach::ON],
+                                            ])
+                                            ->column();
+
+        //CS 2: chính sách
+        $cache_data['sp_chinhsach'] = Sanpham::getChinhsach($model)
+                                            ->where(['and',
+                                              ['cs_type' => Chinhsach::BAOHANH],
+                                              ['cs_apdungcho' => Chinhsach::APDUNGSANPHAM],
+                                              ['cs_recycle' => Chinhsach::NGOAITHUNGRAC],
+                                              ['cs_status' => Chinhsach::ON],
+                                            ])
+                                            ->column();
+
+        
         //1 Danh mục sp
         $cache_data['sp_listdm']['1'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 1])->column();
 
@@ -340,8 +362,15 @@ class Sanpham extends \aabc\db\ActiveRecord
     }
 
 
+     public function getChinhsach($model)
+    {
+        $_Chinhsach = Aabc::$app->_model->Chinhsach;
+        return $model->hasMany($_Chinhsach::className(), ['cs_id' => 'spcs_id_chinhsach'])->viaTable(Aabc::$app->_sanphamchinhsach->table, ['spcs_id_sp' => 'sp_id']);
 
+        // return $model->hasMany($_Danhmuc::className(), [Aabc::$app->_danhmuc->dm_id => Aabc::$app->_sanphamdanhmuc->spdm_id_danhmuc])->viaTable(Aabc::$app->_sanphamdanhmuc->table, [Aabc::$app->_sanphamdanhmuc->spdm_id_sp => Sanpham::sp_id])->andWhere(['dm_type' => 1]);
+    }
 
+   
     public function getSpdmIdDanhmucs($model)
     {
         $_Danhmuc = Aabc::$app->_model->Danhmuc;
@@ -424,14 +453,18 @@ class Sanpham extends \aabc\db\ActiveRecord
 
 
 
-    public function getAll1_1()
-   {
-       $_Sanpham = Aabc::$app->_model->Sanpham;
-       return   (Sanpham::M)::find()
-                           ->andWhere([Sanpham::sp_status => '1'])
-                           ->andWhere([Sanpham::sp_recycle => '2'])
-                           ->andWhere([Sanpham::sp_type => '1'])
-                           ->all();
+  public function getAll1_1()
+   {   
+      return [];
+      //  $return = (Sanpham::M)::find()                           
+      //                      ->andWhere(['sp_status' => Sanpham::XUATBAN])
+      //                      ->andWhere(['sp_recycle' => Sanpham::NGOAITHUNGRAC])
+      //                      ->andWhere(['sp_type' => Sanpham::SANPHAM])
+      //                      ->count();
+      // echo '<pre>';
+      // print_r($return);
+      // echo '</pre>';
+      // die;
    }
 
     public function getAll1_2()

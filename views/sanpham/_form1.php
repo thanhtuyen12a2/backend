@@ -393,6 +393,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     <fieldset class="ht htsp">
         <div class="col-md-12 col-sm-6  col-xs-12 pt160">
             <?php  
+
                 echo $form->field($model, Sanpham::sp_id_chinhsach,['options' => ['class' => '']])->dropDownList($_Chinhsach::getKhuyenmaiOption($_Chinhsach::KHUYENMAI),[                        
                         'multiple'=>'multiple',
                         Aabc::$app->d->ty => 'checkbox',                        

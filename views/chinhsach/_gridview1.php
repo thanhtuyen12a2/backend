@@ -5,7 +5,7 @@ use aabc\grid\GridView;
 use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
-
+use common\components\Tuyen;
 ?>
 
 
@@ -53,8 +53,13 @@ use aabc\widgets\ActiveForm;
                 'filterInputOptions' => [
                     'class'       => 'form-control',                    
                  ],
-                'value' => function ($model) {                          
-                    return Html::encode($model[Aabc::$app->_chinhsach->cs_ten]);
+                'value' => function ($model) {  
+                    $icon = '';
+                    if(!empty($model->cs_icon)){
+                      $icon = explode('#',$model->cs_icon);
+                      $icon = '<div class="g-icon"><div class="'.(empty($icon['1'])?'':$icon['1']).'">'.Tuyen::_icon($icon['0']) .'</div></div>';
+                    }
+                    return $icon . Html::encode($model[Aabc::$app->_chinhsach->cs_ten]);
                 }, 
             ],
 

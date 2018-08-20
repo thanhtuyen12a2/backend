@@ -628,11 +628,13 @@ class DanhmucController extends Controller
                     $countdmcs = $_Danhmucchinhsach::find()
                                 ->andWhere([Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => $model[Aabc::$app->_danhmuc->dm_id]])
                                 ->count();
-                    if($countdmcs > 0){
-                        if($_Danhmucchinhsach::deleteAll([Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => $model[Aabc::$app->_danhmuc->dm_id]])){                        
-                        }                        
-                    }                    
+
                     if(isset($arr_dm_id_chinhsach)){
+                        if($countdmcs > 0){
+                            if($_Danhmucchinhsach::deleteAll([Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => $model[Aabc::$app->_danhmuc->dm_id]])){                        
+                            }                        
+                        }
+
                         foreach ($arr_dm_id_chinhsach as $key => $value) {
                             $value = addslashes($value);                            
                             $dmcs = new $_Danhmucchinhsach();

@@ -30,8 +30,8 @@ class Danhmucchinhsach extends \aabc\db\ActiveRecord
         return [
             [[Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc, Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach], 'required'],
             [[Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc, Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach], 'integer'],
-            [[Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach], 'exist', 'skipOnError' => true, 'targetClass' => $_Chinhsach::className(), 'targetAttribute' => [Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach => Aabc::$app->_chinhsach->cs_id]],
-            [[Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc], 'exist', 'skipOnError' => true, 'targetClass' => $_Danhmuc::className(), 'targetAttribute' => [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id]],
+            // [[Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach], 'exist', 'skipOnError' => true, 'targetClass' => $_Chinhsach::className(), 'targetAttribute' => [Aabc::$app->_danhmucchinhsach->dmcs_id_chinhsach => Aabc::$app->_chinhsach->cs_id]],
+            // [[Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc], 'exist', 'skipOnError' => true, 'targetClass' => $_Danhmuc::className(), 'targetAttribute' => [Aabc::$app->_danhmucchinhsach->dmcs_id_danhmuc => Aabc::$app->_danhmuc->dm_id]],
         ];
     }
 
@@ -46,6 +46,26 @@ class Danhmucchinhsach extends \aabc\db\ActiveRecord
     }
 
    
+
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave( $insert, $changedAttributes );
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+        $dm = $_Danhmuc::find()->andWhere(['dm_id' => $this->dmcs_id_danhmuc])->one();
+        if($dm){            
+            $_Danhmuc::cache($dm);        
+        }
+        self::cache($this);
+    }
+
+    public static function cache($model)
+    {
+        $cache = Aabc::$app->dulieu;
+        $cache_data = $model->attributes;
+        $cache->set('csdm'.$model->dmcs_id_chinhsach.'000'.$model->dmcs_id_danhmuc, $cache_data); 
+        return $cache_data;
+    }
 
 
     /**
