@@ -30,6 +30,7 @@ if(!isset($phienban)){
                 echo Aabc::$app->controller->renderPartial('add-phienban-option',[
                     'option' => $option,
                     'random_pb' => $random_pb,
+                    'random' => $key,
                 ]); 
             }
         ?>

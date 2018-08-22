@@ -171,8 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // echo  '<button type="button" '.($demthungrac > 0 ? : 'disabled').' '. D::i .'="sanpham" class="btn btn-danger mb" '.D::u.'="indexrecycle"><span class="glyphicon glyphicon-trash mtrang"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';  
 
                 echo '<button '.D::m.' = "2" type="button"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'. Sanpham::tt.'r" '.D::u.'="ir" class="btn btn-danger mb" '.D::i.'= '. Sanpham::tt .'><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
-        
-        
+                
 
              echo '<button type="button" '.D::m.' = "" id="mb'. Sanpham::tt.'"  '.D::u .'="c" class="btn btn-success mb"   '. D::i.'='. Sanpham::tt.'><span class="glyphicon glyphicon-plus mtrang"></span>'.Aabc::$app->MyConst->view_btn_them.'</button>';
 

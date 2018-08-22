@@ -644,10 +644,13 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         <?php 
             if(!empty($model[Sanpham::sp_album])) $model[Sanpham::sp_album] = json_decode($model[Sanpham::sp_album], true);
             if(is_array($model[Sanpham::sp_album])) foreach ($model[Sanpham::sp_album] as $key => $album) {
-                echo Aabc::$app->controller->renderPartial('add-album',[
-                    'album' => $album,
-                    'random' => $key,
-                ]);                
+                if($key != 'star'){
+                    echo Aabc::$app->controller->renderPartial('add-album',[
+                        'album' => $album,
+                        'random' => $key,
+                        'star' => empty($model[Sanpham::sp_album]['star'])?'':$model[Sanpham::sp_album]['star'],
+                    ]);
+                }
             }
         ?>        
     </div>

@@ -39,10 +39,11 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_giakhuyenmai => null,
             Sanpham::sp_soluong => null,
             Sanpham::sp_soluongfake => null,
-            Sanpham::sp_soluotmua => null,
-            Sanpham::sp_id_danhmuc => null,
+            Sanpham::sp_soluotmua => null,            
+            Sanpham::sp_id_chuyenmuc => null,
             Sanpham::sp_id_chinhsach => null,
 
+            Sanpham::sp_id_danhmuc => null,
             Sanpham::sp_noibat => null,
         ];
     }
@@ -108,6 +109,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [[Sanpham::sp_idnguoitao], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoitao => Aabc::$app->_user->id]],
             [[Sanpham::sp_idnguoiupdate], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoiupdate => Aabc::$app->_user->id]],
 
+            [[Sanpham::sp_id_chuyenmuc],'safe'],
             [[Sanpham::sp_noibat],'safe'],
         ];
     }

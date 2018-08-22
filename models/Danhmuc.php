@@ -150,6 +150,15 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->orderBy(['sp_id' => SORT_DESC])
                                         ->andWhere(['sp_recycle' => '2'])
                                         ->andWhere(['sp_status' => '1'])
+                                        ->andWhere(['sp_type' => '1'])
+                                        ->groupBy(['sp_id'])
+                                        ->column();
+
+          $cache_data['dm_listbv'] = $model::getSpdmIdSanphams($model)
+                                        ->orderBy(['sp_id' => SORT_DESC])
+                                        ->andWhere(['sp_recycle' => '2'])
+                                        ->andWhere(['sp_status' => '1'])
+                                        ->andWhere(['sp_type' => '2'])
                                         ->groupBy(['sp_id'])
                                         ->column();
         }

@@ -29,6 +29,9 @@ class Sanpham extends \aabc\db\ActiveRecord
     const addalbum = 'y8';
     const addphienban = 'p5';
 
+    const thaydoichuyenmuc = 'o5';
+    const thaydoidanhmuc = 'h4';
+
     public function actionController()
     {
         return [
@@ -42,11 +45,16 @@ class Sanpham extends \aabc\db\ActiveRecord
           Sanpham::tt.':'.Sanpham::fristspdmnb => 'sanpham/fristspdmnb',
           Sanpham::tt.':'.Sanpham::addalbum => 'sanpham/addalbum',
           Sanpham::tt.':'.Sanpham::addphienban => 'sanpham/addphienban',
+          Sanpham::tt.':'.Sanpham::thaydoichuyenmuc => 'sanpham/thaydoichuyenmuc',
+          Sanpham::tt.':'.Sanpham::thaydoidanhmuc => 'sanpham/thaydoidanhmuc',
 
           Sanpham::tt.':c' => 'sanpham/c',
+          Sanpham::tt.':c_b' => 'sanpham/c_b',
           Sanpham::tt.':ut' => 'sanpham/ut',
+          Sanpham::tt.':ut_b' => 'sanpham/ut_b',
           Sanpham::tt.':rec' => 'sanpham/rec',
           Sanpham::tt.':reca' => 'sanpham/reca',
+          Sanpham::tt.':reca_b' => 'sanpham/reca_b',
           Sanpham::tt.':ir' => 'sanpham/ir',
           Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
         ];
@@ -92,10 +100,11 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_soluongfake = 'h76';
      const sp_soluotmua = 'j88';
     //Thêm
-     const sp_id_danhmuc = 'k22';
+     const sp_id_danhmuc = 'k22';     
      const sp_id_chinhsach = 'l44';
 
 
+     const sp_id_chuyenmuc = 'o2';
      //Chỉ để trao đổi du liệu, ko có trong bảng
      const sp_noibat = 'i7';
 
@@ -129,6 +138,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const __sp_soluotmua = 'sp_soluotmua';
     //Thêm
      const __sp_id_danhmuc = 'Danh mục';
+     const __sp_id_chuyenmuc = 'Chuyên mục';
      const __sp_id_chinhsach = 'Chính sách';
 
 

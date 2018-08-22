@@ -60,12 +60,12 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     <div>
         <div class="row">             
             <div class="col-md-4">            
-            <fieldset class="ht htweb">
-            <legend>Thông tin cơ bản</legend>
+            <fieldset style="margin: 10px 0 0 0" class="ht htweb">
+            <legend style="background: #2499ce;width: 100%;padding: 5px 10px;margin: 0;color: #FFF;">Thông tin cơ bản</legend>
             
 
 
-                <div class="col-md-12 col-sm-5 col-xs-12">
+                <div class="col-xs-12">
                
 
                  <?php                         
@@ -91,10 +91,21 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                 <div class="clearfix"></div>
                 <div>
-                    <div class="col-md-3 col-sm-2 col-xs-12">
-                        <?= '<button type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
-
+                    <div class="col-md-3 col-xs-3">
+                        <?= '<button style="width: 98px;height: 98px;opacity: 0; z-index: 10;" type="button" '.Aabc::$app->d->m.' = "2" id="mb'.Sanpham::tt.'"  '.Aabc::$app->d->u .'="ga?i=icon" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-plus mtrang"></span>Ảnh</button>'?>
+                        <style>
+                            ul#editable{
+                                width: 98px;
+                                border: 2px dashed #c1bfbf;
+                            }
+                            ul#editable .js-remove{
+                                display: none;
+                            }
+                            ul#editable li{margin: 0;padding: 10px;z-index: 9;}
+                            ul#editable img{border: none}
+                        </style>
                         <ul id="editable"> 
+                            <span style="position: absolute;top: 22px;left: 20px;color: #bbb;width: 70px;text-align: center;">Ảnh đại diện</span>
                             <?php
                                 if(isset($model[Sanpham::sp_images])){
                                     $listimg = explode("-",$model[Sanpham::sp_images]);
@@ -102,7 +113,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                                         $_Image = Aabc::$app->_model->Image;
                                         $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
                                         if(isset($img)){
-                                            echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
+                                            echo '<li><input type="hidden" name="'.Aabc::$app->d->postimg.'[]" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"></li>';
                                         }
                                     }                    
                                 }
@@ -114,7 +125,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 
-                    <div class="col-md-9 col-sm-5 col-xs-12 pt100">  
+                    <div class="col-md-9 col-xs-9 pt100">  
                         <?php   
                         if($model[Sanpham::sp_status] == NULL) $model[Sanpham::sp_status] = '1';                       
                         echo $form->field($model, Sanpham::sp_status,['options' => ['class' => '']])
@@ -135,10 +146,39 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
             <div class="clearfix"></div>
           
-            <div class="col-md-12 col-sm-5  col-xs-12 pt100" style="margin: 10px 0 0 0;">
+            <div class="col-md-12 col-sm-6  col-xs-12 pt100" style="margin: 10px 0 0 0;">
                 <?php     
                     $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
                     $danhmuc = $_Danhmuc::getAll1_2();                    
+                    array_unshift($danhmuc,[
+                        Aabc::$app->_danhmuc->dm_id => '',
+                        Aabc::$app->_danhmuc->dm_char =>'---Chọn---',
+                    ]);//Thêm vào đầu
+                    echo $form->field($model, Sanpham::sp_id_chuyenmuc,['options' => ['class' => '']])->dropDownList(ArrayHelper::map($danhmuc,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char),[
+                            
+                            'multiple'=>'multiple',
+                            Aabc::$app->d->ty => 'checkbox',
+                            
+                            // Aabc::$app->d->ty => 'ra',
+                            // Aabc::$app->d->c => 'one',
+                        //    Aabc::$app->d->add => 'ip_cm',
+                            // d-add chỉ cần cho d-u, còn d-i của url sẽ được lấy ở fk- bên dưới
+
+                            Aabc::$app->d->i => Sanpham::tt,
+                            Aabc::$app->d->t => 'sea',//Search
+                            'class' => 'mulr',                        
+                            // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
+                            'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-cm'
+                        ])->label('Chuyên mục bài viết'); 
+                ?>
+            </div>
+           
+
+            
+            <div class="col-md-12 col-sm-6  col-xs-12 pt100" style="margin: 10px 0 0 0;">
+                <?php     
+                    $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
+                    $danhmuc = $_Danhmuc::getAll1_1();                    
                     array_unshift($danhmuc,[
                         Aabc::$app->_danhmuc->dm_id => '',
                         Aabc::$app->_danhmuc->dm_char =>'---Chọn---',
@@ -157,27 +197,26 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             Aabc::$app->d->t => 'sea',//Search
                             'class' => 'mulr',                        
                             // 'id' => Sanpham::tt.'-sp_id_thuonghieu'
-                            'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-cm'
-                        ])->label('Chuyên mục'); 
+                            'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-dmsp'
+                        ])->label('Danh mục sản phẩm'); 
                 ?>
+
+                <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Bài viết này sẽ được xuất hiện trong các sản phẩm thuộc các Danh mục sản phẩm được chọn." aria-invalid="false"></i>
             </div>
-           
 
 
 
 
-
-
-
-
-           
 
 
            
 
 
+           
 
-            <div class="col-md-12 col-sm-5 col-xs-12 pt100"> 
+
+
+            <div class="col-md-12 col-sm-6 col-xs-12 pt100"> 
                 <?php 
                     if($model[Sanpham::sp_ngaytao] == null){
                         $model[Sanpham::sp_ngaytao] = date("Y-m-d H:i");
@@ -215,7 +254,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
             <fieldset class="ht ">
-            <legend>Tùy chỉnh SEO</legend>
+            <legend style="background: #2499ce;width: 100%;padding: 5px 10px;margin: 0;color: #FFF;">Tùy chỉnh SEO</legend>            
 <!-- 
                 <div class="col-md-12 col-sm-7">
                 <?php // $form->field($model, Html::encode(Sanpham::sp_tensp),['options' => ['encode' => true,'class' => 'form-group']])->textarea(['rows' => '2','placeholder' => 'Tiêu đề bài viết' ,'maxlength' => true,'data-html' => 'true','data-placement' => 'top','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => 'Tiêu đề bài viết.'])->label('Tiêu đề seo') ?> 
@@ -245,7 +284,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                     <!-- <div class="col-md-12"> -->
                         <div class="col-md-12 col-sm-6 col-xs-12 pt120">
-                        <?php echo $form->field($model, Sanpham::sp_linkseo ,['options' => ['class' => '']])->textarea(['maxlength' => true ,'placeholder' => 'Đường dẫn bài viết' ,'data-html' => 'true','data-placement' => 'top','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => 'Đường dẫn bài viết']) ?>
+                        <?php echo $form->field($model, Sanpham::sp_linkseo ,['options' => ['class' => '']])->textarea(['maxlength' => true , 'placeholder' => 'Đường dẫn bài viết' ,'data-html' => 'true','data-placement' => 'top','data-trigger' => 'focus', 'data-toggle' => 'tooltip', 'title' => '']) ?>
                         </div>
 
 
@@ -262,7 +301,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 
-            <div  id="noidung" class="tab-pane col-md-8">
+            <div  id="noidung" class="tab-pane col-md-8" style="padding: 10px 10px 0 0;">
                  <?php  
                     // $_Ngonngu = Aabc::$app->_model->Ngonngu;
                     // $ngonngu = new $_Ngonngu();   

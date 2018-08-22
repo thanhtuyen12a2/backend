@@ -16,9 +16,10 @@ if(!isset($album)){
 
 ?>
 <div class="col-md-12 l-album clearfix ">
-    <div class="pull-left" style="width: calc(100% - 200px); padding: 0 0 0 5px;">    	
+    <input type="radio" title="ALbum nổi bật" name="Al[star]" <?= $random == $star?'checked':''?> value="<?= $random ?>" class="pull-left" style="font-size: 14px;color: #6495ed;" />
+    <div class="pull-left" style="width: calc(100% - 220px); padding: 0 0 0 5px;">    	
         <input type="text" name="Al[<?= $random?>][title]" placeholder="Nhập tên album ảnh..." value="<?= $album['title']?>" class="form-control" style="font-size: 14px;color: #6495ed;" />
-    </div>
+    </div>        
     <div class="pull-left text-right"  style="width: 200px">
         <?= '<button type="button" '.D::m.' = "2" id="mb'.Sanpham::tt.'"  '.D::u .'="ga?i=icon&e=editable'.$random.'" class="btn btn-default mb" style="height: 30px;"  '. D::i.'='.Aabc::$app->_model->__image.'><span class="glyphicon glyphicon-picture mtrang"></span>Chọn ảnh</button>'?>
         <span class="btn btn-default del-album"><span class="glyphicon glyphicon-trash"></span> Xóa album</span>

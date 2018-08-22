@@ -543,9 +543,7 @@ class ImageController extends Controller
         }else{            
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $data = Aabc::$app->request->post('selects');
-
                 // print_r($data);die;
-
                 $kq = $this->renderAjax('update', [
                     'model' => $model,
                     'data' => $data,

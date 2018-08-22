@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
         
 
-             echo '<button type="button" '.D::m.' = "" id="mb'. Sanpham::tt.'"  '.D::u .'="c_b" class="btn btn-success mb"   '. D::i.'='. Sanpham::tt.'><span class="glyphicon glyphicon-plus mtrang"></span>'.Aabc::$app->MyConst->view_btn_them.'</button>';
+             echo '<button type="button" '.D::m.' = "" id="mb'. Sanpham::tt.'"  '.D::u .'="c_b" class="btn btn-success mb"   '. D::i.'='. Sanpham::tt.'><span class="glyphicon glyphicon-plus mtrang"></span>Viết bài mới</button>';
 
             ?>            
                      
@@ -265,6 +265,29 @@ $this->params['breadcrumbs'][] = $this->title;
                         }, 
                     ],
 
+
+
+                    [                
+                        'header' => 'Danh mục sản phẩm',  
+                        // 'headerOptions' => ['width' => '500px'], 
+                        // 'visible' => Aabc::$app->user->can('web'),            
+                        'format' => 'raw',
+                        'filterInputOptions' => [
+                            'class' => 'form-control',                    
+                         ],  
+                        'value' => function ($model) { 
+                            $_Danhmuc = Aabc::$app->_model->Danhmuc;
+
+                            $danhmuc = $model->getDanhmucList($_Danhmuc::SANPHAM);
+
+                            $return = '';
+                            foreach ($danhmuc as $key => $value) {
+                                if($return) $return = $return . ', ';
+                                $return = $return . $value[Aabc::$app->_danhmuc->dm_ten];
+                            }
+                            return Html::encode($return);
+                        }, 
+                    ],
 
 
 
@@ -435,8 +458,15 @@ Html::dropDownList('t', Aabc::$app->request->get('t') != NULL ? Aabc::$app->requ
 
 <div class='cas'>
 
-     <select id="sel<?= Aabc::$app->_model->__sanpham?>" class="btn btn-default">
+     <select id="sel<?=  Sanpham::tt?>" class="btn btn-default">
         <option value="" selected=""><?=Aabc::$app->MyConst->gridview_selectmultiitem_chonthaotac?></option>
+                
+        <option value="22" <?= D::m?>="3" <?=Aabc::$app->d->u?>=<?= Sanpham::thaydoidanhmuc?> <?= D::i?>=<?=Sanpham::tt ?> method='POST' >Thay đổi Danh mục sản phẩm</option>
+
+        <option value="21" <?= D::m?>="3" <?=Aabc::$app->d->u?>=<?= Sanpham::thaydoichuyenmuc?> <?= D::i?>=<?=Sanpham::tt ?> method='POST' >Thay đổi Chuyên mục</option>
+
+    
+
         <?php if(Aabc::$app->user->can('web')){ ?>
         <option value="1"><?=Aabc::$app->MyConst->gridview_selectmultiitem_an?></option>
         <option value="2"><?=Aabc::$app->MyConst->gridview_selectmultiitem_hienthi?></option>
@@ -444,7 +474,7 @@ Html::dropDownList('t', Aabc::$app->request->get('t') != NULL ? Aabc::$app->requ
         <option value="3"><?=Aabc::$app->MyConst->gridview_selectmultiitem_thungrac?></option>        
     </select>
 
-    <?= Html::button(Aabc::$app->MyConst->gridview_selectmultiitem_thuchien, [Aabc::$app->d->u =>'reca_b','class'=>'bra btn btn-default', Aabc::$app->d->i => Aabc::$app->_model->__sanpham, 'method' => 'POST']) ?>
+    <?= Html::button(Aabc::$app->MyConst->gridview_selectmultiitem_thuchien, [D::u =>'reca_b','class'=>'bra btn btn-default', D::i =>  Sanpham::tt, 'method' => 'POST']) ?>
 </div>
 </div>
 

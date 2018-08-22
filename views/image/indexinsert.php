@@ -114,7 +114,8 @@ if(empty($icon)) $icon = '';
                             processData: false,
                             contentType: false,
                             success: function (data) {
-                                reload('<?=Aabc::$app->_model->__image?>','ga<?php if(isset($icon)){echo "?i=icon";}?>','<?=Aabc::$app->_model->__image?>');
+                                reload('<?=Aabc::$app->_model->__image?>','ga<?php if(isset($icon)){echo "?i=icon";}?><?= (empty($element)?"":"&e={$element}") ?>','<?=Aabc::$app->_model->__image?>');
+                                console.log('CHo nay')
                                 if(data == 1){ 
                                     popthanhcong('');
                                     // alert('1');
