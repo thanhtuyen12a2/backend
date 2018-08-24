@@ -50,16 +50,22 @@ use aabc\widgets\ActiveForm;
             </div>   
 
             <script type="text/javascript">
-                $('.module-clone').on('change',function(){
-                    var a = $(this).val();
+                $('.module-clone').on('click',function(){
+                    // var a = $(this).val();
                     var b = $(this).data('to');
-                    if(confirm('Bạn muốn clone từ module '+a)){
+                    var c = $(this).data('nb'); //Noi bat
+                    var a = prompt("Bạn muốn clone từ module", "");
+                    // if(confirm('Bạn muốn clone từ module '+a)){
+                    if (a == null || a == "") {                    
+                    }
+                    else{
                         $.ajax({
                             cache: false,
                             url: '/ad/<?= Cauhinh::tt.'/'.Cauhinh::moduleclone?>',
                             data:{
                                 from: a,
                                 to: b,
+                                nb: c,
                             },
                             type: 'POST',               
                             success: function (data) {   
@@ -72,28 +78,48 @@ use aabc\widgets\ActiveForm;
                     }                    
                 })
             </script>
+            <style type="text/css">
+                .stg label{font-size: 12px;padding: 0 5px 0 0;}
+            </style>
 
             <?php for ($j=1; $j < $max ; $j++) { ?>
             <div class="col-md-6 pt100">
                 <div class="form-group required">
                     <div class="le"><label class="control-label" for="">Module: <?= $j?></label></div>
                     <div class="ri"> 
-                        <input placeholder="Tên module" class="col-md-9" type="text"  name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
+                        <input style="font-size: 14px;text-align: left;" placeholder="Tên module" class="col-md-8 btn btn-default" type="text"  name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][label]" value="<?= empty($module['child'][$j]['label'])?'':$module['child'][$j]['label'] ?>" />
 
-                        <input placeholder="Số level" class="col-md-1" type="number" min="0" max="20" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][max]" value="<?= empty($module['child'][$j]['max'])?'':$module['child'][$j]['max'] ?>" />
+                         <select class="btn btn-default col-md-1" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][max]">
+                            <option>level</option>
+                            <option <?= ($module['child'][$j]['max'] == 1)?'selected':''?> value="1">1</option>
+                            <option <?= ($module['child'][$j]['max'] == 2)?'selected':''?> value="2">2</option>
+                            <option <?= ($module['child'][$j]['max'] == 3)?'selected':''?> value="3">3</option>
+                            <option <?= ($module['child'][$j]['max'] == 4)?'selected':''?> value="4">4</option>
+                            <option <?= ($module['child'][$j]['max'] == 5)?'selected':''?> value="5">5</option>
+                            <option <?= ($module['child'][$j]['max'] == 6)?'selected':''?> value="6">6</option>
+                            <option <?= ($module['child'][$j]['max'] == 7)?'selected':''?> value="7">7</option>
+                        </select>
 
-                        <input placeholder="Nổi bật" class="col-md-1" type="number" min="0" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][nb]" value="<?= empty($module['child'][$j]['nb'])?'':$module['child'][$j]['nb'] ?>" />
+                        <select class="btn <?= !empty($module['child'][$j]['nb'])?'btn-warning':'btn-default'?>  col-md-2" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][nb]">
+                            <option></option>
+                            <option <?= ($module['child'][$j]['nb'] == 1)?'selected':''?> value="1">Sản phẩm</option>
+                            <option <?= ($module['child'][$j]['nb'] == 2)?'selected':''?> value="2">Bài viết</option>
+                        </select>
 
-                        <input placeholder="Clone" data-to="<?= $j?>" class="col-md-1 module-clone" type="number" value="" />
+                      
+
+                        <input placeholder="Clone" data-to="<?= $j?>" data-nb=<?= $module['child'][$j]['nb']?>  value="Clone" class="btn col-md-1 module-clone" type="button" value="" />
+
+                        <div class="clearfix"></div>
 
                         <?php 
-                            $max_child =  empty($module['child'][$j]['max'])? 1 : ($module['child'][$j]['max'] + 1);
+                            $max_child =  empty($module['child'][$j]['max'])? 1 : ((int)$module['child'][$j]['max'] + 1);
                         ?>
                         
                         <?php for ($i=1; $i < $max_child ; $i++) { ?>  
                             <div class="clearfix">   
-                            <div class="col-md-1"><b>Level: <?= $i?></b></div>
-                            <div class="col-md-11">
+                            <div class="col-md-2"><label>Level: <?= $i?></label></div>
+                            <div class="col-md-10">
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][label]" value="1" <?= empty($module['child'][$j]['child'][$i]['label'])?'':'checked' ?>/>Label</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][url]" value="1" <?= empty($module['child'][$j]['child'][$i]['url'])?'':'checked' ?>/>Url</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][icon]" value="1" <?= empty($module['child'][$j]['child'][$i]['icon'])?'':'checked' ?>/>Icon</label>
@@ -117,6 +143,13 @@ use aabc\widgets\ActiveForm;
                     </div>
                 </div>
             </div>   
+
+                <?php 
+
+                    if(($j % 10) == 0) echo '<hr class="col-md-12 row" />';
+
+                ?>
+
             <?php } ?> 
 
         </fieldset>

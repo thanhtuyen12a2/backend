@@ -166,19 +166,19 @@ class SanphamController extends Controller
         Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON; 
         $return = ['results' => ['id' => '', 'text' => '']];        
         $q = (Aabc::$app->request->post('q') !== NULL)?Aabc::$app->request->post('q'):''; 
+        
+        $search = [
+            '1' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
+            '2' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),
+            
 
-        if($t ==1){
-            $return['results'] = Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM);
-        }else{
-            $search = [
-                '3' => Danhmuc::getOptionsFind($q, Danhmuc::SANPHAM),
-                '4' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
-                '5' => Danhmuc::getOptionsFind($q, Danhmuc::BAIVIET),
-                '6' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),            
-                '8' => Danhmuc::getOptionsFind($q, Danhmuc::TINHNANG), //Thông số
-            ];
-            $return['results'] = $search[$t];
-        }
+            '3' => Danhmuc::getOptionsFind($q, Danhmuc::SANPHAM),
+            '4' => Sanpham::getOptionsFind($q, $dm, Sanpham::SANPHAM),
+            '5' => Danhmuc::getOptionsFind($q, Danhmuc::BAIVIET),
+            '6' => Sanpham::getOptionsFind($q, $dm, Sanpham::BAIVIET),            
+            '8' => Danhmuc::getOptionsFind($q, Danhmuc::TINHNANG), //Thông số
+        ];
+        $return['results'] = $search[$t];        
 
         return $return;
     }
@@ -700,11 +700,7 @@ class SanphamController extends Controller
     {       
         $id = addslashes($id);
         $tp = addslashes($tp);
-        // $role = 'backend-sanpham-updatestatus';
-        // if(!Aabc::$app->user->can($role)){             
-        //     return 'nacc';die;
-        // }
-
+       
         $model = $this->findModel($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if($model[Sanpham::sp_status] == '1'){                
@@ -712,9 +708,11 @@ class SanphamController extends Controller
             }else{                
                 $model[Sanpham::sp_status] = '1';                
             }
-             /* Json */
             Aabc::$app->response->format = \aabc\web\Response::FORMAT_JSON;
-            return (1 && $model->save());
+            if($model->save()){
+                self::capnhat_cache_danhmuc($id);
+                return 1;
+            }
         } 
         die;
     }
@@ -1094,28 +1092,28 @@ class SanphamController extends Controller
             }
 
 
-            //Tìm danh sách các danh mục (1) của sản phẩm.
-            $model[Sanpham::sp_id_danhmuc] = $Sanphamdanhmuc::find()
-                                ->select(['spdm_id_danhmuc'])
-                                ->andWhere(['spdm_id_sp' => $id])
-                                ->andWhere(['spdm_type' => 1])
-                                ->column();       
+            // //Tìm danh sách các danh mục (1) của sản phẩm.
+            // $model[Sanpham::sp_id_danhmuc] = $Sanphamdanhmuc::find()
+            //                     ->select(['spdm_id_danhmuc'])
+            //                     ->andWhere(['spdm_id_sp' => $id])
+            //                     ->andWhere(['spdm_type' => 1])
+            //                     ->column();       
             
 
-            //Tìm danh sách các chuyên mục (2) của sản phẩm.
-            $model[Sanpham::sp_id_chuyenmuc] = $Sanphamdanhmuc::find()
-                                ->select(['spdm_id_danhmuc'])
-                                ->andWhere(['spdm_id_sp' => $id])
-                                ->andWhere(['spdm_type' => 2])
-                                ->column();                   
+            // //Tìm danh sách các chuyên mục (2) của sản phẩm.
+            // $model[Sanpham::sp_id_chuyenmuc] = $Sanphamdanhmuc::find()
+            //                     ->select(['spdm_id_danhmuc'])
+            //                     ->andWhere(['spdm_id_sp' => $id])
+            //                     ->andWhere(['spdm_type' => 2])
+            //                     ->column();                   
             
 
-            //Tìm danh sách các danh mục (4) của sản phẩm.
-            $model[Sanpham::sp_noibat] = $Sanphamdanhmuc::find()
-                                ->select(['spdm_id_danhmuc'])
-                                ->andWhere(['spdm_id_sp' => $id])
-                                ->andWhere(['spdm_type' => 4])
-                                ->column();       
+            // //Tìm danh sách các danh mục (4) của sản phẩm.
+            // $model[Sanpham::sp_noibat] = $Sanphamdanhmuc::find()
+            //                     ->select(['spdm_id_danhmuc'])
+            //                     ->andWhere(['spdm_id_sp' => $id])
+            //                     ->andWhere(['spdm_type' => 4])
+            //                     ->column();       
             
 
 
@@ -1236,9 +1234,28 @@ class SanphamController extends Controller
         }
         foreach ($all_sanphamdanhmuc as $id_dm) {
             $danhmuc = $_Danhmuc::findOne(['dm_id' => $id_dm]);
-            if(!$danhmuc->save()){
-                $transaction->rollback();
-            }
+            $_Danhmuc::cache($danhmuc);
+            
+        }
+    }
+
+
+     protected function capnhat_cache_danhmuc($id_sp) //Có thể 1 hoặc mảng
+    {
+        $Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+
+        $dieukien = ['and',
+                        ['spdm_id_sp' => $id_sp],
+                    ];
+        $all_sanphamdanhmuc = $Sanphamdanhmuc::find()
+                                    ->select(['spdm_id_danhmuc'])
+                                    ->where($dieukien)
+                                    ->column();
+        
+        foreach ($all_sanphamdanhmuc as $id_dm) {
+            $danhmuc = $_Danhmuc::findOne(['dm_id' => $id_dm]);
+            $_Danhmuc::cache($danhmuc);
         }
     }
     
@@ -1352,7 +1369,8 @@ class SanphamController extends Controller
                     $model[Sanpham::sp_status] = $valu;
                 } 
 
-                if($model->save()){                        
+                if($model->save()){    
+                    self::capnhat_cache_danhmuc($value);                                        
                 }else{
                     Aabc::error($model->sp_id);
                     Aabc::error($model->attributes);

@@ -60,12 +60,12 @@ class CauhinhController extends Controller
             if(isset($_POST['from']) && isset($_POST['to'])){
                 $from = (int)$_POST['from'];
                 $to = (int)$_POST['to'];
+                $noibat = (int)$_POST['nb'];
 
                 if(empty($from) || empty($to)) return 0;
 
                 $transaction = \Aabc::$app->db->beginTransaction();             
-                try {            
-                    return 0;        
+                try {              
                     Danhmuc::deleteAll(['dm_groupmenu' => $to,'dm_template' => temp]);
 
                     $model_to_0 = Danhmuc::find()
@@ -79,8 +79,13 @@ class CauhinhController extends Controller
                     if($model_to_0){
                         foreach ($model_to_0 as $model_0) {
                             $model_0_new = new Danhmuc();
+
+                            $model_0->dm_link = json_encode($model_0->dm_link);
+                            $model_0->dm_ten_ob = json_encode($model_0->dm_ten_ob);
+
                             $model_0_new->attributes = $model_0->attributes;
                             $model_0_new->dm_groupmenu = $to;
+                            $model_0_new->dm_noibat = $noibat;
                             if(!$model_0_new->save(false)){
                                 $transaction->rollback();
                                 return 0;
@@ -90,6 +95,10 @@ class CauhinhController extends Controller
                             if($model_to_1){
                                 foreach ($model_to_1 as $model_1) {
                                     $model_1_new = new Danhmuc();
+
+                                    $model_1->dm_link = json_encode($model_1->dm_link);
+                                    $model_1->dm_ten_ob = json_encode($model_1->dm_ten_ob);
+
                                     $model_1_new->attributes = $model_1->attributes;
                                     $model_1_new->dm_idcha = $model_0_new->dm_id;
                                     $model_1_new->dm_groupmenu = $to;                                    
@@ -97,11 +106,16 @@ class CauhinhController extends Controller
                                         $transaction->rollback();
                                         return 0;
                                     };
-                                    Aabc::error($model_1_new->attributes);
+                                    // Aabc::error($model_1_new->attributes);
                                     $model_to_2 = $model_1->danhmuccon;
                                     if($model_to_2){
                                         foreach ($model_to_2 as $model_2) {
                                             $model_2_new = new Danhmuc();
+
+                                            $model_2->dm_link = json_encode($model_2->dm_link);
+                                            $model_2->dm_ten_ob = json_encode($model_2->dm_ten_ob);
+
+
                                             $model_2_new->attributes = $model_2->attributes;
                                             $model_2_new->dm_idcha = $model_1_new->dm_id;
                                             $model_2_new->dm_groupmenu = $to;               
@@ -109,7 +123,7 @@ class CauhinhController extends Controller
                                                 $transaction->rollback();
                                                 return 0;
                                             };
-                                            Aabc::error($model_2_new->attributes);
+                                            // Aabc::error($model_2_new->attributes);
                                         }
                                     }                                    
                                 }

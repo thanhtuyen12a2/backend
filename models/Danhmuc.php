@@ -3,6 +3,7 @@ namespace backend\models;
 use Aabc;
 use aabc\helpers\ArrayHelper;
 use common\cont\D;
+use common\components\Tuyen;
 
 class Danhmuc extends \aabc\db\ActiveRecord
 {
@@ -289,6 +290,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
                 ];              
               $this->dm_ten_ob = json_encode($ten_ob); 
             }  
+
+            $this->dm_ten = Tuyen::_show_title($this);
         }else{  
           // $this->dm_link = json_encode($this->dm_link);
         }        
@@ -577,20 +580,67 @@ class Danhmuc extends \aabc\db\ActiveRecord
 
 
 
-   public function getNoibatOption()
+     public function getDanhmucNoibatOption()
+     {
+         $_Danhmuc = Aabc::$app->_model->Danhmuc;
+         $noibat = $_Danhmuc::find()
+                             ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
+                             ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
+                             ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
+                             ->andWhere(['dm_noibat' => '1'])
+                             ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
+                             ->all();
+        if($noibat){
+           return ['' => '---Chọn---'] + ArrayHelper::map($noibat,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);
+        }
+     }
+   public function getDanhmucNoibatLabel($list_dm = [])
    {
-       $_Danhmuc = Aabc::$app->_model->Danhmuc;
-       $noibat = $_Danhmuc::find()
-                           ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
-                           ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
-                           ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
-                           ->andWhere(['dm_noibat' => '1'])
-                           ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
-                           ->all();
-      if($noibat){
-         return ['' => '---Chọn---'] + ArrayHelper::map($noibat,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);
+      $array = self::getDanhmucNoibatOption();
+      $return = '';
+      $dem = 0;
+      foreach ($list_dm as $value) {
+        if (!empty($value) && array_key_exists($value, $array))
+          $return  .= ($dem > 0?', ':'') . $array[$value];
+          $dem += 1;
       }
+      return $return;
    }
+
+
+
+
+
+
+   public function getChuyenmucNoibatOption()
+     {
+         $_Danhmuc = Aabc::$app->_model->Danhmuc;
+         $noibat = $_Danhmuc::find()
+                             ->andWhere([Aabc::$app->_danhmuc->dm_status => '1'])
+                             ->andWhere([Aabc::$app->_danhmuc->dm_recycle => '2'])    
+                             ->andWhere([Aabc::$app->_danhmuc->dm_type => '4'])
+                             ->andWhere(['dm_noibat' => '2'])
+                             ->orderBy([Aabc::$app->_danhmuc->dm_sothutu=>SORT_ASC])
+                             ->all();
+        if($noibat){
+           return ['' => '---Chọn---'] + ArrayHelper::map($noibat,Aabc::$app->_danhmuc->dm_id,Aabc::$app->_danhmuc->dm_char);
+        }
+     }
+   public function getChuyenmucNoibatLabel($list_dm = [])
+   {
+      $array = self::getChuyenmucNoibatOption();
+      $return = '';
+      $dem = 0;
+      foreach ($list_dm as $value) {
+        if (!empty($value) && array_key_exists($value, $array))
+          $return  .= ($dem > 0?', ':'') . $array[$value];
+          $dem += 1;
+      }
+      return $return;
+   }
+
+
+
 
 
    public function getAll1_1()

@@ -22,6 +22,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_linkseo => null,
             Sanpham::sp_motaseo => null,
             Sanpham::sp_images => null,
+            Sanpham::sp_images_ts => null,
             Sanpham::sp_album => null,
             Sanpham::sp_phienban => null,
             Sanpham::sp_status => null,
@@ -66,7 +67,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $_User = Aabc::$app->_model->User;
 
         return [  
-            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_phienban','sp_album','sp_images','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
+            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_phienban','sp_album','sp_images','sp_images_ts','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
 
@@ -74,7 +75,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             //   return $model->sp_type == 1;
             // }],
 
-            [[Sanpham::sp_type ,Sanpham::sp_album,Sanpham::sp_phienban, Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
+            [[Sanpham::sp_type ,Sanpham::sp_album,Sanpham::sp_phienban,Sanpham::sp_images_ts, Sanpham::sp_images, Sanpham::sp_status, Sanpham::sp_recycle, Sanpham::sp_conhang], 'string'],
             // [[Sanpham::sp_gia,Sanpham::sp_giakhuyenmai], 'string', 'max' => 11],
             [[Sanpham::sp_ma,Sanpham::sp_view, Sanpham::sp_idnguoitao, Sanpham::sp_idnguoiupdate, Sanpham::sp_id_ncc, Sanpham::sp_id_thuonghieu,  Sanpham::sp_soluong, Sanpham::sp_soluongfake, Sanpham::sp_soluotmua], 'integer'],
             [[Sanpham::sp_ngaytao, Sanpham::sp_ngayupdate, Sanpham::sp_id_danhmuc,  Sanpham::sp_id_chinhsach], 'safe'],
@@ -105,6 +106,8 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [[Sanpham::sp_linkseo], 'match', 'pattern' => '/^[a-z0-9_-]+$/','message' => 'Chỉ nhập chữ thường, số, dấu gạch ngang -'],
             [[Sanpham::sp_motaseo], 'string', 'max' => 160],            
             [[Sanpham::sp_images], 'string', 'max' => 255],
+
+            [[Sanpham::sp_images_ts], 'string', 'max' => 50],
             
             [[Sanpham::sp_idnguoitao], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoitao => Aabc::$app->_user->id]],
             [[Sanpham::sp_idnguoiupdate], 'exist', 'skipOnError' => true, 'targetClass' => $_User::className(), 'targetAttribute' => [Sanpham::sp_idnguoiupdate => Aabc::$app->_user->id]],
@@ -129,6 +132,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_motaseo => Sanpham::__sp_motaseo , 
                                  
             Sanpham::sp_images => Sanpham::__sp_images ,
+            Sanpham::sp_images_ts => Sanpham::__sp_images_ts ,
             Sanpham::sp_album => Sanpham::__sp_album ,
             Sanpham::sp_phienban => Sanpham::__sp_phienban ,
             Sanpham::sp_status => Sanpham::__sp_status ,                        
@@ -170,6 +174,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_linkseo = $this[Sanpham::sp_linkseo]; 
         $this->sp_motaseo = $this[Sanpham::sp_motaseo]; 
         $this->sp_images = $this[Sanpham::sp_images]; 
+        $this->sp_images_ts = $this[Sanpham::sp_images_ts]; 
         $this->sp_album = $this[Sanpham::sp_album]; 
         $this->sp_phienban = $this[Sanpham::sp_phienban]; 
         $this->sp_status = $this[Sanpham::sp_status]; 
@@ -226,6 +231,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this[Sanpham::sp_linkseo] =  $this->sp_linkseo;
         $this[Sanpham::sp_motaseo] =  $this->sp_motaseo;
         $this[Sanpham::sp_images] =  $this->sp_images;
+        $this[Sanpham::sp_images_ts] =  $this->sp_images_ts;
         $this[Sanpham::sp_album] =  $this->sp_album;
         $this[Sanpham::sp_phienban] =  $this->sp_phienban;
         $this[Sanpham::sp_status] =  $this->sp_status; 
@@ -247,7 +253,32 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this[Sanpham::sp_id_danhmuc] =  $this->sp_id_danhmuc;
         $this[Sanpham::sp_id_chinhsach] =  $this->sp_id_chinhsach;
       
-      // print_r($this);die;
+
+        $Sanphamdanhmuc = Aabc::$app->_model->Sanphamdanhmuc;
+
+        //Tìm danh sách các danh mục (1) của sản phẩm.
+        $this[Sanpham::sp_id_danhmuc] = $Sanphamdanhmuc::find()
+                              ->select(['spdm_id_danhmuc'])
+                              ->andWhere(['spdm_id_sp' => $this->sp_id])
+                              ->andWhere(['spdm_type' => 1])
+                              ->column();       
+          
+
+          //Tìm danh sách các chuyên mục (2) của sản phẩm.
+          $this[Sanpham::sp_id_chuyenmuc] = $Sanphamdanhmuc::find()
+                              ->select(['spdm_id_danhmuc'])
+                              ->andWhere(['spdm_id_sp' => $this->sp_id])
+                              ->andWhere(['spdm_type' => 2])
+                              ->column(); 
+
+          //Tìm danh sách các danh mục (4) của sản phẩm.
+          $this[Sanpham::sp_noibat] = $Sanphamdanhmuc::find()
+                                ->select(['spdm_id_danhmuc'])
+                                ->andWhere(['spdm_id_sp' => $this->sp_id])
+                                ->andWhere(['spdm_type' => 4])
+                                ->column(); 
+
+
 
         parent::afterFind();
     }  

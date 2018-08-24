@@ -187,10 +187,10 @@ $this->params['breadcrumbs'][] = $this->title;
         //'filterModel' => $searchModel,
         'rowOptions' => function($model){            
             $class = '';
-            // if ($model[Sanpham::sp__status == '2'){
-            //     $class = 'an';
-            // }
-            return ['class'=>$class];
+            if ($model[Sanpham::sp_status] == '2'){
+                $class = 'an';
+            }
+            return [ 'class' => $class];
         },
 
 
@@ -297,6 +297,36 @@ $this->params['breadcrumbs'][] = $this->title;
                         }, 
                     ],
 
+
+
+
+
+
+
+
+
+
+                 [                
+                    'header' => 'Nổi bật',  
+                    // 'visible' => Aabc::$app->user->can('web'),            
+                    'format' => 'raw',
+                    'filterInputOptions' => [
+                        'class' => 'form-control',                    
+                     ],  
+                    'value' => function ($model) { 
+                        $_Danhmuc = Aabc::$app->_model->Danhmuc;
+
+                        // echo '<pre>';
+                        // print_r($model[Sanpham::sp_noibat]);
+                        // echo '</pre>';
+
+                        // return '';
+                        return $_Danhmuc::getDanhmucNoibatLabel($model[Sanpham::sp_noibat]);
+                    }, 
+                ],
+                    
+
+                               
 
 
                     // [                

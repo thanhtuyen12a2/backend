@@ -148,7 +148,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
           
             <div class="col-md-12 col-sm-6  col-xs-12 pt100" style="margin: 10px 0 0 0;">
                 <?php     
-                    $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
+                    
                     $danhmuc = $_Danhmuc::getAll1_2();                    
                     array_unshift($danhmuc,[
                         Aabc::$app->_danhmuc->dm_id => '',
@@ -177,7 +177,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             
             <div class="col-md-12 col-sm-6  col-xs-12 pt100" style="margin: 10px 0 0 0;">
                 <?php     
-                    $_Danhmuc  = Aabc::$app->_model->Danhmuc;                
+                                   
                     $danhmuc = $_Danhmuc::getAll1_1();                    
                     array_unshift($danhmuc,[
                         Aabc::$app->_danhmuc->dm_id => '',
@@ -206,7 +206,23 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 
+            <div class="col-md-12 col-sm-6  col-xs-12 pt100" style="margin: 10px 0 0 0;">
+                <?php  
+                    echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getChuyenmucNoibatOption(),[
+                        'multiple'=>'multiple', 
+                        Aabc::$app->d->t => 'sea',//Search
+                        // Aabc::$app->d->t => 'show', 
+                        Aabc::$app->d->ty => 'checkbox',                    
+                        Aabc::$app->d->i => Sanpham::tt,
+                        'class' => 'mulr',      
+                        // Aabc::$app->d->c => 'one',                        
+                        'id' => 'fk-'.Aabc::$app->_model->__danhmuc.'-noibat',
+                    ])->label('Nổi bật'); 
 
+
+                ?>
+                <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Sản phẩm này sẽ hiển thị ra trang chủ <br/> tại các mục được chọn." aria-invalid="false"></i>
+            </div>
 
 
            

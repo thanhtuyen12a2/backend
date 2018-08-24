@@ -28,6 +28,11 @@ if(isset($_GET['nb'])){
     }else{
         $nb = '';
     }
+
+    $nb_label = [
+        1 => 'sản phẩm',
+        2 => 'bài viết',
+    ];
 }
 
 ?>
@@ -497,7 +502,7 @@ if(empty($menu_current['child'])){
                             //     ])->label('Sản phẩm nổi bật'); 
 
                             $html = '';
-                            $url_tvbkt = ADMIN.Sanpham::tt.'/'.Sanpham::search.'?dm='.$model->dm_id;
+                            $url_tvbkt = ADMIN.Sanpham::tt.'/'.Sanpham::search.'?dm='.$model->dm_id.'&t='.$nb;
                             $data = [];
                             $value = '';
 
@@ -507,7 +512,7 @@ if(empty($menu_current['child'])){
                                 'data' => $data,
                                 'options' => [
                                     'id' => 'select_spnb',
-                                    'placeholder' => 'Tìm và thêm sản phẩm vào danh mục này.'
+                                    'placeholder' => 'Tìm và thêm '.$nb_label[$nb].' vào danh mục này.'
                                 ],
                                 'pluginOptions' => [
                                     'allowClear' => true,
@@ -564,7 +569,7 @@ if(empty($menu_current['child'])){
                             </script>
                         </div>
     
-                        <h4 class="text-center">Danh sách sản phẩm <i>(Đã thêm)</i></h4>
+                        <h4 class="text-center">Danh sách <?= $nb_label[$nb]?> <i>(Đã thêm)</i></h4>
                         <div id="spdm_nb">
                             <?php 
                                 // echo $this->renderAjax('sanpham/addspdm', [    
@@ -574,7 +579,7 @@ if(empty($menu_current['child'])){
                             ?>
                         </div>
 
-                    <?php }else{ echo '<i class="text-center">Sau khi Lưu trữ Danh mục thì mới thêm Sản phẩm vào danh sách.</i>'; } ?>
+                    <?php }else{ echo '<i class="text-center">Sau khi Lưu trữ Danh mục thì mới thêm '.$nb_label[$nb].' vào danh sách.</i>'; } ?>
                 </div>
             
             <div class="clearfix"></div>

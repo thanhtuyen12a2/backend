@@ -7,6 +7,8 @@ if(!isset($random)){
 	$random = (string)time();
 }
 
+if(empty($star)) $star = '';
+
 if(!isset($album)){
 	$album = [
 		'title' => '',

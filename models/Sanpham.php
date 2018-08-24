@@ -81,6 +81,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_motaseo = 'b12';
      const sp_linkanhdaidien = 'd73';
      const sp_images = 'q76';
+     const sp_images_ts = 'v6';
      const sp_album = 'k67';
      const sp_phienban = 'z24';
      const sp_status = 'w72';
@@ -119,6 +120,7 @@ class Sanpham extends \aabc\db\ActiveRecord
      const __sp_motaseo = 'Mô tả seo';
      const __sp_linkanhdaidien = 'sp_linkanhdaidien';
      const __sp_images = 'sp_images';
+    const __sp_images_ts = 'sp_images_ts'; 
      const __sp_album = 'sp_album';
      const __sp_phienban = 'sp_phienban';
      const __sp_status = 'Trạng thái';
@@ -209,7 +211,6 @@ class Sanpham extends \aabc\db\ActiveRecord
         $cache->set('sanpham'.$model->sp_id,$cache_data);
         return $cache_data; 
     }
-
 
 
 

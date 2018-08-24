@@ -2,7 +2,7 @@
 
 use backend\models\Sanpham;
 
-
+use common\components\D;
 use aabc\helpers\Html;
 use aabc\widgets\ActiveForm;
 use backend\models\Sanphamngonngu;
@@ -114,7 +114,57 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                                     }
                                 ?>           
                             </ul>
-                            <div class="selected-product-image one"><input /></div>                       
+                            <div class="selected-product-image one"><input /></div>      
+
+                            <script type="text/javascript">                
+                                (function () {
+                                    'use strict';
+                                    var byId = function (id) { return document.getElementById(id); },
+                                        loadScripts = function (desc, callback) {
+                                            var deps = [], key, idx = 0;
+
+                                            for (key in desc) {
+                                                deps.push(key);
+                                            }
+
+                                            (function _next() {
+                                                var pid,
+                                                    name = deps[idx],
+                                                    script = document.createElement('script');
+
+                                                script.type = 'text/javascript';
+                                                script.src = desc[deps[idx]];
+
+                                                pid = setInterval(function () {
+                                                    if (window[name]) {
+                                                        clearTimeout(pid);
+
+                                                        deps[idx++] = window[name];
+
+                                                        if (deps[idx]) {
+                                                            _next();
+                                                        } else {
+                                                            callback.apply(null, deps);
+                                                        }
+                                                    }
+                                                }, 30);
+
+                                                document.getElementsByTagName('head')[0].appendChild(script);
+                                            })()
+                                        },
+
+                                        console = window.console;
+
+                                    var editableList = Sortable.create(byId('editable'), {
+                                        animation: 150,
+                                        filter: '.js-remove',
+                                        onFilter: function (evt) {
+                                            evt.item.parentNode.removeChild(evt.item);
+                                        }
+                                    }); 
+                                }
+                                )();
+                            </script>                 
                         </div>
 
 
@@ -170,7 +220,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                          <div class="col-md-10 pt100">
                             <?php  
-                                echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getNoibatOption(),[
+                                echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getDanhmucNoibatOption(),[
                                     'multiple'=>'multiple', 
                                     Aabc::$app->d->t => 'sea',//Search
                                     // Aabc::$app->d->t => 'show', 
@@ -456,13 +506,131 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 <div id="tab_thongso" class="tab-pane fade ">  
 
-    <div style="border: 2px dashed #f7ba0c;padding: 10px;margin: 10px 5px 10px 10px;">
+    <div class="col-md-8" style="border: 2px dashed #f7ba0c;padding: 10px;margin: 10px 5px 10px 10px;">
         <b>Thiết lập các thông số kỹ thuật, tính năng, đặc điểm của sản phẩm.</b>
         <br/>
         <i style="font-size: 12px">Một sản phẩm sẽ thuộc 1 danh mục sản phẩm. Tại mỗi danh mục sẽ có các thông số, tính năng khác nhau (Thiết lập tại mục Sản phẩm > Danh sách thông số).<br/>
         </i>
     </div>
 
+    <div class="col-md-3">
+        <style type="text/css">
+            #imgcove_ts {
+                text-align: center;
+                width: 100%;
+                min-height: 148px;
+                position: absolute;
+                top: 0;
+                z-index: 8;
+                padding: 10px;
+            }
+            #imgcove_ts>div.mb {
+                content: "";
+                position: absolute;
+                width: 120px;
+                top: 5px;
+                left: calc((100% - 120px ) /2);
+                height: 132px;
+                border: 2px dashed #c1bfbf;
+                cursor: pointer;
+            }
+            #imgcove_ts img {
+                max-width: 110px;
+                max-height: 110px;
+                vertical-align: middle;
+                margin: 6px;
+            }
+            .img-ts{
+                width: 300px !important;
+            }
+        </style>
+
+        <div id="imgcove_ts">
+            <div <?= Aabc::$app->d->m ?>="2" id="mb <?= Sanpham::tt?>"  <?= Aabc::$app->d->u?> ="ga?i=icon&e=editable_ts" class="mb" <?= Aabc::$app->d->i?> = <?= Aabc::$app->_model->__image ?> ></div>
+            <div class="image">
+                <h5 style="margin: 40px 0 0 118px;color: #ccc;width: 100px;text-align: center;">Ảnh thông số kỹ thuật</h5>
+            </div>
+
+            <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Hình ảnh mô tả các thông số kỹ thuật, kích thước của sản phẩm. Ví dụ: <br/> <img class='img-ts' src='https://cdn.tgdd.vn/Products/Images/44/106875/Kit/apple-macbook-air-mqd32sa-a-i5-5350u-mo-ta-chuc-nang.jpg' /> " aria-invalid="false"></i>
+        </div>
+
+        <!-- class="imgcove" -->
+        <ul id="editable_ts" class="hide"> 
+            <?php
+                if(isset($model[Sanpham::sp_images_ts])){
+                    $listimg = explode("-",$model[Sanpham::sp_images_ts]);
+                    foreach ($listimg as $key => $value) {
+                        if($key == 0){
+                            $img = $_Image::find()->andWhere([Aabc::$app->_image->image_id => $value])->one();
+                            
+                            if(isset($img)){
+                                echo '<li><input type="hidden" name="'.Sanpham::T.'['.Sanpham::sp_images_ts.']" value="'.$value.'" /><img src="/thumb/75/75/'.$img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong].'"><i class="js-remove">✖</i></li>';
+                            }                                            
+                            ?>
+                            <script type="text/javascript">
+                            $('#imgcove_ts>.image').html("<img src=/uploads/<?= ($img[Aabc::$app->_image->image_tenfile]. '-' . $img[Aabc::$app->_image->image_id]. $img[Aabc::$app->_image->image_morong])?> >");
+                            </script>
+                            <?php
+                        }
+                    }                    
+                }
+            ?>           
+        </ul>
+        <div class="selected-product-image one" dt-n="<?= Sanpham::T.'['.Sanpham::sp_images_ts.']' ?>" ><input /></div> 
+
+
+        <script type="text/javascript">                
+            (function () {
+                'use strict';
+                var byId = function (id) { return document.getElementById(id); },
+                    loadScripts = function (desc, callback) {
+                        var deps = [], key, idx = 0;
+
+                        for (key in desc) {
+                            deps.push(key);
+                        }
+
+                        (function _next() {
+                            var pid,
+                                name = deps[idx],
+                                script = document.createElement('script');
+
+                            script.type = 'text/javascript';
+                            script.src = desc[deps[idx]];
+
+                            pid = setInterval(function () {
+                                if (window[name]) {
+                                    clearTimeout(pid);
+
+                                    deps[idx++] = window[name];
+
+                                    if (deps[idx]) {
+                                        _next();
+                                    } else {
+                                        callback.apply(null, deps);
+                                    }
+                                }
+                            }, 30);
+
+                            document.getElementsByTagName('head')[0].appendChild(script);
+                        })()
+                    },
+
+                    console = window.console;
+
+                var editableList = Sortable.create(byId('editable_ts'), {
+                    animation: 150,
+                    filter: '.js-remove',
+                    onFilter: function (evt) {
+                        evt.item.parentNode.removeChild(evt.item);
+                    }
+                }); 
+            }
+            )();
+        </script>
+    </div>
+    
+    <div class="clearfix"></div>
 
     <fieldset class="ht htsp">             
         <div class="col-md-6 col-sm-6  col-xs-12 pt160">
@@ -857,55 +1025,6 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
 
-<script type="text/javascript">                
-    (function () {
-        'use strict';
-        var byId = function (id) { return document.getElementById(id); },
-            loadScripts = function (desc, callback) {
-                var deps = [], key, idx = 0;
-
-                for (key in desc) {
-                    deps.push(key);
-                }
-
-                (function _next() {
-                    var pid,
-                        name = deps[idx],
-                        script = document.createElement('script');
-
-                    script.type = 'text/javascript';
-                    script.src = desc[deps[idx]];
-
-                    pid = setInterval(function () {
-                        if (window[name]) {
-                            clearTimeout(pid);
-
-                            deps[idx++] = window[name];
-
-                            if (deps[idx]) {
-                                _next();
-                            } else {
-                                callback.apply(null, deps);
-                            }
-                        }
-                    }, 30);
-
-                    document.getElementsByTagName('head')[0].appendChild(script);
-                })()
-            },
-
-            console = window.console;
-
-        var editableList = Sortable.create(byId('editable'), {
-            animation: 150,
-            filter: '.js-remove',
-            onFilter: function (evt) {
-                evt.item.parentNode.removeChild(evt.item);
-            }
-        }); 
-    }
-    )();
-</script>
 
 
 <script type="text/javascript">
