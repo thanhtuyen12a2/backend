@@ -218,7 +218,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                         </div>     
                         
 
-                         <div class="col-md-10 pt100">
+                        <div class="col-md-10 pt100">
                             <?php  
                                 echo $form->field($model, Sanpham::sp_noibat,['options' => ['class' => '']])->dropDownList($_Danhmuc::getDanhmucNoibatOption(),[
                                     'multiple'=>'multiple', 
@@ -360,6 +360,29 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                           <?= $form->field($model, Sanpham::sp_giakhuyenmai,['options' => ['class' => 'giany']])->textInput(['maxlength' => true,'class' => ' form-control'])->label('Giá niêm yết') ?>
                             <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá này khi hiện thị sẽ bị gạch ngang, chỉ có tác dụng so sánh với giá Bán và không sử dụng trong đơn hàng.<br/>- Bạn có thể điền giá hoặc để trống." aria-invalid="false"></i>
                         </div>
+
+
+                        <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
+                            <?php        
+                                echo $form->field($model, Sanpham::sp_vat,['options' => ['class' => '']])->checkbox(['class' => 'c_vat'])->label('');        
+                            ?>                            
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 pt120 <?= ($model[Sanpham::sp_vat] == 1)?'':'hide' ?> v_vat">
+                            <?php //class: nbr la chi nhan so ?>
+                            <?= $form->field($model, Sanpham::sp_vat_value,['options' => ['class' => '']])->textInput(['value' => (empty($model[Sanpham::sp_vat_value])?'10':$model[Sanpham::sp_vat_value] ),'number' => true,'class' => ' form-control']) ?>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('.c_vat').on('click',function(){
+                                if($(this)[0].checked){
+                                    $('.v_vat').removeClass('hide')
+                                }
+                                else{
+                                    $('.v_vat').addClass('hide')
+                                }
+                            })
+                        </script>
 
 
                         <!-- <div class="col-md-6 col-sm-6  col-xs-12 pt120">

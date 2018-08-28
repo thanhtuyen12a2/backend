@@ -19,6 +19,9 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_type => null,
             Sanpham::sp_tensp => null,
             Sanpham::sp_masp => null,
+            Sanpham::sp_vat => null,
+            Sanpham::sp_vat_value => null,            
+
             Sanpham::sp_linkseo => null,
             Sanpham::sp_motaseo => null,
             Sanpham::sp_images => null,
@@ -67,7 +70,7 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $_User = Aabc::$app->_model->User;
 
         return [  
-            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_linkseo','sp_motaseo','sp_phienban','sp_album','sp_images','sp_images_ts','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
+            [['sp_tensp','sp_id','sp_ma','sp_type','sp_masp','sp_vat','sp_vat_value','sp_linkseo','sp_motaseo','sp_phienban','sp_album','sp_images','sp_images_ts','sp_status','sp_recycle','sp_conhang','sp_view','sp_ngaytao','sp_ngayupdate','sp_idnguoitao','sp_idnguoiupdate','sp_id_ncc','sp_id_thuonghieu','sp_gia','sp_gia_sort','sp_giakhuyenmai','sp_soluong','sp_soluongfake','sp_soluotmua','sp_id_danhmuc','sp_id_chinhsach'], 'safe'],
           // [['sp_tensp'], 'string'],
             [[Sanpham::sp_tensp,Sanpham::sp_linkseo, Sanpham::sp_ngaytao, Sanpham::sp_gia], 'required'],
 
@@ -86,6 +89,11 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             [[Sanpham::sp_masp], 'match', 'pattern' => '/^[a-zA-Z0-9_]+$/','message' => 'Chỉ nhập chữ và số'],
             [[Sanpham::sp_tensp], 'string', 'max' => 100],            
             [[Sanpham::sp_masp], 'string', 'max' => 20],
+
+            [[Sanpham::sp_vat], 'integer'],
+            [[Sanpham::sp_vat_value], 'number'],
+            
+
             // [[Sanpham::sp_masp], 'unique','message' => 'Đã bị trùng'],
 
             // [['sp_masp'], 'unique','message' => 'Đã bị trùng'],
@@ -127,15 +135,18 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
             Sanpham::sp_ma => Sanpham::__sp_ma ,
             Sanpham::sp_type => Sanpham::__sp_type ,
             Sanpham::sp_tensp => Sanpham::__sp_tensp ,                        
-            Sanpham::sp_masp => Sanpham::__sp_masp ,                        
-            Sanpham::sp_linkseo => Sanpham::__sp_linkseo ,                        
+            Sanpham::sp_masp => Sanpham::__sp_masp ,
+            Sanpham::sp_vat => Sanpham::__sp_vat ,
+            Sanpham::sp_vat_value => Sanpham::__sp_vat_value ,
+
+            Sanpham::sp_linkseo => Sanpham::__sp_linkseo ,
             Sanpham::sp_motaseo => Sanpham::__sp_motaseo , 
                                  
             Sanpham::sp_images => Sanpham::__sp_images ,
             Sanpham::sp_images_ts => Sanpham::__sp_images_ts ,
             Sanpham::sp_album => Sanpham::__sp_album ,
             Sanpham::sp_phienban => Sanpham::__sp_phienban ,
-            Sanpham::sp_status => Sanpham::__sp_status ,                        
+            Sanpham::sp_status => Sanpham::__sp_status ,
             Sanpham::sp_recycle => Sanpham::__sp_recycle ,                        
             Sanpham::sp_conhang => Sanpham::__sp_conhang ,                        
             Sanpham::sp_view => Sanpham::__sp_view ,                        
@@ -171,6 +182,9 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this->sp_type = $this[Sanpham::sp_type]; 
         $this->sp_tensp = $this[Sanpham::sp_tensp]; 
         $this->sp_masp = $this[Sanpham::sp_masp]; 
+        $this->sp_vat = $this[Sanpham::sp_vat]; 
+        $this->sp_vat_value = $this[Sanpham::sp_vat_value]; 
+
         $this->sp_linkseo = $this[Sanpham::sp_linkseo]; 
         $this->sp_motaseo = $this[Sanpham::sp_motaseo]; 
         $this->sp_images = $this[Sanpham::sp_images]; 
@@ -228,6 +242,9 @@ class Sanpham_235 extends \aabc\db\ActiveRecord
         $this[Sanpham::sp_type] =  $this->sp_type;
         $this[Sanpham::sp_tensp] =  $this->sp_tensp;
         $this[Sanpham::sp_masp] =  $this->sp_masp; 
+        $this[Sanpham::sp_vat] =  $this->sp_vat;
+        $this[Sanpham::sp_vat_value] =  $this->sp_vat_value;
+
         $this[Sanpham::sp_linkseo] =  $this->sp_linkseo;
         $this[Sanpham::sp_motaseo] =  $this->sp_motaseo;
         $this[Sanpham::sp_images] =  $this->sp_images;

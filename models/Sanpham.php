@@ -77,6 +77,9 @@ class Sanpham extends \aabc\db\ActiveRecord
      const sp_type = 'g57';
      const sp_tensp = 'k93';
      const sp_masp = 'b58';
+     const sp_vat = 'm4';
+     const sp_vat_value = 'c6';
+
      const sp_linkseo = 'l98';
      const sp_motaseo = 'b12';
      const sp_linkanhdaidien = 'd73';
@@ -116,6 +119,11 @@ class Sanpham extends \aabc\db\ActiveRecord
      const __sp_type = 'sp_type';
      const __sp_tensp = 'Tên sản phẩm';
      const __sp_masp = 'Mã sản phẩm';
+
+     const __sp_vat = 'Đã bao gồm thuế VAT?';
+     const __sp_vat_value = '%VAT';
+     
+
      const __sp_linkseo = 'Link seo';
      const __sp_motaseo = 'Mô tả seo';
      const __sp_linkanhdaidien = 'sp_linkanhdaidien';

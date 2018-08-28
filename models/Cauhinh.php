@@ -1176,6 +1176,47 @@ class Cauhinh extends Model
     }
 
 
+    public static function Thongtincauhinh()
+    {
+        return [
+            self::tencongty => Tuyen::_dulieu('cauhinh',self::tencongty),
+            self::diachi => Tuyen::_dulieu('cauhinh',self::diachi),
+            self::dienthoai => Tuyen::_dulieu('cauhinh',self::dienthoai),
+            self::hotline => Tuyen::_dulieu('cauhinh',self::hotline),
+            self::fax => Tuyen::_dulieu('cauhinh',self::fax),
+            self::email => Tuyen::_dulieu('cauhinh',self::email),
+
+            self::favicon => Tuyen::_dulieu('cauhinh',self::favicon),
+            self::thetieude => Tuyen::_dulieu('cauhinh',self::thetieude),
+            self::thehauto => Tuyen::_dulieu('cauhinh',self::thehauto),
+            self::themota => Tuyen::_dulieu('cauhinh',self::themota),
+            self::logo => Tuyen::_dulieu('cauhinh',self::logo),
+            self::ngonngu => Tuyen::_dulieu('cauhinh',self::ngonngu),
+        ];
+    }
+
+
+     public static function Thongtincauhinh_chuthich()
+    {
+        return [
+            self::tencongty => '(Tên công ty) ' . Tuyen::_dulieu('cauhinh',self::tencongty),
+            self::diachi => '(Địa chỉ) ' .Tuyen::_dulieu('cauhinh',self::diachi),
+            self::dienthoai => '(Điện thoại) ' .Tuyen::_dulieu('cauhinh',self::dienthoai),
+            self::hotline => '(Hotline) ' .Tuyen::_dulieu('cauhinh',self::hotline),
+            self::fax => '(Số fax) ' .Tuyen::_dulieu('cauhinh',self::fax),
+            self::email => '(Tên email) ' .Tuyen::_dulieu('cauhinh',self::email),
+
+            self::favicon => Tuyen::_dulieu('cauhinh',self::favicon),
+            self::thetieude => '(Thẻ tiêu đề) ' .Tuyen::_dulieu('cauhinh',self::thetieude),
+            self::thehauto => '(Hậu tố) ' .Tuyen::_dulieu('cauhinh',self::thehauto),
+            self::themota => '(Tên mô tả) ' .Tuyen::_dulieu('cauhinh',self::themota),
+            self::logo => Tuyen::_dulieu('cauhinh',self::logo),
+            self::ngonngu => Tuyen::_dulieu('cauhinh',self::ngonngu),
+        ];
+    }
+
+
+
     public static function TitleOptions(){
          $data = [
             '0' => '--- Lấy tiêu đề từ ---',
@@ -1185,7 +1226,8 @@ class Cauhinh extends Model
             '4' => 'Tên Sản phẩm chi tiết',
             '5' => 'Tên Chuyên mục bài viết',
             '6' => 'Tên Bài viết',
-            '8' => 'Tên Thông số, tính năng',            
+            '8' => 'Tên Thông số, tính năng',
+            '9' => 'Thông tin cấu hình',
         ];
         return $data;
     }
@@ -1281,6 +1323,22 @@ class Cauhinh extends Model
             '<i class="sttip sttip_title glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Tự nhập tiêu đề." aria-invalid="false"></i>
             <textarea placeholder="Nhập tiêu đề..." aria-invalid="false" style="font-size: 14px;" class="tsp form-control" rows="" type="text" name="'.$name.'[1]">'.(($check ==1)?$value:'').'</textarea>
         </div>' ;
+
+
+        $html .= '<div class="sttip sttip_title '.($check == 9?'':'hide').' '.$id.'" id="'.$id.'-9">'.
+                '<i class="sttip sttip_title glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="Chọn thông tin cấu hình mà bạn muốn lấy thông tin.<br/>VD: (Tên công ty) Công ty ABC.<br/>- (Tên công ty): là chú thích.<br/>- Công ty ABC: là phần nội dung sẽ lấy." aria-invalid="false"></i>'.
+                Select2::widget([
+                    'name' => $name.'[9]',
+                    'value' => $value,
+                    'data' => self::Thongtincauhinh_chuthich(),
+                    'options' => [
+                        'placeholder' => 'Tìm và chọn ...'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ])
+            .'</div>' ;
 
         $html .= '
                 <script type="text/javascript">

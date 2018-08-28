@@ -1168,9 +1168,11 @@ class DanhmucController extends Controller
                     if($a){
                         $info = $a->spdm_info;
                     }
-                    $html .= '<label><input '.($a?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$stt.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+                    $html .= '<label><input class="c_ts" '.($a?'checked':'').' type="'.($ts->dm_multi == $_Danhmuc::MULTI?'checkbox':'radio').'" name="Ts['.$k_gt.$dm_id.'][i][]" value="'.$gt->dm_id.'" />'.$gt->dm_ten.'</label>';
+
+                    $html .= '<input type="input" class="form-control hide ts_more" name="Ts['.$k_gt.$dm_id.'][ii]['.$gt->dm_id.']" value="" placeholder="Thông tin thêm">';
                 }
-                $html .= '<input type="input" class="form-control" name="Ts['.$stt.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
+                // $html .= '<input type="input" class="form-control hide ts_more" name="Ts['.$stt.'][l]" value="'.$info.'" placeholder="Thông tin thêm">';
                 $html .= '</div>';
             }
 

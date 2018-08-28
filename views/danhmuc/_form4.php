@@ -28,12 +28,12 @@ if(isset($_GET['nb'])){
     }else{
         $nb = '';
     }
+}
 
-    $nb_label = [
+$nb_label = [
         1 => 'sản phẩm',
         2 => 'bài viết',
     ];
-}
 
 ?>
 
