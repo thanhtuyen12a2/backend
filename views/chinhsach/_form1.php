@@ -287,15 +287,7 @@ use backend\models\Cauhinh;
 
 
 <div class="col-md-12 col-sm-5 col-xs-12 pt160"> 
-        <?php 
-            if($model[Aabc::$app->_chinhsach->cs_ngaybatdau] == null){
-                $model[Aabc::$app->_chinhsach->cs_ngaybatdau] = date("Y-m-d");
-            }else{                 
-                $model[Aabc::$app->_chinhsach->cs_ngaybatdau] = date("Y-m-d", strtotime($model[Aabc::$app->_chinhsach->cs_ngaybatdau]));               
-            }
-        ?>
-
-
+       
         <?= $form->field($model, Aabc::$app->_chinhsach->cs_ngaybatdau,['options' => ['class' => '']])->widget(\dosamigos\datetimepicker\DateTimePicker::className(), [
             // 'size' => 'ms',
             // 'template' => '{input}',
@@ -310,7 +302,7 @@ use backend\models\Cauhinh;
                 // 'linkFormat' => 'HH:ii:ss dd-mm-yyyy', // if inline = true
                 // 'format' => 'HH:ii P', // if inline = false
                 // 'format' => ' hh:ii:ss dd-mm-yyyy',
-                'format' => 'yyyy-mm-dd',
+                'format' => 'dd-mm-yyyy',
 
                 'todayBtn' => true
             ]
@@ -321,14 +313,7 @@ use backend\models\Cauhinh;
 
 
 <div class="col-md-12 col-sm-5 col-xs-12 pt160"> 
-        <?php 
-            if($model[Aabc::$app->_chinhsach->cs_ngayketthuc] == null){
-                // $model[Aabc::$app->_chinhsach->cs_ngayketthuc] = date("Y-m-d H:i");
-            }else{                 
-                $model[Aabc::$app->_chinhsach->cs_ngayketthuc] = date("Y-m-d", strtotime($model[Aabc::$app->_chinhsach->cs_ngayketthuc]));               
-            }
-        ?>
-
+       
 
         <?= $form->field($model, Aabc::$app->_chinhsach->cs_ngayketthuc,['options' => ['class' => '']])->widget(\dosamigos\datetimepicker\DateTimePicker::className(), [
             // 'size' => 'ms',
@@ -344,7 +329,7 @@ use backend\models\Cauhinh;
                 // 'linkFormat' => 'HH:ii:ss dd-mm-yyyy', // if inline = true
                 // 'format' => 'HH:ii P', // if inline = false
                 // 'format' => ' hh:ii:ss dd-mm-yyyy',
-                'format' => 'yyyy-mm-dd',
+                'format' => 'dd-mm-yyyy',
 
                 'todayBtn' => true
             ]

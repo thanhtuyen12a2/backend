@@ -208,13 +208,29 @@ class Sanpham extends \aabc\db\ActiveRecord
         $cache_data['sp_listdm']['4'] = Sanpham::getSpdmIdDanhmucs($model)->andWhere(['dm_type' => 4])->column();
 
         //5 Thông số, tính năng        
-        $a = Sanpham::getSpdmIdDanhmucs($model)->select(['dm_id','dm_idcha'])->andWhere(['dm_type' => 5])->all();
+        $a = Sanpham::getSpdmIdDanhmucs($model)
+                              ->select(['dm_id','dm_idcha'])
+                              ->andWhere(['dm_type' => 5])
+                              ->all();
         $b = [];
+        $list_idcha = [];
         foreach ($a as $v) {
+            $list_idcha[] = $v['dm_idcha'];
             $b[$v['dm_idcha']][$v['dm_id']] = $v['dm_id'];
-        }               
-        //$b là mảng [ 'dm_idcha' => ['dm_id','dm_id'] 
+        }            
         $cache_data['sp_listdm']['5'] = $b;
+        // $list_cha_sort = Danhmuc::find()
+        //                       ->select(['dm_id'])
+        //                       ->andwhere(['dm_id' => $list_idcha])
+        //                       ->orderBy(['dm_sothutu' => SORT_DESC])
+        //                       ->column();
+        // $c = [];
+        // if($list_cha_sort) foreach ($list_cha_sort as $v_cha) {
+        //     $c[$v_cha] = $b[$v_cha];
+        // }
+        //$b là mảng [ 'dm_idcha' => ['dm_id','dm_id'] 
+        //$c là mảng [ 'dm_idcha' => ['dm_id','dm_id'] đã được sắp xếp
+        // $cache_data['sp_listdm']['5'] = $c;
 
         $cache->set('sanpham'.$model->sp_id,$cache_data);
         return $cache_data; 

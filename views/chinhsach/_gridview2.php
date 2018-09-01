@@ -116,58 +116,6 @@ use common\components\Tuyen;
             ],
 
 
-
-             [                
-                'attribute' => Aabc::$app->_chinhsach->cs_ngaybatdau,  
-                // 'visible' => Aabc::$app->user->can('web'),            
-                'format' => 'raw',
-                'filterInputOptions' => [
-                    'class' => 'form-control',                    
-                 ],
-                'value' => function ($model) {  
-                          
-                    return '<div class="text-center">'.Aabc::$app->MyComponent->homnay($model[Aabc::$app->_chinhsach->cs_ngaybatdau]).'</div>';
-
-                    // $songay = (strtotime(date("Y-m-d")) - strtotime($model[Aabc::$app->_chinhsach->cs_ngaybatdau])) /  86400;
-
-                    // if($songay == -1){
-                    //     return '<div class="text-center">Ngày mai</div>';
-                    // }elseif ($songay == 0) {
-                    //     return '<div class="text-center">Hôm nay</div>';
-                    // }elseif ($songay == 1) {
-                    //     return '<div class="text-center">Hôm qua</div>';
-                    // }else{
-                    //     return '<div class="text-center">' .date("Y-m-d", strtotime($model[Aabc::$app->_chinhsach->cs_ngayketthuc])). '</div>'; 
-                    // }
-
-                    // return '<div class="text-center">' .date("Y-m-d", strtotime($model[Aabc::$app->_chinhsach->cs_ngaybatdau])). '</div>';
-
-                }, 
-
-            ],
-
-
-            [                
-                'attribute' => Aabc::$app->_chinhsach->cs_ngayketthuc,  
-                // 'visible' => Aabc::$app->user->can('web'),            
-                'format' => 'raw',
-                'filterInputOptions' => [
-                    'class' => 'form-control',                    
-                 ],
-                'value' => function ($model) {  
-                    if(isset($model[Aabc::$app->_chinhsach->cs_ngayketthuc])){               
-                        return '<div class="text-center">'.Aabc::$app->MyComponent->homnay($model[Aabc::$app->_chinhsach->cs_ngayketthuc]).'</div>';
-                    }else{
-                        return '<div class="text-center">Vô thời hạn</div>';
-                    }
-                }, 
-
-            ],
-
-            //  Aabc::$app->_chinhsach->cs_recycle,
-            //  Aabc::$app->_chinhsach->cs_ngaytao,
-             // Aabc::$app->_chinhsach->cs_ngaybatdau,
-             // Aabc::$app->_chinhsach->cs_ngayketthuc,
                      
 
              [                

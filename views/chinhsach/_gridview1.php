@@ -104,9 +104,14 @@ use common\components\Tuyen;
                 'filterInputOptions' => [
                     'class'       => 'form-control',                    
                  ],
-                'value' => function ($model) {                          
+                'value' => function ($model) {
+                    $s = '';
+                    if(!empty($model->cs_ngayketthuc) && (strtotime($model->cs_ngayketthuc) + 24*60*60) < time()){
+                        $s = '<i>Đã quá hạn</i>';
+                    }
+
                     if($model[Aabc::$app->_chinhsach->cs_status] == 1){
-                        return '<div class=" bg-success text-center">Kích hoạt</div>';
+                        return '<div class="text-center"><div class="bg-success">Kích hoạt</div>'.$s.'</div>';
                     }elseif($model[Aabc::$app->_chinhsach->cs_status] == 2){
                         return '<div class="text-center">Ngừng kích hoạt</div>';
                     }else{
@@ -155,7 +160,7 @@ use common\components\Tuyen;
                     'class' => 'form-control',                    
                  ],
                 'value' => function ($model) {  
-                    if(isset($model[Aabc::$app->_chinhsach->cs_ngayketthuc])){               
+                    if(isset($model[Aabc::$app->_chinhsach->cs_ngayketthuc])){ 
                         return '<div class="text-center">'.Aabc::$app->MyComponent->homnay($model[Aabc::$app->_chinhsach->cs_ngayketthuc]).'</div>';
                     }else{
                         return '<div class="text-center">Vô thời hạn</div>';
