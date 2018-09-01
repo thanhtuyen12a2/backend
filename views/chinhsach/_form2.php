@@ -230,10 +230,10 @@ use backend\models\Cauhinh;
 </div> -->
 
 
-<div class="col-md-12  pt160"  style="margin: 10px 0 0 0;">
-    <?= $form->field($model, 'cs_tylechietkhau')->textArea(['placeholder' => 'VD: 150.000' ,'maxlength' => true])->label('Giảm trừ')  ?>
+<!-- <div class="col-md-12  pt160"  style="margin: 10px 0 0 0;">
+    <?php // $form->field($model, 'cs_tylechietkhau')->textArea(['placeholder' => 'VD: 150.000' ,'maxlength' => true])->label('Giảm trừ')  ?>
     <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Trong đơn hàng thanh toán, số tiền của khách hàng phải trả sẽ được giảm trừ." aria-invalid="false"></i>
-</div>
+</div> -->
 
 
 
@@ -243,7 +243,7 @@ use backend\models\Cauhinh;
 
 
 
-<div class="col-md-12 col-sm-5 col-xs-12 pt160"> 
+<div class="col-md-12 col-sm-5 col-xs-12 pt160" style="margin: 10px 0 0 0;"> 
         <?php 
             if($model[Aabc::$app->_chinhsach->cs_ngaybatdau] == null){
                 $model[Aabc::$app->_chinhsach->cs_ngaybatdau] = date("Y-m-d");

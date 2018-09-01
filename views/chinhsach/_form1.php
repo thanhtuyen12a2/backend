@@ -231,12 +231,55 @@ use backend\models\Cauhinh;
 
 
 <div class="col-md-12  pt160"  style="margin: 10px 0 0 0;">
-    <?= $form->field($model, 'cs_tylechietkhau')->textArea(['placeholder' => 'VD: 150.000' ,'maxlength' => true])->label('Giảm trừ')  ?>
-    <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Trong đơn hàng thanh toán, số tiền của khách hàng phải trả sẽ được giảm trừ." aria-invalid="false"></i>
+    <?= $form->field($model, 'cs_typetyle')->dropDownList([
+             1 => 'Số tiền cụ thể', 
+             2 => 'Tỷ lệ phần trăm',             
+         ],['placeholder' => '',
+        //'multiple'=>'multiple', 
+        // Aabc::$app->d->s => 'search', 
+        // Aabc::$app->d->t => 'show', 
+        Aabc::$app->d->ty => 'ra',
+        Aabc::$app->d->i => Aabc::$app->_model->__chinhsach,
+        'class' => 'mulr',      
+        Aabc::$app->d->c => 'one',                        
+        'id' => Aabc::$app->_model->__chinhsach.'_typetyle_select'
+    ])->label('Giảm trừ') ?>
+
+    <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="top" data-html="true" data-toggle="tooltip" data-original-title="- Trong đơn hàng thanh toán, số tiền của khách hàng phải trả sẽ được giảm trừ. Có 2 lựa chọn là giảm theo % hoặc số tiền cụ thể." aria-invalid="false"></i>
+</div>
+
+<div class="col-md-12  pt160" >
+    <?php 
+        $template_input = '<div class="le">{label}</div> <div class="ri">
+        <div class="input-group">
+            {input}
+            <span class="tyle_ct '.($model->cs_typetyle == 2?'hide':'').' input-group-addon">'.Tuyen::_show_donvitiente().'</span>
+            <span class="tyle_pt '.($model->cs_typetyle == 2?'':'hide').' input-group-addon">%</span>
+        </div>
+    </div>{error}{hint}';
+    ?>
+    
+    <?= $form->field($model, 'cs_tylechietkhau',[
+        'template' => $template_input
+    ])->textArea(['placeholder' => 'VD: 150.000' ,'maxlength' => true])->label('')  ?>    
 </div>
 
 
-
+<script type="text/javascript">
+    $('input[name="Chinhsach[cs_typetyle]"]').change(function(){
+        var gt = parseInt($(this).val())
+        tyle_ct =  $('.tyle_ct')
+        tyle_pt =  $('.tyle_pt')
+        if(gt == 1){
+            tyle_pt.addClass('hide')
+            tyle_ct.removeClass('hide')
+        }
+        else if(gt == 2){
+            tyle_ct.addClass('hide')
+            tyle_pt.removeClass('hide')
+        }
+    })
+</script>
 
 
 

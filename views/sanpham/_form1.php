@@ -12,11 +12,25 @@ use backend\models\Thuonghieu;
 use aabc\bootstrap\Modal; /*Them*/
 use aabc\helpers\ArrayHelper;
 
+use common\components\Tuyen;
+
 $_Chinhsach  = Aabc::$app->_model->Chinhsach;
 $_Danhmuc  = Aabc::$app->_model->Danhmuc;
 $_Image = Aabc::$app->_model->Image;
 
 if(empty($html_ts)) $html_ts = '';
+
+$template_input = '
+    <div class="le">{label}</div>
+    <div class="ri">
+        <div class="input-group">
+            {input}
+            <span class="input-group-addon">'.Tuyen::_show_donvitiente().'</span>                                    
+        </div>
+    </div>
+    {error}{hint}';
+
+
 
 $new = new Sanphamngonngu();
 ?>
@@ -78,10 +92,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
             <div id="home" class="tab-pane fade in active ">
                 <fieldset class="ht htweb"> <!-- htsp-->
                     
-                    <div class="col-md-5" style="margin: 20px 0 0 0">
-
-                        
-                                       
+                    <div class="col-md-5" style="margin: 20px 0 0 0">         
                             
                         <div class="col-md-12 col-sm-6 col-xs-12 pt100" style="height: 250px">
                             
@@ -348,8 +359,8 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
 
                         <div class="col-md-6 col-sm-6  col-xs-12 pt120">   
-                            <?php        
-                                echo $form->field($model, Sanpham::sp_gia,['options' => ['class' => 'giakm']])->textInput(['maxlength' => true,'class' => 'form-control', 'placeholder' => ''])->label('Giá bán');        
+                            <?php  
+                                echo $form->field($model, Sanpham::sp_gia,['template' => $template_input ,'options' => ['class' => 'giakm']])->textInput(['maxlength' => true,'class' => 'form-control', 'placeholder' => ''])->label('Giá bán');        
                             ?>
                             <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá bán hiển thị với người dùng.<br/>- Sẽ được sử dụng trong hóa đơn.<br/>- Bắt buộc bạn phải điền." aria-invalid="false"></i>
                         </div>
@@ -357,7 +368,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
 
                         <div class="col-md-6 col-sm-6  col-xs-12 pt120">
                             <?php //class: nbr la chi nhan so ?>
-                          <?= $form->field($model, Sanpham::sp_giakhuyenmai,['options' => ['class' => 'giany']])->textInput(['maxlength' => true,'class' => ' form-control'])->label('Giá niêm yết') ?>
+                          <?= $form->field($model, Sanpham::sp_giakhuyenmai,['template' => $template_input, 'options' => ['class' => 'giany']])->textInput(['maxlength' => true,'class' => ' form-control'])->label('Giá niêm yết') ?>
                             <i class="hdtip glyphicon glyphicon-info-sign" data-trigger="hover" data-placement="bottom" data-html="true" data-toggle="tooltip" data-original-title="- Giá này khi hiện thị sẽ bị gạch ngang, chỉ có tác dụng so sánh với giá Bán và không sử dụng trong đơn hàng.<br/>- Bạn có thể điền giá hoặc để trống." aria-invalid="false"></i>
                         </div>
 
@@ -368,21 +379,26 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                             ?>                            
                         </div>
 
-                        <div class="col-md-6 col-sm-6 col-xs-12 pt120 <?= ($model[Sanpham::sp_vat] == 1)?'':'hide' ?> v_vat">
-                            <?php //class: nbr la chi nhan so ?>
-                            <?= $form->field($model, Sanpham::sp_vat_value,['options' => ['class' => '']])->textInput(['value' => (empty($model[Sanpham::sp_vat_value])?'10':$model[Sanpham::sp_vat_value] ),'number' => true,'class' => ' form-control']) ?>
+                        <div class="col-md-6 col-sm-6 col-xs-12 pt120 v_vat">
+                            <?php //class: nbr la chi nhan so
+                                $template_input_vat = '
+                                    <div class="le">{label}</div>
+                                    <div class="ri">
+                                        <div class="input-group">
+                                            {input}
+                                            <span class="input-group-addon">%</span>                                    
+                                        </div>
+                                    </div>
+                                    {error}{hint}';
+                            ?>
+                            <?= $form->field($model, Sanpham::sp_vat_value,['template' => $template_input_vat,'options' => ['class' => '']])->textInput(['value' => (empty($model[Sanpham::sp_vat_value])?'10':$model[Sanpham::sp_vat_value] ),'number' => true,'class' => ' form-control'])->label('VAT') ?>
                         </div>
 
-                        <script type="text/javascript">
-                            $('.c_vat').on('click',function(){
-                                if($(this)[0].checked){
-                                    $('.v_vat').removeClass('hide')
-                                }
-                                else{
-                                    $('.v_vat').addClass('hide')
-                                }
-                            })
-                        </script>
+                        <style type="text/css">
+                            .v_vat input{
+                                text-align: right;
+                            }
+                        </style>
 
 
                         <!-- <div class="col-md-6 col-sm-6  col-xs-12 pt120">
