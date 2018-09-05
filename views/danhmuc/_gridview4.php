@@ -6,13 +6,59 @@ use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 use common\components\Tuyen;
+
+$g = isset($_GET['g'])?$_GET['g']: 0;
+if(in_array($g,[241])){
+  $show_mini = 1;
+}else{
+  $show_mini = 0;
+}
+
 ?>
 <style type="text/css">
     h5{
       font-size: 14px;
       color: #434546;
     }
+
+    <?php if($show_mini){ ?>
+      .price-ship {
+          width: calc(100% - 32px - 50px) !important;
+      }
+      
+      .mini-chi{
+        width: 50px;
+      }
+      .mini-chi>span {      
+          padding: 10px;
+          cursor: pointer;
+      }
+
+    <?php } ?>
 </style>
+
+<?php if($show_mini){ ?>
+  <script type="text/javascript">
+    $('.mini-chi>span').on('click',function(){
+       var _this = $(this), new_class = '', remove_class = '', pa = _this.data('pa');
+       if(_this.hasClass('glyphicon-chevron-right')){
+          new_class = 'glyphicon-chevron-down';
+          remove_class = 'glyphicon-chevron-right';
+          $('.mini-chi-'+pa).removeClass('hide')
+       }
+       if(_this.hasClass('glyphicon-chevron-down')){
+          new_class = 'glyphicon-chevron-right';
+          remove_class = 'glyphicon-chevron-down';
+          $('.mini-chi-'+pa).addClass('hide')
+       }
+       _this.removeClass(remove_class)
+       _this.addClass(new_class)
+
+    })
+  </script>
+<?php } ?>
+
+
 
     <?= GridView::widget([ 
         'id' => 'gr'.Aabc::$app->_model->__danhmuc,
@@ -20,11 +66,16 @@ use common\components\Tuyen;
         'emptyText' => Aabc::$app->MyConst->gridview_khongthayketqua,
         'summary' => "<div class='sy'>(Từ {begin} - {end} trong {totalCount})</div>",
         'dataProvider' => $dataProvider,
-        'rowOptions' => function($model){            
+        'rowOptions' => function($model) use($show_mini) {            
             $class = '';
             if ($model[Aabc::$app->_danhmuc->dm_status] == '2'){
-                $class = 'an';
+                $class .= ' an';
             }
+
+            if($show_mini && !empty($model->dm_level)){
+               $class .= ' mini-chi-ite hide mini-chi-'.$model->dm_idcha .' '; //Mini child item
+            }
+
             return ['class'=>$class];
         },
         //'filterModel' => $searchModel,
@@ -42,9 +93,14 @@ use common\components\Tuyen;
           ],
 
      
+        //   [
+        //     'class' => 'aabc\grid\SerialColumn',
+        //     'headerOptions' => ['width' => '50'],
+        //     // you may configure additional properties here
+        // ],
 
 
-             Aabc::$app->_danhmuc->dm_id,
+             // Aabc::$app->_danhmuc->dm_id,
              // Aabc::$app->_danhmuc->dm_ten,
              // Aabc::$app->_danhmuc->dm_char,
 
@@ -91,13 +147,25 @@ use common\components\Tuyen;
             //  Aabc::$app->_danhmuc->dm_icon,
             //  Aabc::$app->_danhmuc->dm_background,
              
-             Aabc::$app->_danhmuc->dm_thutu,
-             Aabc::$app->_danhmuc->dm_sothutu,
-             Aabc::$app->_danhmuc->dm_level,
+             // Aabc::$app->_danhmuc->dm_thutu,
+             // Aabc::$app->_danhmuc->dm_sothutu,
+             // Aabc::$app->_danhmuc->dm_level,
              // Aabc::$app->_danhmuc->dm_ghichu,
+
+               [
+                  'attribute' => 'dm_price',
+                  'label' => 'Phí ship',
+                  'visible' => ($g == 241),                
+                  'value' => function($model){
+                    return (number_format($model->dm_price));
+                  }
+               ],
+
+
+
              [
                 'header' => 'link',
-                // 'format'
+                'visible' => ($g != 241),                
                 'value' => function($model){
                   return (json_encode($model->dm_link));
                 }
@@ -118,8 +186,8 @@ use common\components\Tuyen;
                     'class' => 'omb',                    
                 ],
                 'format' => 'raw',
-                'value' => function ($model) {                         
-                    return '<div>'.$model[Aabc::$app->_danhmuc->dm_id].'</div><div class="omc" id="'.Aabc::$app->_model->__danhmuc.$model[Aabc::$app->_danhmuc->dm_id].'"><div class="omd">
+                'value' => function ($model) use($show_mini) {                         
+                    return '<div>'.$model[Aabc::$app->_danhmuc->dm_id].'</div><div class="omc '.($show_mini?'price-ship':'').'" id="'.Aabc::$app->_model->__danhmuc.$model[Aabc::$app->_danhmuc->dm_id].'"><div class="omd">
 
                     <button type="button"  '.Aabc::$app->d->m.'="3"  class="mb btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'  '.Aabc::$app->d->u.'="u_mn?id='.$model[Aabc::$app->_danhmuc->dm_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>
 
@@ -154,7 +222,19 @@ use common\components\Tuyen;
             ],
 
         
-
+            [
+                'header' => '',
+                'visible' => $show_mini,
+                'contentOptions' => [
+                    'class' => 'mini-chi',
+                ],
+                'format' => 'raw',
+                'value' => function ($model) { 
+                    if($model->dm_level == 0)
+                      return '<span data-pa="'.$model->dm_id.'" class="glyphicon glyphicon-chevron-right"></span>'; //Mini child
+                    return '';
+                }
+            ],
 
         ],
 

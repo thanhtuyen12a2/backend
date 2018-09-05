@@ -53,6 +53,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
             [['dm_email','dm_phone','dm_zalo','dm_skype'], 'string', 'max' => 100],
 
             [['dm_fb','dm_youtube','dm_viber'], 'string', 'max' => 100],
+            
+            [['dm_price'], 'integer'],
 
             [['dm_dmsp'], 'integer'],
 
@@ -117,6 +119,8 @@ class Danhmuc extends \aabc\db\ActiveRecord
             'dm_zalo' => 'Zalo',
             'dm_skype' => 'Skype',
 
+            'dm_price' => 'Phí ship', //Giá tiền ship
+
             'dm_dmsp' => 'Danh mục sản phẩm',
 
             'dm_multi' => 'Lựa chọn',
@@ -161,6 +165,7 @@ class Danhmuc extends \aabc\db\ActiveRecord
                                         ->andWhere(['sp_status' => '1'])
                                         ->andWhere(['sp_type' => '2'])
                                         ->groupBy(['sp_id'])
+                                        ->limit(10)
                                         ->column();
         }
 
@@ -301,6 +306,16 @@ class Danhmuc extends \aabc\db\ActiveRecord
      public function afterSave($insert, $changedAttributes)
     {
       parent::afterSave( $insert, $changedAttributes );  
+
+      $dieukien = [
+        'dm_idcha' => $this->dm_id,
+      ];
+      $thaydoi = [
+        'dm_price' => $this->dm_price,
+      ];
+      Danhmuc::updateAll($thaydoi, $dieukien);
+      
+
       self::cache($this);
     }
 

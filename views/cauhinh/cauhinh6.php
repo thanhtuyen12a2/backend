@@ -123,7 +123,7 @@ use aabc\widgets\ActiveForm;
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][label]" value="1" <?= empty($module['child'][$j]['child'][$i]['label'])?'':'checked' ?>/>Label</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][url]" value="1" <?= empty($module['child'][$j]['child'][$i]['url'])?'':'checked' ?>/>Url</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][icon]" value="1" <?= empty($module['child'][$j]['child'][$i]['icon'])?'':'checked' ?>/>Icon</label>
-                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][background]" value="1" <?= empty($module['child'][$j]['child'][$i]['background'])?'':'checked' ?>/>Background</label>
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][background]" value="1" <?= empty($module['child'][$j]['child'][$i]['background'])?'':'checked' ?>/>Hình ảnh</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][email]" value="1" <?= empty($module['child'][$j]['child'][$i]['email'])?'':'checked' ?>/>Email</label>
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][phone]" value="1" <?= empty($module['child'][$j]['child'][$i]['phone'])?'':'checked' ?>/>Phone</label>
 
@@ -136,6 +136,8 @@ use aabc\widgets\ActiveForm;
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][zalo]" value="1" <?= empty($module['child'][$j]['child'][$i]['zalo'])?'':'checked' ?>/>Zalo</label>
 
                                 <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][skype]" value="1" <?= empty($module['child'][$j]['child'][$i]['skype'])?'':'checked' ?>/>Skype</label>
+
+                                <label><input class="form-control-stg" type="checkbox" name="<?= Cauhinh::T?>[<?= $module_template?>][child][<?= $j?>][child][<?= $i?>][price]" value="1" <?= empty($module['child'][$j]['child'][$i]['price'])?'':'checked' ?>/>Giá</label>
                             </div>
                             </div>
                         <?php } ?>

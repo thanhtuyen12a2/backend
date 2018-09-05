@@ -448,6 +448,12 @@ class DanhmucController extends Controller
             if($tp == 4){
                 $model->dm_status = '1';
                 $model->dm_groupmenu = $g;
+
+                $dm_cha = $_Danhmuc::findOne(['dm_id' => $pa]);
+                if($dm_cha){
+                    if(empty($model->dm_groupmenu))
+                        $model->dm_groupmenu = $dm_cha->dm_groupmenu;
+                }                
             }
 
             if(!empty($noibat)) $model->dm_noibat = $noibat;

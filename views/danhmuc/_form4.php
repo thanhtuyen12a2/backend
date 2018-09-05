@@ -211,6 +211,14 @@ if(empty($menu_current['child'])){
             echo '<input type="hidden" name="Kc[dm_url]" value="1"/>';
         } ?>
 
+    
+        <?php if(!empty($access['price'])){ ?>
+        <div class="col-md-12 pt140">
+            <?= $form->field($model, 'dm_price')->textArea(['placeholder' => 'Nhập phí ship','rows' => 1,'maxlength' => true, 'class' => 'ath form-control']) ?>    
+        </div>
+        <?php }else{
+            echo '<input type="hidden" name="Kc[dm_price]" value="1"/>';
+        } ?>
 
 
         <?php if(!empty($access['email'])){ ?>

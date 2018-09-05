@@ -7,7 +7,44 @@ use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 
 $_Danhmuc = Aabc::$app->_model->Danhmuc;
+
+$show_mini = 1;
+
 ?>
+<?php if($show_mini){ ?>
+  <style type="text/css">
+      .price-ship {
+          width: calc(100% - 32px - 50px) !important;
+      }
+      
+      .mini-chi{
+        width: 50px;
+      }
+      .mini-chi>span {      
+          padding: 10px;
+          cursor: pointer;
+      }    
+  </style>
+
+  <script type="text/javascript">
+    $('.mini-chi>span').on('click',function(){
+       var _this = $(this), new_class = '', remove_class = '', pa = _this.data('pa');
+       if(_this.hasClass('glyphicon-chevron-right')){
+          new_class = 'glyphicon-chevron-down';
+          remove_class = 'glyphicon-chevron-right';
+          $('.mini-chi-'+pa).removeClass('hide')
+       }
+       if(_this.hasClass('glyphicon-chevron-down')){
+          new_class = 'glyphicon-chevron-right';
+          remove_class = 'glyphicon-chevron-down';
+          $('.mini-chi-'+pa).addClass('hide')
+       }
+       _this.removeClass(remove_class)
+       _this.addClass(new_class)
+
+    })
+  </script>
+<?php } ?>
 
 
     <?= GridView::widget([ 
@@ -16,7 +53,7 @@ $_Danhmuc = Aabc::$app->_model->Danhmuc;
         'emptyText' => Aabc::$app->MyConst->gridview_khongthayketqua,
         'summary' => "<div class='sy'>(Từ {begin} - {end} trong {totalCount})</div>",
         'dataProvider' => $dataProvider,
-        'rowOptions' => function($model){            
+        'rowOptions' => function($model) use($show_mini) {            
             $class = '';
             if ($model[Aabc::$app->_danhmuc->dm_status] == '2'){
                 $class .= 'an ';
@@ -28,6 +65,10 @@ $_Danhmuc = Aabc::$app->_model->Danhmuc;
                 $class .= 'lv-hide1 ';
             }else{
                 $class .= 'lv-hide1 lv-hide2';
+            }
+
+            if($show_mini && ($model->dm_level == 2)){
+               $class .= ' mini-chi-ite hide mini-chi-'.$model->dm_idcha.' '; //Mini child item
             }
 
             return ['class'=>$class];
@@ -135,8 +176,8 @@ $_Danhmuc = Aabc::$app->_model->Danhmuc;
                     'class' => 'omb',                    
                 ],
                 'format' => 'raw',
-                'value' => function ($model) {                         
-                    return '<div>'.$model[Aabc::$app->_danhmuc->dm_id].'</div><div class="omc" id="'.Aabc::$app->_model->__danhmuc.$model[Aabc::$app->_danhmuc->dm_id].'"><div class="omd">
+                'value' => function ($model) use($show_mini) {                         
+                    return '<div>'.$model[Aabc::$app->_danhmuc->dm_id].'</div><div class="omc '.($show_mini?'price-ship':'').'" id="'.Aabc::$app->_model->__danhmuc.$model[Aabc::$app->_danhmuc->dm_id].'"><div class="omd">
 
                     <button type="button"  '.Aabc::$app->d->m.'="3"  class="mb btn btn-default" '.Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'  '.Aabc::$app->d->u.'="u_tn?id='.$model[Aabc::$app->_danhmuc->dm_id].'">'.Aabc::$app->MyConst->gridview_menu_suachitiet.'<span class="glyphicon glyphicon-pencil"></span></button>
 
@@ -172,7 +213,20 @@ $_Danhmuc = Aabc::$app->_model->Danhmuc;
                 }, 
             ],
 
-        
+            
+             [
+                'header' => '',
+                'visible' => $show_mini,
+                'contentOptions' => [
+                    'class' => 'mini-chi',
+                ],
+                'format' => 'raw',
+                'value' => function ($model) { 
+                    if($model->dm_level == 1)
+                      return '<span data-pa="'.$model->dm_id.'" class="glyphicon glyphicon-chevron-right"></span>'; //Mini child
+                    return '';
+                }
+            ],
 
 
         ],
