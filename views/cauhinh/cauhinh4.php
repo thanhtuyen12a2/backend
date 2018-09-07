@@ -8,6 +8,7 @@ use aabc\grid\GridView;
 use aabc\helpers\Url; /*Them*/
 use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
+use common\components\Tuyen;
 ?>
 
 <div class="ch-index">
@@ -32,97 +33,272 @@ use aabc\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['id' => 'ch-form']); ?>
     <div class="ch-index-child">
         <div class="stg">
-            <fieldset>
-                <legend>Banner</legend>
-                
-                <div class="col-md-7 pt200">
-                    <div class="form-group required">
-                        <div class="le"><label class="control-label" for="danhmuc-dm_ten">Câu Slogan</label></div>
-                        <div class="ri"><input class="form-control" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::slogan_top?>]" value="<?= Cauhinh::get(Cauhinh::slogan_top) ?>"/></div>
-                    </div>
-                </div>
+           
+                 <div class="col-md-12">
+                    <style type="text/css">
+                        .ri {
+                            width: 100% !important;
+                            margin: 0 0 20px 0;
+                        }
+                        .pa-i {
+                            position: relative;
+                        }
+                        .stg .pa-i legend>input{
+                            border: none;
+                            margin: 0;
+                            font-size: 18px;
+                            background: transparent;
+                            color: #FFF;
+                        }
+                        .tttg{
+                            position: relative;
+                            border: 1px solid #ddd;
+                            padding: 10px 0 0 10px;
+                            margin: 0 40px 20px 10px;
+                        }
+                        .tttg-content{
+                            float: left;
+                            width: calc(100% - 160px);
+                            border-right: 1px solid #eee;
+                        }
+                        .tttg .add-tttg{
+                            z-index: 99;
+                            position: absolute;
+                            bottom: 5px;
+                            right: 5px;                            
+                            font-size: 13px;
+                            color: #999;
+                        }
+                        .tttg-one{
+                            float: left;
+                            float: left;
+                            margin: 5px 5px 5px 0;
+                            border: 1px solid #ccc;
+                            padding: 2px 22px 2px 10px;
+                            border-radius: 5px;
+                            color: #888;
+                            position: relative;
+                        }
+                        .tttg-one span{
+                            position: absolute;
+                            top: 5px;
+                            right: 3px;
+                            cursor: pointer;
+                            opacity: 0.5;
+                        }
+                        .tttg-one span:hover{
+                            color: #a00;
+                            opacity: 1;
+                        }
+                        .tttg-default{
+                            position: absolute;
+                            top: 4px;
+                            left: 5px;
+                        }
+                        .tttg-one input{
+                            padding: 0;margin: 0;
+                        }
+                        .tttg .input-tttg {
+                            border: none;
+                            padding: 0;
+                            margin: 0;
+                        }
+                        .tt-price{
+                            float: right;
+                            width: 160px;
+                            padding: 0 10px;
+                            border-left: 1px solid #eee;
+                        }
+                        .tt-remove {
+                            position: absolute;
+                            top: 30px;
+                            right: -33px;
+                            color: #bbb;
+                            cursor: pointer;
+                            border: 1px solid;
+                            border-radius: 20px;
+                            padding: 3px;
+                            background: #FFF;
+                        }
+                        .tt-remove:hover{
+                            color: #d00;
+                            opacity: 1;
+                        }
+                        .tt-price input {
+                            z-index: 1 !important;
+                        }
+                        .tt-add {
+                            margin: 0 0 0 10px;
+                        }
+                        .t-remove{
+                            position: absolute;
+                            right: 30px;
+                            top: 15px;
+                            color: #FFF;
+                            cursor: pointer;
+                        }
+                        .t-remove:hover{
+                            color: #D00;
+                        }
+                    </style>
+                    <div class="form-group required">                        
+                        <!-- <div class="le"><label class="control-label" for="">Địa điểm giao hàng và giá ship</label></div> -->
+                        <div class="ri"> 
+                             <?php
+                                // $t = [
+                                //     152341523 => [
+                                //         'tinh' => 'Hà Nội',
+                                //         'item' => [
+                                //             623424 => [
+                                //                 'huyen' => [
+                                //                     12312313 => 'Hai Bà Trưng',
+                                //                     123234233 => 'Hoàng Mai',
+                                //                     123423413 => 'Đống Đa',
+                                //                     34213 => 'Từ Liêm',
+                                //                 ],
+                                //                 'gia' => 12000,
+                                //             ],
+                                //             62284564 => [
+                                //                 'huyen' => [
+                                //                     12342313 => 'Gia Lâm',
+                                //                     262346234234233 => 'Long Biên',
+                                //                     735423413 => 'Thanh Trì',
+                                //                     745634213 => 'Sơn Tây',
+                                //                 ],
+                                //                 'gia' => 20000,
+                                //             ]
+                                //         ]
+                                //     ]
+                                // ];  
 
-                <div class="col-md-7 pt200">
-                    <div class="form-group required">
-                        <div class="le"><label class="control-label" for="danhmuc-dm_ten">Banner</label></div>
-                        <div class="ri"><input class="form-control" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::banner?>]" value="<?= Cauhinh::get(Cauhinh::banner) ?>"/></div>
-                    </div>
-                </div>
+                                $t = Cauhinh::get(Cauhinh::ship);                                     
+                                
+                                // echo '<pre>';
+                                // print_r($t);
+                                // echo '</pre>';
 
-            </fieldset>
-        </div>
+                                if(is_array($t)) foreach ($t as $k_t => $v_t) { 
+                            ?>
+                                <div class="pa-i" data-i="<?= $k_t?>">
+                                    <fieldset>
+                                        <legend>
+                                        <input placeholder="Nhập tỉnh/thành phố..." class="form-control" value="<?= $v_t['tinh'] ?>" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::ship?>][<?= $k_t?>][tinh]">
+                                        </legend>
+                                        <?php 
+                                            $item = empty($v_t['item'])?[]:$v_t['item'];
+                                            foreach ($item as $k_tt => $v_tt) {
+                                        ?>  
+                                            <div class="tttg">
+                                                <div class="tttg-content" data-i="<?= $k_tt?>">
+                                                <?php 
+                                                    $gia = empty($v_tt['gia'])?0:$v_tt['gia'];
+                                                    $huyen = empty($v_tt['huyen'])?[]:$v_tt['huyen'];
+                                                    foreach ($huyen as $k_ttt => $v_ttt) {
+                                                ?> 
+                                                    <div class="tttg-one">                    
+                                                        <span title="Xóa" class="tttg-remove glyphicon glyphicon-remove"></span><?= $v_ttt ?>
+                                                        <input value="<?= $v_ttt ?>" type="text" readonly="" name="<?= Cauhinh::T?>[<?= Cauhinh::ship?>][<?= $k_t?>][item][<?= $k_tt?>][huyen][<?= $k_ttt?>]" class="hide">
+                                                    </div> 
+                                                    <?php } ?>                                   
+                                                </div>
 
+                                                <div class="tt-price">
+                                                    <div class="input-group">
+                                                        <input placeholder="Nhập giá ship.." type="number" id="" class="form-control" name="<?= Cauhinh::T?>[<?= Cauhinh::ship?>][<?= $k_t?>][item][<?= $k_tt?>][gia]" value="<?= $gia?>">
+                                                        <span class="input-group-addon"><?= Tuyen::_show_donvitiente()?></span>
+                                                    </div>
+                                                </div>
 
-        <div class="stg">
-            <fieldset>
-                <legend>Menu top</legend>
-                
-                <div class="col-md-12 pt200">
-                    <?php 
-                        $menu = Cauhinh::get(Cauhinh::menu);                        
-                    ?>
-                    <?php for ($i=1; $i < 7 ; $i++) { ?>
-                    <div class="form-group">
-                        <div class="le"><label class="control-label" for="danhmuc-dm_ten">Link #<?= $i?>:</label></div>
-                        <div class="ri">                            
-                            <input placeholder="Tiêu đề" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::menu?>][<?= $i?>][k]" value="<?= empty($menu[$i]['k'])?'':$menu[$i]['k'] ?>"/>
-                            <input placeholder="Link dẫn (có thể trống)" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::menu?>][<?= $i?>][l]" value="<?= empty($menu[$i]['l'])?'':$menu[$i]['l'] ?>"/>
+                                                <span title="Xóa" class="tt-remove glyphicon glyphicon-minus "></span>
+
+                                                <input placeholder="Nhập thêm quận/huyện..." class="form-control input-tttg" type="text" />
+                                                <i class="hide add-tttg">ấn ENTER để thêm mới</i>
+                                            </div>
+                                        <?php      
+                                            }
+                                        ?>
+                                        <span title="Thêm nhóm giá quận/huyện" class="btn btn-default tt-add">
+                                            <span  class="glyphicon glyphicon-plus"></span> Thêm nhóm giá quận/huyện
+                                        </span>
+                                        
+                                        <span title="Xóa" class="t-remove glyphicon glyphicon-remove "></span>
+                                    </fieldset>
+                                </div>
+                                
+                            <?php        
+                                }
+                            ?>
+
+                            <span title="Thêm tỉnh/thành phố" class="btn btn-success t-add">
+                                <span  class="glyphicon glyphicon-plus"></span> Thêm tỉnh/thành phố
+                            </span>
                         </div>
                     </div>
-                    <?php } ?>
+                    <script type="text/javascript">
+                        // $('.input-tttg').on('keyup keypress',function(e){
+                        $(document).on('keyup keypress','.input-tttg',function(e){
+                            var parents = $(this).parents('.pa-i')
+                            var id_tinh = parents.data('i');
+
+                            var parent = $(this).parent();
+                            var value = $(this).val()                            
+                            var btn_add = parent.find('.add-tttg')
+                            var keyCode = e.keyCode || e.which;
+                            if (keyCode === 13){
+                                var d = new Date();
+                                var time = d.getTime();
+
+                                var add_content = parent.find('.tttg-content')
+                                var id_item = add_content.data('i');
+
+                                var html = '<div class="tttg-one"><span title="Xóa" class="tttg-remove glyphicon glyphicon-remove"></span>'+value+'<input value="'+value+'" type="text" readonly name="<?= Cauhinh::T?>[<?= Cauhinh::ship?>]['+id_tinh+'][item]['+id_item+'][huyen]['+time+']"  class="hide" /></div>'  
+
+                                if(value != ''){
+                                    add_content.append(html)
+                                }
+                                $(this).val('')
+                                btn_add.addClass('hide')
+                                e.preventDefault();
+                                return false;
+                            }                           
+                            if(value == ''){   
+                                btn_add.addClass('hide')                             
+                            }else{
+                                btn_add.removeClass('hide')
+                            }
+                        })
+
+                        function tt_add(_this, e){
+                            var parents = $(_this).parents('.pa-i')
+                            var id_tinh = parents.data('i');                                                     
+                            var d = new Date();
+                            var time = d.getTime();                                                          
+                            var html = '<div class="tttg"><div class="tttg-content" data-i="'+time+'"></div><div class="tt-price"><div class="input-group"><input placeholder="Nhập giá ship.." type="number" id="" class="form-control" name="Cauhinh_fake[j9]['+id_tinh+'][item]['+time+'][gia]" value=""><span class="input-group-addon"><?= Tuyen::_show_donvitiente()?></span></div></div><span title="Xóa" class="tt-remove glyphicon glyphicon-minus "></span><input placeholder="Nhập thêm quận/huyện..." class="form-control input-tttg" type="text"><i class="hide add-tttg">ấn ENTER để thêm mới</i></div>'
+                            $(html).insertBefore(_this);
+                            e.preventDefault();
+                            return false;                           
+                        }
+
+
+
+                        function t_add(_this, e){
+                            var d = new Date();
+                            var time = d.getTime();                                                          
+                            var html = '<div class="pa-i" data-i="'+time+'"><fieldset><legend><input placeholder="Nhập tỉnh/thành phố..." class="form-control" value="" type="text" name="Cauhinh_fake[j9]['+time+'][tinh]"></legend><span title="Thêm nhóm giá quận/huyện" class="btn btn-default tt-add"><span class="glyphicon glyphicon-plus"></span> Thêm nhóm giá quận/huyện</span>'
+
+                            $(html).insertBefore(_this);
+                            e.preventDefault();
+                            return false;                           
+                        } 
+                       
+                    </script>
                 </div>
 
-            </fieldset>
+
         </div>
 
 
-         <div class="stg">
-            <fieldset>
-                <legend>Link tìm kiếm nhiều</legend>
-                
-                <div class="col-md-12 pt200">
-                    <?php 
-                        $searchtop = Cauhinh::get(Cauhinh::searchtop);                        
-                    ?>
-                    <?php for ($i=1; $i < 7 ; $i++) { ?>
-                    <div class="form-group">
-                        <div class="le"><label class="control-label" for="danhmuc-dm_ten">Link #<?= $i?>:</label></div>
-                        <div class="ri">                            
-                            <input placeholder="Tiêu đề" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::searchtop?>][<?= $i?>][k]" value="<?= empty($searchtop[$i]['k'])?'':$searchtop[$i]['k'] ?>"/>
-                            <input placeholder="Link dẫn (có thể trống)" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::searchtop?>][<?= $i?>][l]" value="<?= empty($searchtop[$i]['l'])?'':$searchtop[$i]['l'] ?>"/>
-                        </div>
-                    </div>
-                    <?php } ?>
-                </div>
 
-            </fieldset>
-        </div>
-
-
-       <div class="stg">
-            <fieldset>
-                <legend>Chân trang (Footer)</legend>
-                
-                <div class="col-md-12 pt200">
-                    <?php 
-                        $footer_list = Cauhinh::get(Cauhinh::footer_list);                        
-                    ?>
-                    <?php for ($i=1; $i < 5 ; $i++) { ?>
-                    <div class="form-group">
-                        <div class="le"><label class="control-label" for="danhmuc-dm_ten">Mục <?= $i?>:</label></div>
-                        <div class="ri">    
-                            <input placeholder="TIÊU ĐỀ MỤC" class="form-control-stg col-md-8" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::footer_list?>][<?= $i?>][a]" value="<?= empty($footer_list[$i]['a'])?'':$footer_list[$i]['a'] ?>"/>
-                            <?php for ($j = 1; $j < 6; $j++) { ?>
-                                 <input placeholder="mục con" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::footer_list?>][<?= $i?>][c][<?= $j?>][k]" value="<?= empty($footer_list[$i]['c'][$j]['k'])?'':$footer_list[$i]['c'][$j]['k'] ?>"/>                                 
-                                <input placeholder="Link dẫn (có thể trống)" class="form-control-stg col-md-6" type="text" name="<?= Cauhinh::T?>[<?= Cauhinh::footer_list?>][<?= $i?>][c][<?= $j?>][l]" value="<?= empty($footer_list[$i]['c'][$j]['l'])?'':$footer_list[$i]['c'][$j]['l'] ?>"/>
-                            <?php } ?>                           
-                        </div>
-                    </div>
-                    <?php } ?>
-                </div>
-
-            </fieldset>
-        </div>
 
     </div>
 

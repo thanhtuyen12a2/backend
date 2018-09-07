@@ -33,6 +33,11 @@ if(in_array($g,[241])){
           padding: 10px;
           cursor: pointer;
       }
+  
+      .sy0,
+      .per-page{
+        display: none;
+      }
 
     <?php } ?>
 </style>
@@ -73,7 +78,7 @@ if(in_array($g,[241])){
             }
 
             if($show_mini && !empty($model->dm_level)){
-               $class .= ' mini-chi-ite hide mini-chi-'.$model->dm_idcha .' '; //Mini child item
+               $class .= ' mini-chi-ite mini-chi-'.$model->dm_idcha .' '; //Mini child item
             }
 
             return ['class'=>$class];
@@ -128,7 +133,7 @@ if(in_array($g,[241])){
                             }
                         }         
 
-                        $tieude = Tuyen::_show_title($model);                        
+                        $tieude = Tuyen::_show_title($model);
 
                         $char = '|----- ';
 
@@ -251,8 +256,8 @@ if(in_array($g,[241])){
 
  ]); ?>
 
-<div class="endgr">
 
+<div class="endgr">
 <div class='per-page'>
 
 <?= 
@@ -276,3 +281,12 @@ Html::dropDownList('t', Aabc::$app->request->get('t') != NULL ? Aabc::$app->requ
 </div>
 
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){     
+     setTimeout(function(){        
+        $('.mini-chi-ite').addClass('hide')
+     }, 5000)
+  })
+</script>

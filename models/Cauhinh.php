@@ -92,6 +92,43 @@ class Cauhinh extends Model
 
     //2    
     // const home_slogan = 'b1';
+
+    const cart_dangnhap = 'k1'; //Đặt hàng có cần đăng nhập không?
+
+    const dangky_email = 'l8';
+    const dangky_tendangnhap = 'e6';
+    const dangky_hoten = 'g5';
+
+    const dangky_dienthoai = 'p0';
+    const dangky_socmnd = 'j5';
+    const dangky_ngaysinh = 'g1';
+    const dangky_gioitinh = 'r2';
+    const dangky_diachi = 'e4';
+
+    const dangky_matkhau = 'h7';
+    const dangky_matkhau_nhaplai = 'o0';
+
+
+    const ship = 'j9';
+
+
+    const cart_hoten = 'k5';
+    const cart_gioitinh = 'd2';
+    const cart_email = 'g8';
+    const cart_dienthoai = 'm9';
+    const cart_diachi = 'z3';
+    const cart_ghichu = 'b7';
+
+
+
+    const lienhe_hoten = 'i7';    
+    const lienhe_email = 'f2';
+    const lienhe_dienthoai = 'h5';
+    const lienhe_diachi = 'x8';
+    const lienhe_noidung = 'v2';
+
+
+
     const home_slogan_2 = 'x6';
     // const home_menu = 'e3';
     const home_slide = 'k9';
@@ -99,6 +136,11 @@ class Cauhinh extends Model
     const home_danhmuc = 'q0';
     const home_image_dm = 'z7';
     const home_chuyenmuc = 'd5';
+
+    //3
+    const thanhtoan_taicuahang = 'l3';
+    const thanhtoan_chuyenkhoan = 't5';
+    const thanhtoan_cod = 'y4';
 
 
     //4

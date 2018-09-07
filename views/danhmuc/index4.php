@@ -9,6 +9,9 @@ use aabc\helpers\ArrayHelper; /*Them*/
 use aabc\widgets\ActiveForm;
 /*use app\models\Dskh; */
 
+if(empty($groupmenu)) $groupmenu = '';
+if(empty($noibat)) $noibat = '';
+if(empty($title)) $title = '';
 
 /* @var $this aabc\web\View */
 // use backend\models\DanhmucSearch ;
@@ -41,18 +44,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <div class="content-right  col-md-10">
 
-    <div class="content-right-top">       
+    <div class="content-right-top">  
+
+       
+
         <?php      
         $_Danhmuc = Aabc::$app->_model->Danhmuc;        
         $demthungrac = count($_Danhmuc::getAllRecycle1_4());
 
-            echo '<button  '.Aabc::$app->d->m.' = "2"  type="button"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_mn" class="btn btn-danger mb" '.Aabc::$app->d->i.'= '.Aabc::$app->_model->__danhmuc .'><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
-        
-        
-
-         echo '<button type="button" '.Aabc::$app->d->m.' = "3" id="mb'.Aabc::$app->_model->__danhmuc.'"  '.Aabc::$app->d->u .'="c" class="btn btn-success mb"   '. Aabc::$app->d->i.'='.Aabc::$app->_model->__danhmuc.'><span class="glyphicon glyphicon-plus mtrang"></span>'.Aabc::$app->MyConst->view_btn_them.'</button>';
+          echo '<button  '.Aabc::$app->d->m.' = "2"  type="button"  '.($demthungrac > 0 ? : 'disabled').'  id="mb'.Aabc::$app->_model->__danhmuc.'r" '.Aabc::$app->d->u.'="ir_mn" class="btn btn-danger mb" '.Aabc::$app->d->i.'= '.Aabc::$app->_model->__danhmuc .'><span class="glyphicon glyphicon-trash mden"></span>'.Aabc::$app->MyConst->view_btn_thungrac.' ('.$demthungrac.')</button>';
 
          ?>
+
+          <button type="button"  <?=Aabc::$app->d->m  ?>="3" id="mb<?= Aabc::$app->_model->__danhmuc?>" <?=Aabc::$app->d->u  ?>  ="c_mn?g=<?= $groupmenu.$noibat?>" class="btn btn-success mb" <?=Aabc::$app->d->i  ?>="<?= Aabc::$app->_model->__danhmuc?>"><span class="glyphicon glyphicon-plus mtrang"></span><?=Aabc::$app->MyConst->view_btn_them?></button>
     </div>
 
   

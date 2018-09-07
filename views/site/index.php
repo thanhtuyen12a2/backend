@@ -37,7 +37,7 @@ $this->title = 'My Aabc Application';
                     <span>Sản phẩm</span>
                     <div class="menu-child-all">
                         <ul class="menu tongquan1"> 
-                             <li id ='menu00' class="menu-child" >
+                            <li id ='menu00' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Sanpham::index_sp?>?sort=-<?= Sanpham::sp_id?>" class="menu-item pjb " <?= D::i?> = <?= Sanpham::tt?>>
                                     <span class="ico icon2"></span>
                                     <p>DS Sản phẩm</p>
@@ -162,7 +162,7 @@ $this->title = 'My Aabc Application';
                     <span>Cấu hình</span>
                     <div class="menu-child-all">                       
                         <ul class="menu cauhinh"> 
-                             <li id ='menu10' class="menu-child" >
+                            <li id ='menu10' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh1?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
                                     <span class="ico icon2"></span>
                                     <p>Thông tin chung</p>
@@ -172,14 +172,42 @@ $this->title = 'My Aabc Application';
                             <li id ='menu10' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh2?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
                                     <span class="ico icon3"></span>
-                                    <p>Thiết lập Trang chủ</p>
+                                    <p>Thông tin giỏ hàng</p>
                                 </div>
                             </li>
+
+                             <li id ='menu10' class="menu-child" >
+                                <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh3?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
+                                    <span class="ico icon4"></span>
+                                    <p>Thanh Toán Giao hàng</p>
+                                </div>
+                            </li>
+
+
+                         
+                            <li id ='menu00' class="menu-child" >
+                                <div  id ='menu00' <?=D::u?>='i_mn?g=241&amp;l=Thi%E1%BA%BFt+l%E1%BA%ADp+ti%E1%BB%81n+ship' class="menu-item pjb" <?=D::i?> = 'danhmuc'>
+                                    <span class="ico icon10"></span>
+                                    <p>Thiết lập phí ship</p>
+                                </div>
+                            </li> 
+
+
+
+
+
+
+
+
+
+
+
+
 
                             <li id ='menu10' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh4?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
                                     <span class="ico icon5"></span>
-                                    <p>Các thành phần trang</p>
+                                    <p>Thiết lập phí ship</p>
                                 </div>
                             </li>
 

@@ -148,11 +148,12 @@ use kartik\select2\Select2;
                                 <div class="tttg-content">
                                     <?php
                                         $tttg = Cauhinh::get(Cauhinh::tientetinhgia);
-                                        $tttg_child = $tttg['child'];
+                                        $tttg_child = empty($tttg['child'])?[]:$tttg['child'];
+                                        $tttg_default = empty($tttg['default'])?'':$tttg['default'];
                                         if(is_array($tttg_child)) foreach ($tttg_child as $k => $v) { 
                                     ?>
                                         <div class="tttg-one">
-                                            <input title="Mặc định" <?= ($k == $tttg['default'])?'checked':''  ?> class="tttg-default" type="radio" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][default]" value="<?= $k?>">
+                                            <input title="Mặc định" <?= ($k == $tttg_default)?'checked':''  ?> class="tttg-default" type="radio" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][default]" value="<?= $k?>">
                                             <span title="Xóa" class="tttg-remove glyphicon glyphicon-remove"></span><?= $v ?>
                                             <input value="<?= $v ?>" type="text" readonly="" name="<?= Cauhinh::T?>[<?= Cauhinh::tientetinhgia?>][child][<?= $k?>]" class="hide">
                                         </div>

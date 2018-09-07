@@ -104,10 +104,12 @@ class DanhmucController extends Controller
         return $this->index($t,$tp = 3);
     }
 
-    public function actionI_mn($t = 100)
+  
+    public function actionI_mn($t = 100,$g = '',$l='')
     {        
-        return $this->index($t,$tp = 4);
+        return $this->index($t,$tp = 4,$g,$l);
     }
+
     public function actionI_tn($t = 100)
     {    
         return $this->index($t,$tp = 5);
@@ -116,10 +118,12 @@ class DanhmucController extends Controller
         return $this->index($t, $tp = 1);
     }
 
-    protected function index($t, $tp)
+    protected function index($t, $tp, $g = '',$l = '')
     {
         //$role = 'backend-danhmuc-index';
         //if(!Aabc::$app->user->can($role)){ return 'nacc';die;}
+
+        if($g == 241) $t = 999999;
 
         $dmsp = '';
         $thongso = '';
@@ -153,6 +157,7 @@ class DanhmucController extends Controller
             'dm_dmsp' => $dmsp,
             'dm_thongso' => $thongso,
             'dm_nhomthongso' => $nhomthongso,
+            'dm_groupmenu' => $g,
         ]);
         
         $dataProvider = $searchModel->search(Aabc::$app->request->queryParams);
@@ -163,6 +168,8 @@ class DanhmucController extends Controller
         $kq = $this->renderAjax('index'.$tp, [        
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'groupmenu' => $g,
+            'title' => $l,
         ]);
         $kq = Aabc::$app->d->decodeview($kq);
             return $kq;
@@ -668,8 +675,10 @@ class DanhmucController extends Controller
                            ->andWhere([Aabc::$app->_danhmuc->dm_type => $model[Aabc::$app->_danhmuc->dm_type]]) 
                            ->orderBy([Aabc::$app->_danhmuc->dm_thutu=>SORT_ASC])
                            ->all();
-                                               
-                        Aabc::$app->MyComponent->sothutudanhmuc($_Danhmuc, $model[Aabc::$app->_danhmuc->dm_type], $model[Aabc::$app->_danhmuc->dm_groupmenu]);
+                                      
+                        if($model->dm_groupmenu != 241){
+                            Aabc::$app->MyComponent->sothutudanhmuc($_Danhmuc, $model[Aabc::$app->_danhmuc->dm_type], $model[Aabc::$app->_danhmuc->dm_groupmenu]);
+                        }
                        
                         $transaction->commit();
                         $datajson = 1;                   
