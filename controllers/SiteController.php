@@ -26,13 +26,14 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','i','tuyen','clearcache'],
+                        'actions' => ['login', 'error','i','tuyen'],
                         'allow' => true,
+                        //Không cần đăng nhập
                     ],
                     [
-                        'actions' => ['logout', 'index','i','tuyen','clearcache'],
+                        'actions' => ['logout','index','i','clearcache'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'], //Phải đăng nhập
                     ],
                 ],
             ],
@@ -40,7 +41,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'i' => ['get','post'],
-                    'logout' => ['post'],
+                    'logout' => ['get','post'],
                     'index' => ['get','post'],
                     'up' => ['get','post'],
                 ],
@@ -60,9 +61,7 @@ class SiteController extends Controller
     
    
     public function actionI($k = '', $f = '')
-    {       
-        
-
+    {   
         if (Aabc::$app->user->isGuest) {
             return Aabc::$app->runAction('site/login');                
         }
@@ -84,18 +83,6 @@ class SiteController extends Controller
 
             // Sanpham::tt.':'.
             'danhmuc:rts' => 'danhmuc/reloadthongso',
-
-            // Sanpham::tt.':'.Sanpham::index_sp => 'sanpham/i',
-            // Sanpham::tt.':'.Sanpham::index_bv => 'sanpham/i_b',
-            // Sanpham::tt.':'.Sanpham::update_sp => 'sanpham/u',
-            // Sanpham::tt.':'.Sanpham::update_bv => 'sanpham/u_b',
-            // Sanpham::tt.':s' => 'sanpham/s',
-            // Sanpham::tt.':c' => 'sanpham/c',
-            // Sanpham::tt.':ut' => 'sanpham/ut',
-            // Sanpham::tt.':rec' => 'sanpham/rec',
-            // Sanpham::tt.':ir' => 'sanpham/ir',
-            // Sanpham::tt.':'.Sanpham::action_thongso => 'sanpham/thongso',
-
         ];     
         if(empty($arr_link[$key])){            
             return Aabc::$app->runAction($k .'/'. $f,$_GET);
@@ -103,388 +90,6 @@ class SiteController extends Controller
             return Aabc::$app->runAction($arr_link[$key],$_GET);
         }
 
-        
-
-         //Cau hinh
-        if ($k == 'ch' && $f == 'c1'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh1');
-        }
-        elseif ($k == 'ch' && $f == 'c2'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh2');
-        }
-        elseif ($k == 'ch' && $f == 'c3'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh3');
-        }
-        elseif ($k == 'ch' && $f == 'c4'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh4');
-        }
-        elseif ($k == 'ch' && $f == 'c5'){
-            return Aabc::$app->runAction('cauhinh/cauhinh5');
-        }
-
-        ///Clearcache
-        elseif ($k == 'clear' && $f == 'cache'){ 
-
-            FragmentCache::clear('maincontent');        
-            PageCache::clear('site/index');
-
-            return $this->clearcache();
-        }
-
-
-               
-
-
-        return Aabc::$app->runAction($k .'/'. $f,$_GET);
-
-
-
-
-
-
-
-
-
-
-
-               
-        if($k == 'yur75' && $f == 'kh3h57'){
-            
-        }elseif ($k == '' && $f == ''){           
-        }
-
-
-        elseif ($k == Sanpham::tt){
-
-            if($f == Sanpham::index_sp){               
-            }           
-                     
-             elseif ($f == 'c'){                
-                return Aabc::$app->runAction('sanpham/c');
-            }
-            elseif ($f == 'c_b'){                
-                return Aabc::$app->runAction('sanpham/c_b');
-            }
-
-
-            
-            elseif ($f == 'reca'){                
-                return Aabc::$app->runAction('sanpham/reca');
-            }
-            elseif ($f == 'reca_b'){                
-                return Aabc::$app->runAction('sanpham/reca_b');
-            }
-
-
-
-            elseif ($f == 'ut'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/ut',$data);
-            }
-            elseif ($f == 'ut_b'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/ut_b',$data);
-            }
-
-            elseif ($f == 'rec'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/rec',$data);
-            }
-            elseif ($f == 'rec_b'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/rec_b',$data);
-            }
-
-             elseif ($f == 'ir'){                
-                return Aabc::$app->runAction('sanpham/ir');
-            }
-            elseif ($f == 'ir_b'){                
-                return Aabc::$app->runAction('sanpham/ir_b');
-            }
-
-
-            elseif ($f == 'res'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/res',$data);
-            }
-            elseif ($f == 'res_b'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/res_b',$data);
-            }
-
-
-             elseif ($f == 'd'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/d',$data);
-            }
-            elseif ($f == 'd_b'){   
-                 $data = [
-                    'id' => $_GET['id'],
-                ];             
-                return Aabc::$app->runAction('sanpham/d_b',$data);
-            }
-
-
-
-            elseif ($f == 'da'){
-                return Aabc::$app->runAction('sanpham/da');
-            }
-            elseif ($f == 'da_b'){
-                return Aabc::$app->runAction('sanpham/da_b');
-            }
-        }
-
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-
-        elseif ($k == 'image' && $f == 'i'){
-            return Aabc::$app->runAction('image/i');
-        }
-        elseif ($k == 'image' && $f == 'v'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('image/v',$data);
-        }
-        elseif ($k == 'image' && $f == 'u'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('image/u',$data);
-        }
-        elseif ($k == 'image' && $f == 'rec'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('image/rec',$data);
-        }
-        elseif ($k == 'image' && $f == 'reca'){            
-            return Aabc::$app->runAction('image/reca');
-        }
-        elseif ($k == 'image' && $f == 'da'){            
-            return Aabc::$app->runAction('image/da');
-        }
-        elseif ($k == 'image' && $f == 'ir'){            
-            return Aabc::$app->runAction('image/ir');
-        }
-        elseif ($k == 'image' && $f == 'res'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('image/res',$data);
-        }
-        elseif ($k == 'image' && $f == 'd'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('image/d',$data);
-        }
-        elseif ($k == 'image' && $f == 'ga'){
-            $data = [                
-                'i' => isset($_GET['i'])?$_GET['i']:null,
-            ];
-            return Aabc::$app->runAction('image/ga',$data);
-        }
-
-
-
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-
-
-
-        elseif ($k == 'danhmuc' && $f == 'ip'){            
-            return Aabc::$app->runAction('danhmuc/ip');
-        }
-        elseif ($k == 'danhmuc' && $f == 'ip_cm'){            
-            return Aabc::$app->runAction('danhmuc/ip_cm');
-        }
-
-        elseif ($k == 'danhmuc' && $f == 'i'){
-            return Aabc::$app->runAction('danhmuc/i');
-        }
-        elseif ($k == 'danhmuc' && $f == 'i_cm'){
-            return Aabc::$app->runAction('danhmuc/i_cm');
-        }
-
-
-        elseif ($k == 'danhmuc' && $f == 'c'){
-            return Aabc::$app->runAction('danhmuc/c');
-        }
-        elseif ($k == 'danhmuc' && $f == 'c_cm'){
-            return Aabc::$app->runAction('danhmuc/c_cm');
-        }
-
-        elseif ($k == 'danhmuc' && $f == 'ir'){
-            return Aabc::$app->runAction('danhmuc/ir');
-        }
-        elseif ($k == 'danhmuc' && $f == 'ir_cm'){
-            return Aabc::$app->runAction('danhmuc/ir_cm');
-        }
-
-        elseif ($k == 'danhmuc' && $f == 'da'){
-            return Aabc::$app->runAction('danhmuc/da');
-        }
-        elseif ($k == 'danhmuc' && $f == 'da_cm'){
-            return Aabc::$app->runAction('danhmuc/da_cm');
-        }
-
-
-        elseif ($k == 'danhmuc' && $f == 'reca_cm'){
-            return Aabc::$app->runAction('danhmuc/reca_cm');
-        }
-        elseif ($k == 'danhmuc' && $f == 'reca'){
-            return Aabc::$app->runAction('danhmuc/reca');
-        }
-
-        elseif ($k == 'danhmuc' && $f == 'u'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/u',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'u_cm'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/u_cm',$data);
-        }
-
-
-
-        elseif ($k == 'danhmuc' && $f == 'd'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/d',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'd_cm'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/d_cm',$data);
-        }
-
-
-        elseif ($k == 'danhmuc' && $f == 'us'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/us',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'us_cm'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/us_cm',$data);
-        }
-
-
-
-        elseif ($k == 'danhmuc' && $f == 'rec_cm'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/rec_cm',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'rec'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/rec',$data);
-        }
-
-
-        elseif ($k == 'danhmuc' && $f == 'res'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/res',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'res_cm'){
-            $data = [
-                'id' => $_GET['id'],
-            ];
-            return Aabc::$app->runAction('danhmuc/res_cm',$data);
-        }
-
-
-        elseif ($k == 'danhmuc' && $f == 'ut'){
-            $data = [
-                'id' => $_GET['id'],                
-            ];
-            if(isset($_GET['t'])) $data['t'] = 'u';
-            return Aabc::$app->runAction('danhmuc/ut',$data);
-        }
-        elseif ($k == 'danhmuc' && $f == 'ut_cm'){
-            $data = [
-                'id' => $_GET['id'],                
-            ];
-            if(isset($_GET['t'])) $data['t'] = 'u';
-            return Aabc::$app->runAction('danhmuc/ut_cm',$data);
-        }
-
-
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-
-
-        //Cau hinh
-        elseif ($k == 'ch' && $f == 'c1'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh1');
-        }
-        elseif ($k == 'ch' && $f == 'c2'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh2');
-        }
-        elseif ($k == 'ch' && $f == 'c3'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh3');
-        }
-        elseif ($k == 'ch' && $f == 'c4'){           
-            return Aabc::$app->runAction('cauhinh/cauhinh4');
-        }
-        elseif ($k == 'ch' && $f == 'c5'){
-            return Aabc::$app->runAction('cauhinh/cauhinh5');
-        }
-
-        ///Clearcache
-        elseif ($k == 'clear' && $f == 'cache'){           
-            return $this->clearcache();
-        }
-
-// http://ngocanhpc/ad/danhmuc/ut?id=62&t=u
-
-        else{   
-            if (Aabc::$app->user->isGuest) {
-                return Aabc::$app->runAction('site/login');
-                // print_r('tuyen');
-                // die;
-            }else{
-                // print_r('login tuyen');
-                // die;
-            }   
-            // return Aabc::$app->runAction('site/index');
-        }
-        die;
     }
 
 
@@ -502,6 +107,7 @@ class SiteController extends Controller
 
      public function actionTuyen()
     {
+        return 'tuyen';
         // FragmentCache::clear('maincontent');
         // FragmentCache::clear('footer');
         
@@ -613,8 +219,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Aabc::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-            //return $this->goHome();
+            // return $this->redirect(['/']);
+            // return $this->goBack();
+            return $this->goHome();
         } else {
             // die;
             Aabc::$app->cache->set('test',$model);
@@ -629,7 +236,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Aabc::$app->user->logout();
-
+        // return $this->redirect(['/']);
         return $this->goHome();
     }
 }

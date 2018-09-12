@@ -172,14 +172,14 @@ $this->title = 'My Aabc Application';
                             <li id ='menu10' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh2?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
                                     <span class="ico icon3"></span>
-                                    <p>Thông tin giỏ hàng</p>
+                                    <p>Thông tin Đặt hàng</p>
                                 </div>
                             </li>
 
                              <li id ='menu10' class="menu-child" >
                                 <div id ='menu00' <?= D::u?>="<?= Cauhinh::cauhinh3?>" class="menu-item pjb_ch " <?= D::i?> = <?= Cauhinh::tt?>>
                                     <span class="ico icon4"></span>
-                                    <p>Thanh Toán Giao hàng</p>
+                                    <p>Hình thức thanh Toán</p>
                                 </div>
                             </li>
 

@@ -109,8 +109,6 @@ class Cauhinh extends Model
     const dangky_matkhau_nhaplai = 'o0';
 
 
-    const ship = 'j9';
-
 
     const cart_hoten = 'k5';
     const cart_gioitinh = 'd2';
@@ -138,13 +136,13 @@ class Cauhinh extends Model
     const home_chuyenmuc = 'd5';
 
     //3
-    const thanhtoan_taicuahang = 'l3';
-    const thanhtoan_chuyenkhoan = 't5';
-    const thanhtoan_cod = 'y4';
-
+    const hinhthucthanhtoan = 'u5';
+   
 
     //4
     // const slogan_top = 'n4';
+    const ship = 'j9';
+
     const banner = 'j4';
     const menu = 'f1';
     const footer_list = 'o9';

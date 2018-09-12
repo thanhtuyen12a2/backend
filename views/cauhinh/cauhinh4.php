@@ -47,8 +47,8 @@ use common\components\Tuyen;
                             border: none;
                             margin: 0;
                             font-size: 18px;
-                            background: transparent;
-                            color: #FFF;
+                           /* background: transparent;
+                            color: #FFF;*/
                         }
                         .tttg{
                             position: relative;
@@ -134,11 +134,11 @@ use common\components\Tuyen;
                             position: absolute;
                             right: 30px;
                             top: 15px;
-                            color: #FFF;
+                            color: #c61616;
                             cursor: pointer;
                         }
                         .t-remove:hover{
-                            color: #D00;
+                            color: #E00;
                         }
                     </style>
                     <div class="form-group required">                        
@@ -171,13 +171,13 @@ use common\components\Tuyen;
                                 //     ]
                                 // ];  
 
-                                $t = Cauhinh::get(Cauhinh::ship);                                     
+                                $ship = Cauhinh::get(Cauhinh::ship);                                     
                                 
                                 // echo '<pre>';
                                 // print_r($t);
                                 // echo '</pre>';
 
-                                if(is_array($t)) foreach ($t as $k_t => $v_t) { 
+                                if(is_array($ship)) foreach ($ship as $k_t => $v_t) { 
                             ?>
                                 <div class="pa-i" data-i="<?= $k_t?>">
                                     <fieldset>

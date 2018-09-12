@@ -25,65 +25,82 @@ use aabc\widgets\ActiveForm;
             height: 30px;
             font-size: 13px;
         }
+
+        #httt {
+            margin-bottom: 10px;
+        }
+
+        .del-hhtt {
+            color: #ca0909;
+            cursor: pointer;
+            position: absolute;
+            top: 17px;
+            right: 33px;
+            font-size: 14px;
+        }
+
+        .del-hhtt:hover {    
+                color: #f30909;
+        }
     </style>
     
     <?php $form = ActiveForm::begin(['id' => 'ch-form']); ?>
     <div class="ch-index-child">
-        <div class="stg col-md-6">
-            <fieldset>
-                <legend>Tại cửa hàng</legend>
-                
-                <div class="col-md-12">
-                    <div class="form-group required">                        
-                        <div>                          
-                            <textarea class="form-control" row="2" name="<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_taicuahang?>]"><?= Cauhinh::get(Cauhinh::thanhtoan_taicuahang) ?></textarea>
-                            <script>
-                                CKEDITOR.replace("<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_taicuahang?>]");
-                            </script>
+        <div id="pa-hhtt">
+        <?php
+            $hinhthucthanhtoan = Cauhinh::get(Cauhinh::hinhthucthanhtoan);
+            
+            // $hinhthucthanhtoan = [];
+            // $hinhthucthanhtoan[] = [
+            //     'label' => 'Hinhf thwsc 1',
+            //     'content' => 'Nooij dung',
+            // ];
+
+            if(is_array($hinhthucthanhtoan)) foreach ($hinhthucthanhtoan as $k => $v) {
+
+        ?>
+
+            <div class="stg col-md-12">
+                <fieldset>
+                    <legend>
+                        <input style="color: #555;width: 100%;padding: 3px 5px;font-size: 16px;" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>][<?= $k?>][label]" value="<?= empty($v['label'])?'':$v['label'] ?>" />
+                        <span class="del-hhtt glyphicon glyphicon-remove"></span>
+                    </legend>                
+                    <div class="col-md-12">
+                        <div class="form-group required">                        
+                            <div>                          
+                                <textarea class="form-control" row="2" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>][<?= $k?>][content]"><?= $v['content'] ?></textarea>
+                                <script>
+                                    CKEDITOR.replace("<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>][<?= $k?>][content]");
+                                </script>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </fieldset>
-        </div>
+                </fieldset>
+            </div>
 
-        <div class="stg col-md-6">
-            <fieldset>
-                <legend>Chuyển khoản ngân hàng</legend>                
-                 <div class="col-md-12">
-                    <div class="form-group required">                        
-                        <div>
-                            <textarea class="form-control" row="2" name="<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_chuyenkhoan?>]"><?= Cauhinh::get(Cauhinh::thanhtoan_chuyenkhoan) ?></textarea>
-                            <script>
-                                CKEDITOR.replace("<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_chuyenkhoan?>]");
-                            </script>
-                        </div>
-                    </div>
-                </div>
-
-            </fieldset>
-        </div>
-    
+        <?php                
+            }
+        ?>    
+        </div>    
         <div class="clearfix"></div>
-        
-        <div class="stg col-md-6">
-            <fieldset>
-                <legend>Hình thức COD</legend>                
-                 <div class="col-md-12">
-                    <div class="form-group required">                        
-                        <div>
-                            <textarea class="form-control" row="2" name="<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_cod?>]"><?= Cauhinh::get(Cauhinh::thanhtoan_cod) ?></textarea>
-                            <script>
-                                CKEDITOR.replace("<?= Cauhinh::T?>[<?= Cauhinh::thanhtoan_cod?>]");
-                            </script>
-                        </div>
-                    </div>
-                </div>
+        <span class="btn btn-sm btn-success" id="httt">Thêm Hình thức thanh toán</span>
 
-            </fieldset>
-        </div>
+        <script type="text/javascript">
+            $('#httt').click(function(){
+                var d = new Date();
+                var time = d.getTime();
 
+                var pa =  $('#pa-hhtt')
+                var html  = '<div class="stg col-md-12"><fieldset><legend><input style="color: #555;width: 100%;padding: 3px 5px;font-size: 16px;" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>]['+time+'][label]" value="" /><span class="del-hhtt glyphicon glyphicon-remove"></span></legend><div class="col-md-12"><div class="form-group required"><div><textarea class="form-control" row="2" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>]['+time+'][content]"></textarea><script>CKEDITOR.replace("<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>]['+time+'][content]");<\/script></div></div></div></fieldset></div>'
 
+                pa.append(html)
+            })
+
+        </script>
+
+     
     </div>
 
 

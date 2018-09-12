@@ -60,6 +60,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_it_bd', 'httpOnly' => true],
+            'loginUrl' => [''],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -202,11 +203,22 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+
+                [
+                    'pattern' => 'dang-xuat', //Ngoại lệ
+                    'route' => 'site/logout',
+                    // 'defaults' => ['k' => '', 'f' => ''],
+                ],
+
+
                 [
                     'pattern' => '<k>/<f>',
                     'route' => 'site/i',
                     'defaults' => ['k' => '', 'f' => ''],
                 ],
+
+
+               
 
                 // [
                 //     'pattern' => 'settings/default',
@@ -216,5 +228,6 @@ return [
         ],
         
     ],
+
     'params' => $params,
 ];
