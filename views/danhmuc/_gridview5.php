@@ -68,8 +68,8 @@ $show_mini = 1;
             }
 
             if($show_mini && ($model->dm_level == 2)){
-               $class .= ' mini-chi-ite hide mini-chi-'.$model->dm_idcha.' '; //Mini child item
-            }
+               $class .= (isset($_GET['sp'])?'':' hide ') .' mini-chi-ite mini-chi-'.$model->dm_idcha.' '; //Mini child item
+            }//Neu co GET['sp'] : tuc la dang mo thong so trong form san pham
 
             return ['class'=>$class];
         },
