@@ -86,7 +86,7 @@ class Cauhinh extends Model
     const favicon = 'c6';
     const thetieude = 'o8';
     const thehauto = 'm8';
-    const themota = 'm2';
+    const themota = 'm3';
     const logo = 'c9';
     const ngonngu = 's2';
 
@@ -109,13 +109,17 @@ class Cauhinh extends Model
     const dangky_matkhau_nhaplai = 'o0';
 
 
-
+    const cart_xungho = 'o6';
     const cart_hoten = 'k5';
     const cart_gioitinh = 'd2';
     const cart_email = 'g8';
     const cart_dienthoai = 'm9';
-    const cart_diachi = 'z3';
     const cart_ghichu = 'b7';
+    
+    const cart_giaohang = 'g3';    
+    const cart_diachi = 'z3';
+    const cart_thanhtoan = 'm2';
+    
 
 
 

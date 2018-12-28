@@ -162,19 +162,23 @@ use aabc\widgets\ActiveForm;
 
                 <?php 
                     $arr_cart = [
+                        Cauhinh::cart_xungho => 'Xưng hô',
+                        // Cauhinh::cart_gioitinh => 'Giới tính',
                         Cauhinh::cart_hoten => 'Họ tên',
-                        Cauhinh::cart_gioitinh => 'Giới tính',
+                        Cauhinh::cart_dienthoai => 'Số điện thoại',
                         Cauhinh::cart_email => 'Email',
-                        Cauhinh::cart_dienthoai => 'Điện thoại',
+                        Cauhinh::cart_ghichu => 'Ghi chú',                        
                         Cauhinh::cart_diachi => 'Địa chỉ',
-                        Cauhinh::cart_ghichu => 'Ghi chú',
+                        Cauhinh::cart_giaohang => 'Phương thức Giao hàng',
+                        Cauhinh::cart_thanhtoan => 'Phương thức Thanh toán',
+                        
                     ];
                 ?> 
                 
                 <fieldset class="group tttt">
                     <legend>Thông tin thanh toán</legend>
                 <?php foreach ($arr_cart as $k_cart => $v_cart) { ?>                     
-                <div class="col-md-3 pt200">                                       
+                <div class="col-md-6 pt200">                                       
                     <div class="form-group">
                         <div class="le"><label class="control-label" for="danhmuc-dm_ten"><?= $v_cart?>:</label></div>
                         <div class="ri"> 
