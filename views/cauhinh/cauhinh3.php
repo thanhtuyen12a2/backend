@@ -63,7 +63,7 @@ use aabc\widgets\ActiveForm;
             <div class="stg col-md-12">
                 <fieldset>
                     <legend>
-                        <input style="color: #555;width: 100%;padding: 3px 5px;font-size: 16px;" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>][<?= $k?>][label]" value="<?= empty($v['label'])?'':$v['label'] ?>" />
+                        <input style="border: none;color: #555;width: 100%;padding: 3px 5px;font-size: 16px;" name="<?= Cauhinh::T?>[<?= Cauhinh::hinhthucthanhtoan?>][<?= $k?>][label]" value="<?= empty($v['label'])?'':$v['label'] ?>" />
                         <span class="del-hhtt glyphicon glyphicon-remove"></span>
                     </legend>                
                     <div class="col-md-12">

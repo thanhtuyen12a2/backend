@@ -1253,9 +1253,9 @@ class Cauhinh extends Model
             self::favicon => Tuyen::_dulieu('cauhinh',self::favicon),
             self::thetieude => '(Thẻ tiêu đề) ' .Tuyen::_dulieu('cauhinh',self::thetieude),
             self::thehauto => '(Hậu tố) ' .Tuyen::_dulieu('cauhinh',self::thehauto),
-            self::themota => '(Tên mô tả) ' .Tuyen::_dulieu('cauhinh',self::themota),
-            self::logo => Tuyen::_dulieu('cauhinh',self::logo),
-            self::ngonngu => Tuyen::_dulieu('cauhinh',self::ngonngu),
+            self::themota => '(Tên mô tả) ' . Tuyen::_dulieu('cauhinh',self::themota),
+            // self::logo => Tuyen::_dulieu('cauhinh',self::logo),
+            // self::ngonngu => Tuyen::_dulieu('cauhinh',self::ngonngu),
         ];
     }
 
